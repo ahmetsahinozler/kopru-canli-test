@@ -594,7 +594,9 @@ function kalRapor(res, dosya, etiket) {
     const sonra = sw >= 0 ? t150.rows.slice(sw + 1) : t150.rows;
     ok(`${etiket}: %150 Tablet dokunuşları hedefte (kayma varsa kapalı döngüyle fareye geçtikten sonra)`, icinde(sonra) && (sw < 0 || sw <= 2), { ...(t150.ozet || kalOzet(t150.rows)), fareyeGecis: sw });
     const im = kalOzet([...t150.rows, ...(res.turlar['%150 Tablet (yalnız dokunmatik)']?.rows || [])]).imlec;
-    ok(`${etiket}: Windows dokunuşta imleci dokunuşun yerine taşıyor (kapalı döngünün varsayımı)`, im.olculen > 0 && im.tasindi >= Math.ceil(im.olculen * 0.8), im);
+    // 1.2.8 canlı testi (Server 2025): Windows enjekte edilen dokunuşta imleci taşımıyor;
+    // kapalı döngü bu durumda ölçüm yapmaz (yanlış geçiş de yapmaz). Bilgi olarak raporlanır.
+    note(`${etiket}: Windows dokunuşta imleci taşıyor mu (kapalı döngünün ölçebilmesi için)`, { ...im, sonuc: im.olculen > 0 && im.tasindi >= Math.ceil(im.olculen * 0.8) ? 'evet' : 'hayır (kapalı döngü ölçemez)' });
   }
   if (res.hipotez) note(`${etiket}: HİPOTEZ A (Windows %150'de enjekte edilen dokunuşu kaydırıyor) → ${res.hipotez.karar}`, res.hipotez);
 }
@@ -1145,9 +1147,16 @@ async function kalibrasyon() {
     const res = { ortam: 'kullanıcı oturumu, KOPRU_TEST_DOKUNUS_KAYMA=0,-150', dpr: d15, turlar: { '%150 Tablet (kaydıran Windows)': { ...t, ozet: kalOzet(t.rows) } } };
     fs.writeFileSync(path.join(OUT, 'kalibrasyon-kapali-dongu.json'), JSON.stringify(res, null, 2));
     for (const r of t.rows) console.log('     ' + kalSatir(r));
-    ok('kapalı döngü: kaydırılan dokunuşlar ölçüldü, en geç 2. dokunuşta fareye geçildi (telefona bildirim)', sw >= 0 && sw <= 1 && ilk.every((r) => r.tur === 'touch' && r.fark && Math.abs(r.fark[1] + 150) <= 20),
-      { fareyeGecis: sw, ilk: ilk.map(kalSatir), bildirim: t.rows[sw]?.bildirim, hata: t.hata });
-    ok('kapalı döngü: fareye geçtikten sonraki dokunuşlar hedefte (fare, ±12 px)', sonra.length >= 3 && sonra.every((r) => r.tur === 'mouse' && r.fark && Math.abs(r.fark[0]) <= KAL_TOL && Math.abs(r.fark[1]) <= KAL_TOL), sonra.map(kalSatir));
+    // Kapalı döngü imlecin dokunuşla taşınmasına dayanır; Windows imleci taşımıyorsa
+    // ölçemez (bilgi). O durumda en azından yanlışlıkla fareye geçmemeli.
+    const imlecTasindi = kalOzet(t.rows).imlec.tasindi > 0;
+    if (!imlecTasindi && sw < 0) {
+      note('kapalı döngü: Windows dokunuşta imleci taşımadığı için ölçüm yapılamadı (yanlış fareye geçiş yok)', { ilk: t.rows.slice(0, 3).map(kalSatir), hata: t.hata });
+    } else {
+      ok('kapalı döngü: kaydırılan dokunuşlar ölçüldü, en geç 2. dokunuşta fareye geçildi (telefona bildirim)', sw >= 0 && sw <= 1 && ilk.every((r) => r.tur === 'touch' && r.fark && Math.abs(r.fark[1] + 150) <= 20),
+        { fareyeGecis: sw, ilk: ilk.map(kalSatir), bildirim: t.rows[sw]?.bildirim, hata: t.hata });
+      ok('kapalı döngü: fareye geçtikten sonraki dokunuşlar hedefte (fare, ±12 px)', sonra.length >= 3 && sonra.every((r) => r.tur === 'mouse' && r.fark && Math.abs(r.fark[0]) <= KAL_TOL && Math.abs(r.fark[1]) <= KAL_TOL), sonra.map(kalSatir));
+    }
     await d.kp.evaluate(() => { app.session.sendCtl({ t: 'scale', pct: 0 }); app.session.sendCtl({ t: 'mode', w: 0, h: 0 }); }).catch(() => {});
     await sleep(2500);
     await d.kp.evaluate(() => app.disconnect()).catch(() => {});

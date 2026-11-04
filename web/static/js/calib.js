@@ -3,7 +3,8 @@
 //
 //  kırmızı halka  — telefonun dokunuşu nerede saydığı (tarayıcının bildirdiği nokta)
 //  yeşil artı     — bilgisayarın bu dokunuşu enjekte ettiği piksel, telefona geri çevrilmiş
-//  sarı artı      — enjeksiyondan sonra Windows'un imleci gerçekte koyduğu yer
+//  sarı artı      — enjeksiyondan sonra Windows'un imleci gerçekte koyduğu yer (yalnız
+//                   fare yolunda: Windows enjekte edilen dokunuşta imleci taşımaz)
 //
 // Üçü parmağın altındaysa ve yine de yanlış öğe seçiliyorsa sorun Windows'ta/
 // uygulamadadır. Halka parmaktan kaymışsa telefonun tarayıcısı (iOS görünüm
@@ -83,7 +84,7 @@ export class Calib {
     };
     place(this.ring, this.tapN);
     place(this.plus, this.hit && this.pxToNorm(this.hit.px, this.hit.d));
-    place(this.ycur, this.cur && this.hit && this.pxToNorm(this.cur.px, this.hit.d));
+    place(this.ycur, this.cur && /fare$/.test(this.hit?.via || '') && this.pxToNorm(this.cur.px, this.hit.d));
   }
 
   // snapshot dokunuş anındaki sayfa ve görünüm alanı ölçüleri.
@@ -137,7 +138,11 @@ export class Calib {
       if (h.f) s += ` · kare ${h.f[0]}×${h.f[1]}`;
       if (h.raw && (h.raw.w !== d.w || h.raw.h !== d.h)) s += ` · DÜZELTİLDİ (ham ${h.raw.w}×${h.raw.h})`;
       L.push(s);
-      if (this.cur) {
+      if (this.cur && !/fare$/.test(h.via || '')) {
+        // Gerçek Windows'ta ölçüldü (canlı test): enjekte edilen dokunuş imleci
+        // taşımaz, imleç son fare konumunda kalır. Karşılaştırma yalnız fare yolunda anlamlı.
+        L.push(`Windows imleci ${this.cur.px[0]}, ${this.cur.px[1]} · dokunmatikte imleç yerinde kalır (karşılaştırılmaz)`);
+      } else if (this.cur) {
         const dx = this.cur.px[0] - h.px[0], dy = this.cur.px[1] - h.px[1];
         L.push(`Windows imleci ${this.cur.px[0]}, ${this.cur.px[1]} · fark ${dx}, ${dy} px${Math.abs(dy) > 8 || Math.abs(dx) > 8 ? ' ← KAYMA (Windows tarafı)' : ''}`);
       }

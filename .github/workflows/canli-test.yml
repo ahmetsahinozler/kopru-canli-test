@@ -1,16 +1,21 @@
 # Canlı test: gerçek Windows sanal makinesi + iPhone Simülatörü (gerçek Mobile Safari).
-# Windows makinesinde Köprü önce kullanıcı oturumunda (dokunuş kalibrasyonu %150
-# ölçekte, GPU ile küçültme dahil), sonra Windows hizmeti olarak sunucusuz kipte
-# (gerçek Cloudflare tüneli + herkese açık ilan panosu) çalışır. macOS işi (dakikası
-# en pahalı makine) Windows hazır olunca başlar: iPhone Simülatörü bir kullanıcı gibi
-# bu bilgisayara internet üzerinden bağlanır. Sonuçlar (JSON, ekran görüntüleri,
-# günlükler) canli-test-sonuc dalına yazılır.
 #
-# Bu depo yalnızca test içindir: kaynak kod burada yok. kopru.exe (ve güncelleme
-# senaryosu için içeriği farklı yeni/kopru.exe) Köprü'nün kendi deposunda
-# derlenip buraya konur; web/static iPhone'da açılan istemcinin aynısıdır.
+# Üç makine aynı anda çalışır (süre kısalsın diye):
+#  - windows-yerel: Köprü kullanıcı oturumunda; gerçek Windows API testleri, dokunuş
+#    kalibrasyonu (%100/%150, Tablet/Doğrudan, kapalı döngü), GPU ile küçültme.
+#  - windows: çift tıklayarak kurulum, Windows hizmeti olarak sunucusuz kip (gerçek
+#    Cloudflare tüneli + herkese açık ilan panosu), %150 kalibrasyonu; iPhone bağlanır;
+#    dayanıklılık; güncelleme, Ctrl+Alt+Del, kilit ekranı, kaldırma.
+#  - iphone (macOS): Simülatörü hemen açar, Windows hazır olunca bir kullanıcı gibi
+#    internet üzerinden bağlanır.
+# Her aşamanın sonucu bitince "ara-*" yapıtı olarak yüklenir (iş bitmeden okunabilir).
+# Tüm sonuçlar (JSON, ekran görüntüleri, günlükler) canli-test-sonuc dalına yazılır.
+#
+# kopru.exe depoda varsa (herkese açık test deposu) o kullanılır, yoksa derlenir.
 name: Canlı test (Windows + iPhone)
 
+# Herkese açık depoda Windows ve macOS makineleri ücretsiz. Kaynak kod burada yok;
+# kopru.exe Köprü'nün kendi deposunda derlenip konur (scripts/canli-kamu.sh).
 on:
   push:
     branches: [main, master]
@@ -26,6 +31,88 @@ permissions:
   actions: read
 
 jobs:
+  windows-yerel:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    env:
+      KOPRU_BIN: ${{ github.workspace }}\kopru.exe
+      OUT: ${{ github.workspace }}\out
+      WORK: ${{ github.workspace }}\..\kopru-canli
+    steps:
+      - uses: actions/checkout@v4
+      - name: Hazır ikili
+        if: hashFiles('kopru.exe') != ''
+        shell: pwsh
+        run: Get-FileHash kopru.exe -Algorithm SHA256 | Format-Table -AutoSize | Out-String -Width 200
+      - uses: actions/setup-go@v5
+        if: hashFiles('kopru.exe') == ''
+        with:
+          go-version-file: go.mod
+      - name: Derle
+        if: hashFiles('kopru.exe') == ''
+        shell: bash
+        run: CGO_ENABLED=0 go build -trimpath -ldflags "-s -w -H windowsgui" -o kopru.exe ./cmd/kopru
+      - name: Playwright
+        shell: bash
+        working-directory: test/canli
+        run: |
+          npm init -y >/dev/null
+          npm i playwright@1.49.1
+          npx playwright install chromium
+      # Ses testleri için sanal ses kartı. Kurulamazsa ses testleri "atlandı" olur.
+      - name: Sanal ses aygıtı
+        continue-on-error: true
+        timeout-minutes: 8
+        uses: LABSN/sound-ci-helpers@v1
+      - name: Hedef programı masaüstünde aç
+        shell: pwsh
+        working-directory: test/canli
+        run: |
+          $exe = node -e "console.log(require('playwright').chromium.executablePath())"
+          $url = 'file:///' + ((Resolve-Path hedef.html).Path -replace '\\','/')
+          Start-Process -FilePath $exe -ArgumentList @('--kiosk','--remote-debugging-port=9222',"--user-data-dir=$env:RUNNER_TEMP\hedef",'--no-first-run','--no-default-browser-check','--disable-features=Translate',$url)
+          Start-Sleep 6
+          New-Item -ItemType Directory -Force $env:OUT | Out-Null
+          "Ses: " + ((Get-CimInstance Win32_SoundDevice | ForEach-Object Name) -join '; ') + " / Audiosrv " + (Get-Service Audiosrv).Status
+      - name: 1) Kullanıcı oturumunda gerçek Windows API testleri
+        continue-on-error: true
+        working-directory: test/canli
+        run: node windows.js yerel
+      - uses: actions/upload-artifact@v4
+        continue-on-error: true
+        with: { name: ara-1-yerel, path: 'out/sonuc-yerel.json', if-no-files-found: ignore }
+      - name: 1b) Dokunuş kalibrasyonu (%100 / %150, Tablet ve Doğrudan, kapalı döngü)
+        continue-on-error: true
+        working-directory: test/canli
+        run: node windows.js kalibrasyon
+      - uses: actions/upload-artifact@v4
+        continue-on-error: true
+        with:
+          name: ara-2-kalibrasyon
+          path: |
+            out/sonuc-kalibrasyon.json
+            out/kalibrasyon-*.json
+          if-no-files-found: ignore
+      - name: 1c) GPU ile küçültme (varsayılan kapalı, KOPRU_GPU=1 denemesi)
+        continue-on-error: true
+        working-directory: test/canli
+        run: node windows.js gpu
+      - name: Günlükleri topla
+        if: always()
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Continue'
+          New-Item -ItemType Directory -Force $env:OUT | Out-Null
+          Copy-Item "$env:WORK\home\kopru.log" "$env:OUT\yerel-kopru.log" -ErrorAction SilentlyContinue
+          Copy-Item "$env:WORK\home\cokme.log" "$env:OUT\yerel-cokme.log" -ErrorAction SilentlyContinue
+          Get-ChildItem "$env:WORK\surec-*-hata.log" -ErrorAction SilentlyContinue | Where-Object Length -gt 0 | Copy-Item -Destination $env:OUT -ErrorAction SilentlyContinue
+          exit 0
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: windows-yerel-sonuc
+          path: out/
+
   windows:
     runs-on: windows-latest
     timeout-minutes: 120
@@ -38,9 +125,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Hazır ikililer
+        if: hashFiles('kopru.exe') != ''
         shell: pwsh
+        run: Get-FileHash kopru.exe, yeni\kopru.exe -Algorithm SHA256 | Format-Table -AutoSize | Out-String -Width 200
+      - uses: actions/setup-go@v5
+        if: hashFiles('kopru.exe') == ''
+        with:
+          go-version-file: go.mod
+      - name: Derle
+        if: hashFiles('kopru.exe') == ''
+        shell: bash
         run: |
-          Get-FileHash kopru.exe, yeni\kopru.exe -Algorithm SHA256 | Format-Table -AutoSize | Out-String -Width 200
+          CGO_ENABLED=0 go build -trimpath -ldflags "-s -w -H windowsgui" -o kopru.exe ./cmd/kopru
+          # Güncelleme senaryosu için içeriği farklı ikinci bir sürüm
+          mkdir -p yeni && CGO_ENABLED=0 go build -trimpath -ldflags "-w -H windowsgui" -o yeni/kopru.exe ./cmd/kopru
       - name: Playwright
         shell: bash
         working-directory: test/canli
@@ -48,8 +146,6 @@ jobs:
           npm init -y >/dev/null
           npm i playwright@1.49.1
           npx playwright install chromium
-      # Ses testleri için sanal ses kartı (Scream). Kurulamazsa ses testleri
-      # "atlandı: ses aygıtı yok" diye raporlanır; çalıştırma başarısız sayılmaz.
       - name: Sanal ses aygıtı
         continue-on-error: true
         timeout-minutes: 8
@@ -68,18 +164,6 @@ jobs:
           "Sanal ekran: $($b.Width)x$($b.Height)"
           $bmp=New-Object Drawing.Bitmap $b.Width,$b.Height; $g=[Drawing.Graphics]::FromImage($bmp); $g.CopyFromScreen($b.Left,$b.Top,0,0,$bmp.Size); $bmp.Save("$env:OUT\masaustu-baslangic.png")
           "Ses: " + ((Get-CimInstance Win32_SoundDevice | ForEach-Object Name) -join '; ') + " / Audiosrv " + (Get-Service Audiosrv).Status
-      - name: 1) Kullanıcı oturumunda gerçek Windows API testleri
-        continue-on-error: true
-        working-directory: test/canli
-        run: node windows.js yerel
-      - name: 1b) Dokunuş kalibrasyonu (%100 / %150, Tablet ve Doğrudan, kapalı döngü)
-        continue-on-error: true
-        working-directory: test/canli
-        run: node windows.js kalibrasyon
-      - name: 1c) GPU ile küçültme (varsayılan kapalı, KOPRU_GPU=1 denemesi)
-        continue-on-error: true
-        working-directory: test/canli
-        run: node windows.js gpu
       - name: 2) Çift tıklayarak kurulum (kullanıcının yaptığı gibi)
         continue-on-error: true
         working-directory: test/canli
@@ -88,13 +172,22 @@ jobs:
         continue-on-error: true
         working-directory: test/canli
         run: node windows.js hizmet
-      # iPhone işini başlatan işaret (parola içermez): iphone-bekle işi bunu görünce macOS başlar.
+      # iPhone işinin beklediği işaret (parola içermez).
       - uses: actions/upload-artifact@v4
         continue-on-error: true
         with:
           name: windows-hazir
           path: out/windows-hazir.json
           if-no-files-found: warn
+      - uses: actions/upload-artifact@v4
+        continue-on-error: true
+        with:
+          name: ara-3-hizmet
+          path: |
+            out/sonuc-kur.json
+            out/sonuc-hizmet.json
+            out/kalibrasyon-hizmet.json
+          if-no-files-found: ignore
       - name: iPhone işinin açık anahtarını bekle
         continue-on-error: true
         shell: pwsh
@@ -135,10 +228,21 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: node windows.js bekle
+      - uses: actions/upload-artifact@v4
+        continue-on-error: true
+        with:
+          name: ara-4-bekle
+          path: |
+            out/sonuc-bekle.json
+            out/kalibrasyon-iphone.json
+          if-no-files-found: ignore
       - name: 5) Dayanıklılık - 10 dakika kesintisiz kullanım
         continue-on-error: true
         working-directory: test/canli
         run: node windows.js uzun
+      - uses: actions/upload-artifact@v4
+        continue-on-error: true
+        with: { name: ara-5-uzun, path: 'out/sonuc-uzun.json', if-no-files-found: ignore }
       - name: 6) Güncelleme, Ctrl+Alt+Del, kilit ekranında parola, kaldırma
         continue-on-error: true
         working-directory: test/canli
@@ -150,10 +254,8 @@ jobs:
           $ErrorActionPreference = 'Continue'
           New-Item -ItemType Directory -Force $env:OUT | Out-Null
           Copy-Item "$env:ProgramData\Kopru\kopru.log" "$env:OUT\hizmet-kopru.log" -ErrorAction SilentlyContinue
-          Copy-Item "$env:WORK\home\kopru.log" "$env:OUT\yerel-kopru.log" -ErrorAction SilentlyContinue
           Copy-Item "$env:ProgramData\Kopru\cokme.log" "$env:OUT\hizmet-cokme.log" -ErrorAction SilentlyContinue
           Copy-Item "$env:ProgramData\Kopru\isci-hata.log" "$env:OUT\hizmet-isci-hata.log" -ErrorAction SilentlyContinue
-          Copy-Item "$env:WORK\home\cokme.log" "$env:OUT\yerel-cokme.log" -ErrorAction SilentlyContinue
           Get-ChildItem "$env:WORK\surec-*-hata.log" -ErrorAction SilentlyContinue | Where-Object Length -gt 0 | Copy-Item -Destination $env:OUT -ErrorAction SilentlyContinue
           Get-ChildItem "$env:ProgramData\Kopru" -ErrorAction SilentlyContinue | Out-String | Set-Content "$env:OUT\programdata-listesi.txt"
           Remove-Item "$env:OUT\windows-parola.json" -ErrorAction SilentlyContinue
@@ -167,35 +269,11 @@ jobs:
           name: windows-sonuc
           path: out/
 
-  # Ucuz bekçi (Linux): Windows iPhone'a hazır olana dek bekler; macOS işi ancak
-  # o zaman başlar (macOS dakikası Windows'un 5, Linux'un 10 katı).
-  iphone-bekle:
-    runs-on: ubuntu-latest
-    timeout-minutes: 90
-    outputs:
-      hazir: ${{ steps.b.outputs.hazir }}
-    steps:
-      - name: Windows'un iPhone'a hazır olmasını bekle
-        id: b
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          R=$GITHUB_REPOSITORY; RUN=$GITHUB_RUN_ID
-          for i in $(seq 1 500); do
-            if gh api "repos/$R/actions/runs/$RUN/artifacts?per_page=100" --jq '.artifacts[].name' 2>/dev/null | grep -qx windows-hazir; then
-              echo "Windows hazır ($((i * 10)) sn)"; echo "hazir=true" >> "$GITHUB_OUTPUT"; exit 0
-            fi
-            J=$(gh api "repos/$R/actions/runs/$RUN/jobs?per_page=100" --jq '.jobs[] | select(.name=="windows") | .status' 2>/dev/null) || true
-            if [ "$J" = "completed" ]; then echo "Windows işi hazır olmadan bitti"; echo "hazir=false" >> "$GITHUB_OUTPUT"; exit 0; fi
-            sleep 10
-          done
-          echo "hazir=false" >> "$GITHUB_OUTPUT"
-
+  # macOS işi Windows'u beklemeden başlar: Simülatör açılır, Safari sayfayı yükler ve
+  # Windows hazır olunca (parola gelince) bağlanır.
   iphone:
-    needs: iphone-bekle
-    if: needs.iphone-bekle.outputs.hazir == 'true'
     runs-on: macos-15
-    timeout-minutes: 35
+    timeout-minutes: 75
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
@@ -249,10 +327,10 @@ jobs:
       - name: Windows'un şifreli parolasını al
         run: |
           R=$GITHUB_REPOSITORY; RUN=$GITHUB_RUN_ID
-          for i in $(seq 1 90); do
+          for i in $(seq 1 300); do
             ID=$(gh api "repos/$R/actions/runs/$RUN/artifacts?per_page=100" --jq '.artifacts[] | select(.name=="windows-parola") | .id' 2>/dev/null | head -1)
             if [ -n "$ID" ]; then
-              gh api "repos/$R/actions/artifacts/$ID/zip" > p.zip && unzip -o p.zip -d p >/dev/null && break
+              gh api "repos/$R/actions/artifacts/$ID/zip" > p.zip && unzip -o p.zip -d p >/dev/null && echo "parola geldi ($((i * 10)) sn)" && break
             fi
             J=$(gh api "repos/$R/actions/runs/$RUN/jobs?per_page=100" --jq '.jobs[] | select(.name=="windows") | .status' 2>/dev/null) || true
             [ "$J" = "completed" ] && { echo "Windows işi bitti, parola yok"; break; }
@@ -300,7 +378,7 @@ jobs:
           path: bitti.txt
 
   sonuc:
-    needs: [windows, iphone-bekle, iphone]
+    needs: [windows-yerel, windows, iphone]
     if: always()
     runs-on: ubuntu-latest
     permissions:
@@ -315,7 +393,10 @@ jobs:
           path: sonuc
       - name: Sonuçları canli-test-sonuc dalına yaz
         run: |
-          rm -rf sonuc/iphone-bitti sonuc/windows-hazir sonuc/windows-parola sonuc/iphone-anahtar
+          rm -rf sonuc/iphone-bitti sonuc/windows-hazir sonuc/windows-parola sonuc/iphone-anahtar sonuc/ara-*
+          # İki Windows makinesinin sonuçları tek klasörde (dosya adları çakışmaz).
+          mkdir -p sonuc/windows-sonuc
+          if [ -d sonuc/windows-yerel-sonuc ]; then cp -r sonuc/windows-yerel-sonuc/. sonuc/windows-sonuc/ || true; rm -rf sonuc/windows-yerel-sonuc; fi
           python3 kaynak/test/canli/ozet.py sonuc > sonuc/OZET.md
           cat sonuc/OZET.md >> "$GITHUB_STEP_SUMMARY"
           cd sonuc
