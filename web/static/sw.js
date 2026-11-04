@@ -8,7 +8,7 @@
 // bilgisayarın güncel adresini bildirir ("kaynak"); kabuk dosyaları oradan
 // alınıp bu adresin önbelleğine yazılır. Uygulama bir sonraki açılışta yeni
 // sürümle başlar. Dosyaların hepsi alınamazsa hiçbiri yazılmaz (yarım sürüm yok).
-const V = 'kopru-v13';
+const V = 'kopru-v14';
 const META = 'kopru-meta';
 const SHELL = ['./', 'index.html', 'app.css', 'manifest.webmanifest', 'icon.svg', 'icon-192.png', 'icon-512.png',
   'js/main.js', 'js/session.js', 'js/input.js', 'js/clip.js', 'js/files.js', 'js/keymap.js', 'js/mqtt.js', 'js/wsvideo.js', 'js/audio.js', 'js/ses-isleyici.js', 'js/profiles.js', 'js/calib.js', 'js/loupe.js'];

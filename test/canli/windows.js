@@ -271,12 +271,28 @@ async function frameCounter(page) {
   });
 }
 // Ekranı değiştirip yeni kare gelip gelmediğini ölç (akışın canlı olduğunu kanıtlar).
-async function liveFrames(page, tpg, ms = 2500) {
+// tani verilirse aynı pencerede 500 ms arayla ajanın istatistiği (fps, kbps,
+// queueMs, bwe, hedef, taban, netl, yol denetimi) ve istemcinin aldığı/çözdüğü
+// kare sayısı tani.ornek'e yazılır (yalnızca rapor; başarısızlıkta "kareler
+// gelmiyor mu, gelip bekletiliyor mu, ajan mı kodlamıyor" ayrımı için).
+async function liveFrames(page, tpg, ms = 2500, tani = null) {
+  if (tani) await page.evaluate(() => {
+    window.__tani = []; const t0 = performance.now();
+    const al = async () => {
+      let rtp = null;
+      try { (await app.session.pc?.getStats())?.forEach((x) => { if (x.type === 'inbound-rtp' && x.kind === 'video') rtp = { alinan: x.framesReceived, cozulen: x.framesDecoded, kayip: x.packetsLost, jbMs: x.jitterBufferEmittedCount ? Math.round(x.jitterBufferDelay / x.jitterBufferEmittedCount * 1000) : null }; }); } catch {}
+      const a = app.agentStats || {};
+      window.__tani.push({ t: Math.round(performance.now() - t0), ajan: { fps: a.fps, kbps: a.kbps, queueMs: a.queueMs, bwe: a.bwe, hedef: a.target, taban: a.floor, netl: a.netl, flowQ: a.flowQ, flowKbps: a.flowKbps }, rtp, tuval: app.wsv ? app.wsv.st?.dec : undefined });
+    };
+    al(); window.__taniT = setInterval(al, 500);
+  }).catch(() => {});
   const f0 = await frameCounter(page);
   await tpg.evaluate(() => { let i = 0; window.__an = setInterval(() => { document.getElementById('white').style.background = i++ % 2 ? '#FFFFFF' : '#F0F0F0'; }, 40); });
   await sleep(ms);
   await tpg.evaluate(() => { clearInterval(window.__an); document.getElementById('white').style.background = '#FFFFFF'; });
-  return (await frameCounter(page)) - f0;
+  const n = (await frameCounter(page)) - f0;
+  if (tani) tani.ornek = await page.evaluate(() => { clearInterval(window.__taniT); return window.__tani; }).catch((e) => 'okunamadı: ' + e.message);
+  return n;
 }
 // Ayar sayfası anahtarı ajan her başladığında yenilenir: her çağrıda dosyadan oku.
 function uiHelper(dir) {
@@ -652,7 +668,11 @@ async function yerel() {
       for (const [k, ref] of [['#red', [229, 57, 53]], ['#green', [67, 160, 71]], ['#blue', [30, 136, 229]], ['#white', [255, 255, 255]]]) { const p = await centerOf(tpg, k); cols[k] = { got: await pixel(page, p.x, p.y), ref }; }
       ok('renkler doğru', Object.values(cols).every((x) => near(x.got, x.ref)), cols);
     });
-    await step('canlı görüntü akışı', async () => { const n = await liveFrames(page, tpg); ok('ekran değişince görüntü akıyor', n >= 20, `${n} kare / 2,5 sn`); });
+    await step('canlı görüntü akışı', async () => {
+      const tani = {};
+      const n = await liveFrames(page, tpg, 2500, tani);
+      ok('ekran değişince görüntü akıyor', n >= 20, n >= 20 ? `${n} kare / 2,5 sn` : { kare: `${n} kare / 2,5 sn`, ayni_pencerede: tani.ornek });
+    });
     const tapC = await centerOf(tpg, '#tap');
     await step('fare sol tık', async () => {
       await resetTarget(tpg);
@@ -1353,7 +1373,12 @@ async function hizmet() {
   ok('hizmet: Cloudflare tüneli üzerinden şifreli aktarım', c.ok, `${c.ms} ms ${c.err}`);
   if (c.ok) {
     await sleep(2000);
-    await step('tünel akış', async () => { const n = await liveFrames(page, tpg); ok('tünelde ekran değişince görüntü akıyor', n >= 15, `${n} kare / 2,5 sn, RTT ${await page.evaluate(() => app.rtt)} ms`); });
+    await step('tünel akış', async () => {
+      const tani = {};
+      const n = await liveFrames(page, tpg, 2500, tani);
+      const bilgi = `${n} kare / 2,5 sn, RTT ${await page.evaluate(() => app.rtt)} ms`;
+      ok('tünelde ekran değişince görüntü akıyor', n >= 15, n >= 15 ? bilgi : { kare: bilgi, ayni_pencerede: tani.ornek });
+    });
     await step('tünel tıklama', async () => {
       await resetTarget(tpg);
       const tapC = await centerOf(tpg, '#tap');

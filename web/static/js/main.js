@@ -16,7 +16,7 @@ const fmtId = (id) => (id || '').replace(/\D/g, '').replace(/(\d{3})(?=\d)/g, '$
 const perfText = (p) => ['Tam', 'Hafif kodlama (işlemci yoğun)', '45 fps (işlemci yoğun)', '30 fps (işlemci yoğun)'][p || 0];
 const isPhone = () => Math.min(screen.width, screen.height) < 600;
 // SURUM bu istemcinin sürümü (ajanınkiyle aynı tutulur; web/surum_test.go denetler).
-const SURUM = '1.2.8';
+const SURUM = '1.2.9';
 // Apple çözücüsü (iPhone/iPad'deki tüm tarayıcılar ve Mac Safari) çok dilimli
 // H.264 karelerinde bazı dilimleri çözemiyor, görüntü bantlar halinde gri
 // kalıyordu; bu cihazlara kare tek dilim gönderilir.
