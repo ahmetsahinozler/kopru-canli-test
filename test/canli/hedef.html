@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><title>Köprü canlı test hedefi</title>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #303030; font: 22px Segoe UI, sans-serif; color: #fff; }
+  .b { position: absolute; }
+  #red { left: 5vw; top: 4vh; width: 14vw; height: 14vh; background: #E53935; }
+  #green { left: 22vw; top: 4vh; width: 14vw; height: 14vh; background: #43A047; }
+  #blue { left: 39vw; top: 4vh; width: 14vw; height: 14vh; background: #1E88E5; }
+  #white { left: 56vw; top: 4vh; width: 14vw; height: 14vh; background: #FFFFFF; }
+  /* Çift dokunuş kutusu: gerçek "dblclick" gelince camgöbeği olur. */
+  #dbl { left: 74vw; top: 4vh; width: 18vw; height: 14vh; background: #606060; display: grid; place-items: center; user-select: none; }
+  /* Dokunma kutusu: dokunuşta yeşil, farede mavi, kalemde mor olur. */
+  #tap { left: 5vw; top: 26vh; width: 32vw; height: 26vh; background: #808080; display: grid; place-items: center; touch-action: none; user-select: none; }
+  #ta { left: 5vw; top: 58vh; width: 32vw; height: 12vh; font-size: 24px; }
+  /* Yazı doğrulama kutusu: metin beklenen değere eşitlenince sarı. */
+  #typed { left: 5vw; top: 76vh; width: 32vw; height: 14vh; background: #404040; }
+  /* Tek parmakla kaydırılacak alan: her şerit farklı renk. */
+  #scroll { left: 50vw; top: 26vh; width: 42vw; height: 66vh; overflow-y: auto; touch-action: pan-y; }
+  .s { height: 22vh; display: grid; place-items: center; font-size: 40px; }
+  /* Kalibrasyon işaretleri (artı): yalnızca kalibrasyon bölümünde görünür, olaylara karışmaz.
+     Bölüm sürerken kaydırma şeritleri gizlenir (renkleri pembe noktayla karışmasın). */
+  .k { position: absolute; display: none; width: 2.4vw; height: 2.4vw; margin: -1.2vw 0 0 -1.2vw; pointer-events: none; z-index: 5;
+       background: linear-gradient(#FFEB3B, #FFEB3B) center / 100% 2px no-repeat, linear-gradient(#FFEB3B, #FFEB3B) center / 2px 100% no-repeat; }
+  body.kal .k { display: block; }
+  body.kal #scroll { visibility: hidden; }
+  /* Son basışın Windows'ta düştüğü yer (yalnızca kalibrasyon bölümünde): telefon bunu görüntüde arar. */
+  #nokta { position: fixed; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%; background: #FF00FF; pointer-events: none; z-index: 9; display: none; }
+  /* Netleştirme ölçümü için ekranın tamamını kaplayan ince yazılı desen (büyük değişiklik). */
+  #yogun { position: fixed; inset: 0; background: #fff; color: #111; font: 13px/1.25 Consolas, monospace; overflow: hidden; z-index: 8; display: none; word-break: break-all; }
+</style></head><body>
+<div class="b" id="red"></div><div class="b" id="green"></div><div class="b" id="blue"></div><div class="b" id="white"></div>
+<div class="b" id="dbl">çift</div>
+<div class="b" id="tap">dokun</div>
+<textarea class="b" id="ta"></textarea>
+<div class="b" id="typed"></div>
+<div class="b" id="scroll"></div>
+<div id="nokta"></div><div id="yogun"></div>
+<script>
+  window.ev = [];
+  const expect = decodeURIComponent((location.hash.match(/yazi=([^&]*)/) || [])[1] || 'Kopru-Ş1');
+  const sc = document.getElementById('scroll');
+  for (let i = 0; i < 30; i++) { const d = document.createElement('div'); d.className = 's'; d.style.background = `hsl(${(i * 47) % 360} 85% 45%)`; d.textContent = i; sc.appendChild(d); }
+  // Kalibrasyon noktaları (ekranın oranı olarak; telefondaki test de aynı oranlara dokunur).
+  window.KAL = [[0.12, 0.11], [0.435, 0.11], [0.97, 0.11], [0.435, 0.45], [0.71, 0.59], [0.97, 0.55], [0.12, 0.95], [0.435, 0.85], [0.97, 0.95]];
+  KAL.forEach(([x, y], i) => { const k = document.createElement('div'); k.className = 'k'; k.id = 'k' + i; k.style.left = x * 100 + 'vw'; k.style.top = y * 100 + 'vh'; document.body.appendChild(k); });
+  const tap = document.getElementById('tap');
+  tap.addEventListener('pointerdown', (e) => {
+    tap.style.background = e.pointerType === 'touch' ? '#00C800' : e.pointerType === 'pen' ? '#A000A0' : (tap.style.background === 'rgb(0, 0, 255)' ? '#FF8000' : '#0000FF');
+    tap.textContent = e.pointerType + ' ' + ev.filter((x) => x.t === 'pointerdown').length;
+  });
+  // Her gerçek çift tık rengi değiştirir (gri ↔ camgöbeği): telefon birden çok kez sınayabilsin.
+  const dbl = document.getElementById('dbl');
+  dbl.addEventListener('dblclick', () => { dbl.style.background = dbl.style.background === 'rgb(0, 229, 255)' ? '#606060' : '#00E5FF'; });
+  // Kalibrasyon bölümü: F9 = Tablet (dokunmatik), F8 = Doğrudan (fare), F2 = bitti.
+  // Telefon bu tuşları Köprü üzerinden gönderir; bölüm içindeki her basışın yeri
+  // pembe noktayla gösterilir ve olay kaydına bölüm adıyla yazılır.
+  // F4: ince yazılı deseni aç/kapat (netleştirme ölçümü), Shift+F4: sürekli hareket.
+  // Chromium bu tuşları kullanmaz.
+  window.kal = null;
+  const nokta = document.getElementById('nokta'), yogun = document.getElementById('yogun');
+  window.kalibrasyon = (m) => { window.kal = m || null; document.body.classList.toggle('kal', !!m); if (!m) nokta.style.display = 'none'; };
+  window.yogunDesen = (on) => {
+    if (on && !yogun.textContent) { let t = ''; for (let i = 0; t.length < 24000; i++) t += 'Köprü ' + i + ' çğıöşü ÇĞİÖŞÜ 0123456789 ' + (i * 7919 % 1000) + ' | '; yogun.textContent = t; }
+    yogun.style.display = on ? 'block' : 'none';
+  };
+  // Shift+F4: sürekli hareket (beyaz blok 30 kare/sn yanıp söner) aç/kapat — akış ölçümü.
+  window.hareket = (on) => {
+    clearInterval(window.__hr); window.__hr = 0;
+    const w = document.getElementById('white');
+    if (on) { let i = 0; window.__hr = setInterval(() => { w.style.background = i++ % 2 ? '#FFFFFF' : '#E8E8E8'; }, 33); } else w.style.background = '#FFFFFF';
+  };
+  const idOf = (e) => (e.target && e.target.closest ? (e.target.closest('[id]') || {}).id : '') || '';
+  const rec = (t, e) => {
+    const o = { t, x: e.screenX, y: e.screenY, pt: e.pointerType, b: e.button, k: e.key, id: idOf(e), ts: Date.now(), dpr: devicePixelRatio };
+    if (window.kal) o.kal = window.kal;
+    ev.push(o);
+    if (window.kal && t === 'pointerdown') {
+      nokta.style.left = e.clientX + 'px'; nokta.style.top = e.clientY + 'px'; nokta.style.display = 'block';
+    }
+  };
+  for (const t of ['pointerdown', 'pointerup', 'mousedown', 'wheel', 'contextmenu', 'dblclick']) addEventListener(t, (e) => rec(t, e), true);
+  addEventListener('keydown', (e) => {
+    rec('keydown', e);
+    if (e.key === 'F9') { e.preventDefault(); window.kalibrasyon('tablet'); }
+    else if (e.key === 'F8') { e.preventDefault(); window.kalibrasyon('dogrudan'); }
+    else if (e.key === 'F2') { e.preventDefault(); window.kalibrasyon(null); }
+    else if (e.key === 'F4' && e.shiftKey) { e.preventDefault(); window.hareket(!window.__hr); }
+    else if (e.key === 'F4') { e.preventDefault(); window.yogunDesen(yogun.style.display !== 'block'); }
+  }, true);
+  const ta = document.getElementById('ta');
+  ta.addEventListener('input', () => { document.getElementById('typed').style.background = ta.value === expect ? '#FFD600' : '#404040'; });
+  window.state = () => ({ scroll: sc.scrollTop, ta: ta.value, tap: tap.style.background, dbl: document.getElementById('dbl').style.background, w: innerWidth, h: innerHeight, sx: screenX, sy: screenY, dpr: devicePixelRatio });
+</script>
+</body></html>

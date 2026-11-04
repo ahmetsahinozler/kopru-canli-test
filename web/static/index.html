@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0f1218">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Köprü">
+<title>Köprü</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<!-- ============ Ana ekran ============ -->
+<section id="home" class="screen">
+  <header class="home-head">
+    <div class="brand"><div class="logo">K</div><div><h1>Köprü</h1><div class="muted small">Kişisel uzak masaüstü</div></div></div>
+    <button class="icon-btn" id="btn-settings" title="Ayarlar" aria-label="Ayarlar">⚙</button>
+  </header>
+
+  <div class="home-body">
+    <div class="card install hidden" id="install-banner">
+      <h2>Köprü'yü ana ekrana ekleyin</h2>
+      <p>Safari'nin alt çubuğundaki <b>Paylaş</b> düğmesine <span class="share-ic">⎙</span> dokunun, ardından <b>Ana Ekrana Ekle</b>'yi seçin. Köprü bir uygulama gibi ana ekranınızda görünür.</p>
+      <p class="muted small" id="install-added"></p>
+    </div>
+    <form class="card connect" id="connect-form" autocomplete="on">
+      <h2>Uzak bilgisayara bağlan</h2>
+      <label class="field"><span>Kimlik</span>
+        <input id="in-id" inputmode="numeric" autocomplete="username" placeholder="123 456 789" maxlength="11" required>
+      </label>
+      <label class="field"><span>Parola</span>
+        <input id="in-pw" type="password" autocomplete="current-password" placeholder="Uzak bilgisayardaki Köprü parolası">
+      </label>
+      <label class="check"><input type="checkbox" id="in-remember" checked> Bu cihazda hatırla</label>
+      <button class="primary big" type="submit" id="btn-connect">Bağlan</button>
+      <div class="error" id="connect-err" role="alert"></div>
+    </form>
+
+    <div class="card">
+      <div class="card-head"><h2>Kayıtlı bilgisayarlar</h2></div>
+      <div id="book" class="book"><div class="muted">Henüz kayıtlı bilgisayar yok. Bağlandığınızda burada görünür.</div></div>
+    </div>
+    <div class="card hidden" id="share-card">
+      <h2>Bu bilgisayarı uzaktan erişime aç</h2>
+      <p class="muted small">Windows bilgisayarda Köprü'yü indirip çift tıklayın. Kimlik ve parola otomatik oluşur; sunucu ayarı gerekmez.</p>
+      <a class="btn primary" id="dl-agent" href="indir/kopru.exe" download>Windows için Köprü'yü indir</a>
+      <p class="muted small" style="margin-top:10px">İlk açılışta Windows "bilinmeyen yayımcı" uyarısı verebilir: <b>Ek bilgi → Yine de çalıştır</b>. Kalıcı ve oturum açma ekranı dahil erişim için açılan pencerede <b>Hizmet olarak kur</b>'a basın.</p>
+    </div>
+    <div class="muted small foot" id="foot"></div>
+  </div>
+</section>
+
+<!-- ============ Görüntüleyici ============ -->
+<section id="viewer" class="screen hidden">
+  <div id="stage">
+    <div id="canvas"><video id="video" autoplay playsinline muted disablepictureinpicture></video><canvas id="vcanvas" class="hidden"></canvas><audio id="audio" autoplay playsinline></audio></div>
+    <div id="ghost" class="hidden"></div>
+    <div id="overlay" class="overlay"><div class="spinner"></div><div id="overlay-text">Bağlanıyor…</div><button id="overlay-cancel" class="ghost-btn">Vazgeç</button></div>
+  </div>
+
+  <button id="kchip" class="kchip ui hidden">⌨ Yazmak için dokunun</button>
+
+  <!-- İlk bağlantıda bir kez: Windows yazılarını telefona göre büyütme önerisi -->
+  <div id="fitask" class="ask ui hidden" role="dialog" aria-labelledby="fitask-t">
+    <div class="ask-t" id="fitask-t">Yazılar telefonda küçük kalabilir</div>
+    <div class="muted small" id="fitask-sub"></div>
+    <div class="row"><button class="primary" id="fitask-yes">📱 Telefona göre büyüt</button><button id="fitask-no">Olduğu gibi kalsın</button></div>
+    <label class="check small"><input type="checkbox" id="fitask-rem" checked> Bu bilgisayar için hatırla</label>
+  </div>
+  <textarea id="kbdsink" class="kbdsink" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-hidden="true" tabindex="-1"></textarea>
+
+  <!-- Araç çubuğu -->
+  <div id="toolbar" class="toolbar ui">
+    <button class="tb-handle" id="tb-toggle" title="Araç çubuğu">☰</button>
+    <div class="tb-items" id="tb-items">
+      <div class="tb-name" id="tb-name"></div>
+      <div class="seg touch-only" id="mode-seg" title="Dokunmatik modu">
+        <button data-mode="touchpad" title="Telefon bir dizüstü touchpad'i gibi">Touchpad</button>
+        <button data-mode="tablet" title="Gerçek Windows dokunmatik ekranı (tablet gibi)">Tablet</button>
+        <button data-mode="direct" title="Dokunduğunuz yere tıklar">Doğrudan</button>
+      </div>
+      <button class="tb touch-only" id="tb-zoom" title="Görüntüyü sığdır">⤢</button>
+      <button class="tb touch-only" id="tb-kbd" title="Klavye">⌨</button>
+      <button class="tb" id="tb-keys" title="Özel tuşlar">⌘</button>
+      <button class="tb" id="tb-clip" title="Pano">📋</button>
+      <button class="tb" id="tb-files" title="Dosyalar">📁</button>
+      <button class="tb" id="tb-display" title="Ekran ve kalite">🖥</button>
+      <button class="tb hidden" id="tb-audio" title="Ses">🔊</button>
+      <button class="tb" id="tb-stats" title="İstatistikler">📶</button>
+      <button class="tb" id="tb-full" title="Tam ekran (Ctrl+Alt+Shift+F)">⛶</button>
+      <button class="tb danger" id="tb-close" title="Bağlantıyı kes (Ctrl+Alt+Shift+Q)">✕</button>
+    </div>
+  </div>
+
+  <!-- Özel tuş çubuğu -->
+  <div id="keys" class="keys ui hidden">
+    <div class="keys-row">
+      <button data-sticky="ControlLeft">Ctrl</button><button data-sticky="AltLeft">Alt</button><button data-sticky="ShiftLeft">Shift</button><button data-sticky="MetaLeft">Win</button>
+      <button data-key="Escape">Esc</button><button data-key="Tab">Tab</button><button data-key="Enter">Enter</button><button data-key="Backspace">⌫</button><button data-key="Delete">Del</button>
+      <button data-key="ArrowLeft">←</button><button data-key="ArrowUp">↑</button><button data-key="ArrowDown">↓</button><button data-key="ArrowRight">→</button>
+      <button data-key="Home">Home</button><button data-key="End">End</button><button data-key="PageUp">PgUp</button><button data-key="PageDown">PgDn</button>
+    </div>
+    <div class="keys-row">
+      <button data-combo="ControlLeft+KeyC">Kopyala</button><button data-combo="ControlLeft+KeyV">Yapıştır</button><button data-combo="ControlLeft+KeyX">Kes</button><button data-combo="ControlLeft+KeyZ">Geri al</button><button data-combo="ControlLeft+KeyA">Tümü</button><button data-combo="ControlLeft+KeyS">Kaydet</button>
+      <button data-combo="AltLeft+Tab">Alt+Tab</button><button data-combo="MetaLeft+KeyD">Masaüstü</button><button data-combo="MetaLeft+KeyE">Gezgin</button><button data-combo="AltLeft+F4">Alt+F4</button>
+      <button data-special="sas">Ctrl+Alt+Del</button><button data-special="lock">Kilitle</button><button data-typeclip="1" title="Bu cihazın panosundaki metni tuş tuş yazar (Windows giriş ekranındaki parola alanı gibi yapıştırmanın çalışmadığı yerler için)">Panoyu yaz</button>
+      <button data-key="F1">F1</button><button data-key="F2">F2</button><button data-key="F3">F3</button><button data-key="F4">F4</button><button data-key="F5">F5</button><button data-key="F6">F6</button><button data-key="F7">F7</button><button data-key="F8">F8</button><button data-key="F9">F9</button><button data-key="F10">F10</button><button data-key="F11">F11</button><button data-key="F12">F12</button><button data-key="PrintScreen">PrtSc</button>
+    </div>
+  </div>
+
+  <!-- İstatistikler -->
+  <div id="stats" class="stats ui hidden"></div>
+
+  <!-- Bildirimler -->
+  <div id="toasts" class="toasts ui"></div>
+
+  <!-- Dosyalar paneli -->
+  <aside id="files" class="drawer ui">
+    <div class="drawer-head"><h3>Uzak dosyalar</h3><button class="icon-btn" data-close="files">✕</button></div>
+    <div class="fs-bar">
+      <button id="fs-up" title="Üst klasör">⬆</button>
+      <button id="fs-home" title="Başlangıç">🏠</button>
+      <div class="fs-path" id="fs-path"></div>
+    </div>
+    <div class="fs-actions">
+      <button id="fs-dl" class="primary">İndir</button>
+      <button id="fs-ul">Dosya gönder</button>
+      <button id="fs-mkdir">Yeni klasör</button>
+      <button id="fs-rm" class="danger">Sil</button>
+      <label class="check small"><input type="checkbox" id="fs-hidden"> Gizli</label>
+      <span class="muted small" id="fs-selinfo"></span>
+    </div>
+    <div class="muted small pad-x">İpucu: dosyaları görüntünün üzerine sürükleyip bırakabilirsiniz. Klasöre tıklayınca açılır; seçmek için Ctrl+tık veya uzun bas.</div>
+    <div id="fs-list" class="fs-list"></div>
+    <input type="file" id="fs-input" multiple hidden>
+    <h3 class="xf-head">Aktarımlar</h3>
+    <div id="xfers" class="xfers"></div>
+  </aside>
+
+  <!-- Pano paneli -->
+  <aside id="clip" class="sheet ui">
+    <div class="drawer-head"><h3>Pano</h3><button class="icon-btn" data-close="clip">✕</button></div>
+    <label class="check"><input type="checkbox" id="clip-sync"> Otomatik pano eşitleme</label>
+    <div class="muted small">Ctrl+C / Ctrl+V her iki yönde çalışır. Kopyalanan dosyalar da aktarılır.</div>
+    <div class="clip-box">
+      <div class="label">Uzak bilgisayarın panosu</div>
+      <div id="clip-remote" class="clip-remote muted">—</div>
+      <div class="row"><button id="clip-copy" class="primary">Buraya kopyala</button><button id="clip-save" class="hidden">Kaydet / İndir</button></div>
+    </div>
+    <div class="clip-box">
+      <div class="label">Bu cihazın panosu</div>
+      <div class="row"><button id="clip-push" class="primary">Uzak bilgisayara gönder</button></div>
+      <textarea id="clip-text" rows="3" placeholder="Veya buraya yazıp gönderin"></textarea>
+      <div class="row"><button id="clip-send-text">Metni gönder</button><button id="clip-type-text" title="Metni tuş tuş yazar (pano desteklemeyen alanlar için)">Yazdır</button></div>
+    </div>
+  </aside>
+
+  <!-- Ekran / kalite paneli -->
+  <aside id="display" class="sheet ui">
+    <div class="drawer-head"><h3>Ekran ve kalite</h3><button class="icon-btn" data-close="display">✕</button></div>
+    <div class="field"><span>Monitör</span><div id="disp-list" class="seg wrap"></div></div>
+    <div class="field"><span>Öncelik</span>
+      <div class="seg" id="q-seg"><button data-q="speed">Hız</button><button data-q="balanced">Dengeli</button><button data-q="quality">Kalite</button></div>
+    </div>
+    <div class="field"><span>Kare hızı</span>
+      <div class="seg" id="fps-seg"><button data-fps="30">30</button><button data-fps="60">60</button></div>
+    </div>
+    <div class="field"><span>Çözünürlük <small class="muted">(Otomatik: bu cihazın ekranı kadar gönderilir, yakınlaştırınca netleşir)</small></span>
+      <div class="seg" id="scale-seg"><button data-scale="0">Otomatik</button><button data-scale="1">Tam</button><button data-scale="0.75">%75</button><button data-scale="0.5">%50</button></div>
+    </div>
+    <div class="field"><span>Görünüm</span>
+      <div class="seg" id="fit-seg"><button data-fit="fit">Sığdır</button><button data-fit="1:1">1:1 piksel</button></div>
+    </div>
+    <div class="field hidden" id="row-scales"><span>Yazı boyutu <small class="muted">(Windows ölçeği; çözünürlük değişmez, görüntü net kalır; bağlantı bitince eski haline döner)</small></span>
+      <div class="seg wrap" id="scale-list"></div>
+      <label class="check small hidden" id="row-autofit"><input type="checkbox" id="opt-autofit"> Bu bilgisayara her bağlanışta telefona uydur</label>
+    </div>
+    <div class="field hidden" id="row-modes"><span>Uzak ekran çözünürlüğü <small class="muted">(küçültünce telefonda yazılar büyür; bağlantı bitince eski haline döner)</small></span>
+      <div class="seg wrap" id="mode-list"></div>
+    </div>
+    <div class="field"><span>Veri kullanımı</span>
+      <div class="seg" id="kbps-seg"><button data-kbps="0">Otomatik</button><button data-kbps="8000">8 Mbps</button><button data-kbps="4000">4 Mbps</button><button data-kbps="1500">Tasarruf</button></div>
+    </div>
+    <label class="check hidden" id="row-privacy"><input type="checkbox" id="opt-privacy"> Gizlilik: uzaktaki ekran kararsın, oradaki fare ve klavye kilitlensin</label>
+    <label class="check"><input type="checkbox" id="opt-view"> Yalnızca izle (dokunuşlar ve tuşlar gönderilmez)</label>
+    <label class="check" id="row-444"><input type="checkbox" id="opt-444"> Jilet gibi metin (4:4:4 renk, yeniden bağlanır)</label>
+    <label class="check"><input type="checkbox" id="opt-mac"> Mac: Cmd tuşu Ctrl gibi davransın</label>
+    <label class="check touch-only" title="Parmak bir an durunca ya da yavaş sürüklerken parmağın kapattığı yer parmağın üstünde büyütülür; ortadaki artı, bilgisayara gönderilen noktadır (Tablet ve Doğrudan modunda)."><input type="checkbox" id="opt-loupe"> Parmağın altını büyüteçte göster</label>
+    <label class="check" title="Dokunduğunuz yer ile bilgisayarın tıkladığı yer farklıysa açın: kırmızı halka telefonun saydığı nokta, yeşil artı bilgisayara giden nokta, sarı artı Windows imlecinin gittiği yer. Paneldeki sayıların ekran görüntüsünü gönderebilirsiniz."><input type="checkbox" id="opt-calib"> Dokunuş noktasını göster (tanı)</label>
+  </aside>
+</section>
+
+<!-- Ayarlar -->
+<dialog id="settings-dlg" class="dlg">
+  <form method="dialog">
+    <h2>Ayarlar</h2>
+    <label class="field"><span>Telefon/tablette varsayılan dokunmatik modu</span>
+      <select id="set-mode"><option value="auto">Tablet (gerçek dokunmatik — önerilen)</option><option value="touchpad">Touchpad</option><option value="tablet">Tablet (gerçek dokunmatik)</option><option value="direct">Doğrudan tıklama</option></select>
+    </label>
+    <label class="field"><span>Touchpad hassasiyeti</span><input type="range" id="set-sens" min="0.5" max="3" step="0.1"></label>
+    <label class="check"><input type="checkbox" id="set-wake"> Bağlıyken ekran kararmasın</label>
+    <div class="row end"><button class="danger" id="set-clear" type="button">Kayıtlı bilgisayarları sil</button><button class="primary" value="ok">Tamam</button></div>
+  </form>
+</dialog>
+
+<!-- Parola sorma -->
+<dialog id="pw-dlg" class="dlg">
+  <form method="dialog" id="pw-form">
+    <h2 id="pw-title">Parola</h2>
+    <p class="muted" id="pw-sub"></p>
+    <input type="password" id="pw-input" autocomplete="current-password">
+    <label class="check"><input type="checkbox" id="pw-remember" checked> Hatırla</label>
+    <div class="row end"><button value="cancel" type="button" id="pw-cancel">Vazgeç</button><button class="primary" value="ok">Bağlan</button></div>
+  </form>
+</dialog>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

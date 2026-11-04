@@ -1,0 +1,325 @@
+# Canlı test: gerçek Windows sanal makinesi + iPhone Simülatörü (gerçek Mobile Safari).
+# Windows makinesinde Köprü önce kullanıcı oturumunda (dokunuş kalibrasyonu %150
+# ölçekte, GPU ile küçültme dahil), sonra Windows hizmeti olarak sunucusuz kipte
+# (gerçek Cloudflare tüneli + herkese açık ilan panosu) çalışır. macOS işi (dakikası
+# en pahalı makine) Windows hazır olunca başlar: iPhone Simülatörü bir kullanıcı gibi
+# bu bilgisayara internet üzerinden bağlanır. Sonuçlar (JSON, ekran görüntüleri,
+# günlükler) canli-test-sonuc dalına yazılır.
+#
+# Bu depo yalnızca test içindir: kaynak kod burada yok. kopru.exe (ve güncelleme
+# senaryosu için içeriği farklı yeni/kopru.exe) Köprü'nün kendi deposunda
+# derlenip buraya konur; web/static iPhone'da açılan istemcinin aynısıdır.
+name: Canlı test (Windows + iPhone)
+
+on:
+  push:
+    branches: [main, master]
+    paths: ['kopru.exe', 'yeni/**', 'web/**', 'test/canli/**', '.github/workflows/canli-test.yml']
+  workflow_dispatch:
+
+concurrency:
+  group: canli-test
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 120
+    env:
+      KOPRU_BIN: ${{ github.workspace }}\kopru.exe
+      KOPRU_BIN_YENI: ${{ github.workspace }}\yeni\kopru.exe
+      OUT: ${{ github.workspace }}\out
+      WORK: ${{ github.workspace }}\..\kopru-canli
+      IPHONE_KEY: ${{ github.workspace }}\..\iphone-anahtar\iphone-acik-anahtar.pem
+    steps:
+      - uses: actions/checkout@v4
+      - name: Hazır ikililer
+        shell: pwsh
+        run: |
+          Get-FileHash kopru.exe, yeni\kopru.exe -Algorithm SHA256 | Format-Table -AutoSize | Out-String -Width 200
+      - name: Playwright
+        shell: bash
+        working-directory: test/canli
+        run: |
+          npm init -y >/dev/null
+          npm i playwright@1.49.1
+          npx playwright install chromium
+      # Ses testleri için sanal ses kartı (Scream). Kurulamazsa ses testleri
+      # "atlandı: ses aygıtı yok" diye raporlanır; çalıştırma başarısız sayılmaz.
+      - name: Sanal ses aygıtı
+        continue-on-error: true
+        timeout-minutes: 8
+        uses: LABSN/sound-ci-helpers@v1
+      - name: Hedef programı masaüstünde aç
+        shell: pwsh
+        working-directory: test/canli
+        run: |
+          $exe = node -e "console.log(require('playwright').chromium.executablePath())"
+          $url = 'file:///' + ((Resolve-Path hedef.html).Path -replace '\\','/')
+          Start-Process -FilePath $exe -ArgumentList @('--kiosk','--remote-debugging-port=9222',"--user-data-dir=$env:RUNNER_TEMP\hedef",'--no-first-run','--no-default-browser-check','--disable-features=Translate',$url)
+          Start-Sleep 6
+          New-Item -ItemType Directory -Force $env:OUT | Out-Null
+          Add-Type -AssemblyName System.Windows.Forms,System.Drawing
+          $b=[System.Windows.Forms.SystemInformation]::VirtualScreen
+          "Sanal ekran: $($b.Width)x$($b.Height)"
+          $bmp=New-Object Drawing.Bitmap $b.Width,$b.Height; $g=[Drawing.Graphics]::FromImage($bmp); $g.CopyFromScreen($b.Left,$b.Top,0,0,$bmp.Size); $bmp.Save("$env:OUT\masaustu-baslangic.png")
+          "Ses: " + ((Get-CimInstance Win32_SoundDevice | ForEach-Object Name) -join '; ') + " / Audiosrv " + (Get-Service Audiosrv).Status
+      - name: 1) Kullanıcı oturumunda gerçek Windows API testleri
+        continue-on-error: true
+        working-directory: test/canli
+        run: node windows.js yerel
+      - name: 1b) Dokunuş kalibrasyonu (%100 / %150, Tablet ve Doğrudan, kapalı döngü)
+        continue-on-error: true
+        working-directory: test/canli
+        run: node windows.js kalibrasyon
+      - name: 1c) GPU ile küçültme (varsayılan kapalı, KOPRU_GPU=1 denemesi)
+        continue-on-error: true
+        working-directory: test/canli
+        run: node windows.js gpu
+      - name: 2) Çift tıklayarak kurulum (kullanıcının yaptığı gibi)
+        continue-on-error: true
+        working-directory: test/canli
+        run: node windows.js kur
+      - name: 3) Windows hizmeti + sunucusuz gerçek yol + bağlantı kopmaları + %150 kalibrasyonu
+        continue-on-error: true
+        working-directory: test/canli
+        run: node windows.js hizmet
+      # iPhone işini başlatan işaret (parola içermez): iphone-bekle işi bunu görünce macOS başlar.
+      - uses: actions/upload-artifact@v4
+        continue-on-error: true
+        with:
+          name: windows-hazir
+          path: out/windows-hazir.json
+          if-no-files-found: warn
+      - name: iPhone işinin açık anahtarını bekle
+        continue-on-error: true
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $dir = Split-Path $env:IPHONE_KEY
+          $api = "https://api.github.com/repos/$env:GITHUB_REPOSITORY/actions"
+          $h = @{ Authorization = "Bearer $env:GH_TOKEN"; Accept = "application/vnd.github+json" }
+          for ($i = 0; $i -lt 240; $i++) {
+            # Geçici bir API hatası beklemeyi bitirmesin.
+            try {
+              $a = (Invoke-RestMethod -Headers $h "$api/runs/$env:GITHUB_RUN_ID/artifacts?per_page=100").artifacts | Where-Object name -eq 'iphone-anahtar' | Select-Object -First 1
+              if ($a) {
+                Invoke-WebRequest -Headers $h "$api/artifacts/$($a.id)/zip" -OutFile "$env:RUNNER_TEMP\a.zip"
+                Expand-Archive -Force "$env:RUNNER_TEMP\a.zip" $dir
+                break
+              }
+              $j = (Invoke-RestMethod -Headers $h "$api/runs/$env:GITHUB_RUN_ID/jobs?per_page=100").jobs | Where-Object name -eq 'iphone' | Select-Object -First 1
+              if ($j -and $j.status -eq 'completed') { "iPhone işi anahtar yüklemeden bitti ($($j.conclusion))"; break }
+            } catch { "bekleme: $_" }
+            Start-Sleep 10
+          }
+          if (Test-Path $env:IPHONE_KEY) { "anahtar alındı" } else { "anahtar yok" }
+      - name: 3b) Parolayı iPhone'un anahtarıyla şifrele
+        continue-on-error: true
+        working-directory: test/canli
+        run: node windows.js sifrele
+      - uses: actions/upload-artifact@v4
+        continue-on-error: true
+        with:
+          name: windows-parola
+          path: out/windows-parola.json
+          if-no-files-found: warn
+      - name: 4) iPhone testinin bitmesini bekle, Windows'a gelen dokunuşları çözümle
+        continue-on-error: true
+        working-directory: test/canli
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node windows.js bekle
+      - name: 5) Dayanıklılık - 10 dakika kesintisiz kullanım
+        continue-on-error: true
+        working-directory: test/canli
+        run: node windows.js uzun
+      - name: 6) Güncelleme, Ctrl+Alt+Del, kilit ekranında parola, kaldırma
+        continue-on-error: true
+        working-directory: test/canli
+        run: node windows.js son
+      - name: Günlükleri topla
+        if: always()
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Continue'
+          New-Item -ItemType Directory -Force $env:OUT | Out-Null
+          Copy-Item "$env:ProgramData\Kopru\kopru.log" "$env:OUT\hizmet-kopru.log" -ErrorAction SilentlyContinue
+          Copy-Item "$env:WORK\home\kopru.log" "$env:OUT\yerel-kopru.log" -ErrorAction SilentlyContinue
+          Copy-Item "$env:ProgramData\Kopru\cokme.log" "$env:OUT\hizmet-cokme.log" -ErrorAction SilentlyContinue
+          Copy-Item "$env:ProgramData\Kopru\isci-hata.log" "$env:OUT\hizmet-isci-hata.log" -ErrorAction SilentlyContinue
+          Copy-Item "$env:WORK\home\cokme.log" "$env:OUT\yerel-cokme.log" -ErrorAction SilentlyContinue
+          Get-ChildItem "$env:WORK\surec-*-hata.log" -ErrorAction SilentlyContinue | Where-Object Length -gt 0 | Copy-Item -Destination $env:OUT -ErrorAction SilentlyContinue
+          Get-ChildItem "$env:ProgramData\Kopru" -ErrorAction SilentlyContinue | Out-String | Set-Content "$env:OUT\programdata-listesi.txt"
+          Remove-Item "$env:OUT\windows-parola.json" -ErrorAction SilentlyContinue
+          Add-Type -AssemblyName System.Windows.Forms,System.Drawing
+          $b=[System.Windows.Forms.SystemInformation]::VirtualScreen
+          try { $bmp=New-Object Drawing.Bitmap $b.Width,$b.Height; $g=[Drawing.Graphics]::FromImage($bmp); $g.CopyFromScreen($b.Left,$b.Top,0,0,$bmp.Size); $bmp.Save("$env:OUT\masaustu-son.png") } catch { "ekran görüntüsü alınamadı (bilgisayar kilitli): $_" }
+          exit 0
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: windows-sonuc
+          path: out/
+
+  # Ucuz bekçi (Linux): Windows iPhone'a hazır olana dek bekler; macOS işi ancak
+  # o zaman başlar (macOS dakikası Windows'un 5, Linux'un 10 katı).
+  iphone-bekle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    outputs:
+      hazir: ${{ steps.b.outputs.hazir }}
+    steps:
+      - name: Windows'un iPhone'a hazır olmasını bekle
+        id: b
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          R=$GITHUB_REPOSITORY; RUN=$GITHUB_RUN_ID
+          for i in $(seq 1 500); do
+            if gh api "repos/$R/actions/runs/$RUN/artifacts?per_page=100" --jq '.artifacts[].name' 2>/dev/null | grep -qx windows-hazir; then
+              echo "Windows hazır ($((i * 10)) sn)"; echo "hazir=true" >> "$GITHUB_OUTPUT"; exit 0
+            fi
+            J=$(gh api "repos/$R/actions/runs/$RUN/jobs?per_page=100" --jq '.jobs[] | select(.name=="windows") | .status' 2>/dev/null) || true
+            if [ "$J" = "completed" ]; then echo "Windows işi hazır olmadan bitti"; echo "hazir=false" >> "$GITHUB_OUTPUT"; exit 0; fi
+            sleep 10
+          done
+          echo "hazir=false" >> "$GITHUB_OUTPUT"
+
+  iphone:
+    needs: iphone-bekle
+    if: needs.iphone-bekle.outputs.hazir == 'true'
+    runs-on: macos-15
+    timeout-minutes: 35
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            web/static
+            test/canli
+      - name: Anahtar çifti üret (parola şifreli gelsin)
+        run: |
+          mkdir -p anahtar
+          openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out "$RUNNER_TEMP/iphone.pem" 2>/dev/null
+          openssl pkey -in "$RUNNER_TEMP/iphone.pem" -pubout -out anahtar/iphone-acik-anahtar.pem
+      - uses: actions/upload-artifact@v4
+        with:
+          name: iphone-anahtar
+          path: anahtar/iphone-acik-anahtar.pem
+      - name: iPhone Simülatörünü başlat
+        run: |
+          UDID=$(xcrun simctl list devices available -j | python3 -c '
+          import json,sys
+          d=json.load(sys.stdin)["devices"]
+          best=None
+          for rt,devs in d.items():
+              if "iOS" not in rt: continue
+              for x in devs:
+                  if x["name"].startswith("iPhone"):
+                      key=(rt, "Pro" in x["name"], x["name"])
+                      if best is None or key>best[0]: best=(key,x["udid"],x["name"],rt)
+          print(best[1]); print(best[2]+" / "+best[3], file=sys.stderr)')
+          echo "UDID=$UDID" >> "$GITHUB_ENV"
+          xcrun simctl boot "$UDID"
+          xcrun simctl bootstatus "$UDID" -b
+          # Döndürme ve gerçek dokunuş için Simulator uygulamasının penceresi (olmazsa o testler "atlandı").
+          open -a Simulator --args -CurrentDeviceUDID "$UDID" || true
+          sleep 10
+      - name: İstemciyi hazırla, sun ve Safari'de aç
+        run: |
+          mkdir -p out
+          cp -R web/static site
+          cp test/canli/iphone/canli-test.js site/
+          sed -i '' 's#</body>#<script src="canli-test.js"></script></body>#' site/index.html
+          SIM_UDID="$UDID" nohup node test/canli/iphone/sunucu.js "$PWD/site" "$PWD/out" > out/sunucu.log 2>&1 &
+          sleep 1; curl -sf http://127.0.0.1:8000/ >/dev/null && echo "sunucu hazır"
+          for i in 1 2 3 4 5 6; do
+            xcrun simctl openurl "$UDID" "http://localhost:8000/index.html?canli=1" && break
+            echo "Safari açılamadı, yeniden deneniyor ($i)"; sleep 10
+          done
+          sleep 10
+          xcrun simctl io "$UDID" screenshot out/sim-00-acilis.png || true
+      - name: Windows'un şifreli parolasını al
+        run: |
+          R=$GITHUB_REPOSITORY; RUN=$GITHUB_RUN_ID
+          for i in $(seq 1 90); do
+            ID=$(gh api "repos/$R/actions/runs/$RUN/artifacts?per_page=100" --jq '.artifacts[] | select(.name=="windows-parola") | .id' 2>/dev/null | head -1)
+            if [ -n "$ID" ]; then
+              gh api "repos/$R/actions/artifacts/$ID/zip" > p.zip && unzip -o p.zip -d p >/dev/null && break
+            fi
+            J=$(gh api "repos/$R/actions/runs/$RUN/jobs?per_page=100" --jq '.jobs[] | select(.name=="windows") | .status' 2>/dev/null) || true
+            [ "$J" = "completed" ] && { echo "Windows işi bitti, parola yok"; break; }
+            sleep 10
+          done
+          HID=$(gh api "repos/$R/actions/runs/$RUN/artifacts?per_page=100" --jq '.artifacts[] | select(.name=="windows-hazir") | .id' | head -1)
+          gh api "repos/$R/actions/artifacts/$HID/zip" > w.zip && unzip -o w.zip -d w >/dev/null
+          python3 -c 'import json; w=json.load(open("w/windows-hazir.json")); print("kimlik", w["id"], w.get("url"), w.get("ekran"), "ses:", w.get("ses")); open("enc.b64","w").write(json.load(open("p/windows-parola.json")).get("pwEnc",""))' || echo "hazır/parola dosyası yok"
+          base64 -d -i enc.b64 -o enc.bin 2>/dev/null || base64 -D -i enc.b64 -o enc.bin
+          openssl pkeyutl -decrypt -inkey "$RUNNER_TEMP/iphone.pem" -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 -in enc.bin -out "$RUNNER_TEMP/pw.txt" && echo "parola çözüldü"
+          python3 -c '
+          import json,os
+          w=json.load(open("w/windows-hazir.json"))
+          json.dump({"id":w["id"],"pw":open(os.environ["RUNNER_TEMP"]+"/pw.txt").read().strip()},open("out/ayar.json","w"))' || echo "ayar yazılamadı"
+          rm -f enc.bin enc.b64 "$RUNNER_TEMP/pw.txt"
+      - name: Mobile Safari bir kullanıcı gibi bağlanır
+        run: |
+          xcrun simctl io "$UDID" recordVideo --codec h264 out/iphone-kayit.mp4 > /dev/null 2>&1 &
+          REC=$!
+          # Sayfa kendi isteklerini (ekran görüntüsü, döndürme, arka plan) sunucuya iletir;
+          # burada yalnızca ara ekran görüntüleri alınır ve "bitti" beklenir.
+          for i in $(seq 1 110); do
+            sleep 8
+            [ $((i % 3)) = 0 ] && xcrun simctl io "$UDID" screenshot "out/sim-$(printf %03d $i).png" >/dev/null 2>&1
+            grep -q '"t":"bitti"' out/iphone-sonuc.jsonl 2>/dev/null && break
+          done
+          sleep 2; xcrun simctl io "$UDID" screenshot out/sim-son.png
+          kill -INT $REC; sleep 3
+          rm -f out/ayar.json
+          cat out/iphone-sonuc.jsonl || echo "Safari'den sonuç gelmedi"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: iphone-sonuc
+          path: |
+            out/
+            !out/ayar.json
+      - name: Bitti işareti
+        if: always()
+        run: echo bitti > bitti.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: iphone-bitti
+          path: bitti.txt
+
+  sonuc:
+    needs: [windows, iphone-bekle, iphone]
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: kaynak
+          sparse-checkout: test/canli
+      - uses: actions/download-artifact@v4
+        with:
+          path: sonuc
+      - name: Sonuçları canli-test-sonuc dalına yaz
+        run: |
+          rm -rf sonuc/iphone-bitti sonuc/windows-hazir sonuc/windows-parola sonuc/iphone-anahtar
+          python3 kaynak/test/canli/ozet.py sonuc > sonuc/OZET.md
+          cat sonuc/OZET.md >> "$GITHUB_STEP_SUMMARY"
+          cd sonuc
+          git init -q -b canli-test-sonuc
+          git config user.name "canli-test"; git config user.email "canli-test@users.noreply.github.com"
+          git add -A; git commit -qm "Canlı test sonuçları ($GITHUB_RUN_ID)"
+          git push -fq "https://x-access-token:${{ github.token }}@github.com/$GITHUB_REPOSITORY.git" canli-test-sonuc
