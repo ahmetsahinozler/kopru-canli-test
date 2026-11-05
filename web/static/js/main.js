@@ -16,7 +16,7 @@ const fmtId = (id) => (id || '').replace(/\D/g, '').replace(/(\d{3})(?=\d)/g, '$
 const perfText = (p) => ['Tam', 'Hafif kodlama (işlemci yoğun)', '45 fps (işlemci yoğun)', '30 fps (işlemci yoğun)'][p || 0];
 const isPhone = () => Math.min(screen.width, screen.height) < 600;
 // SURUM bu istemcinin sürümü (ajanınkiyle aynı tutulur; web/surum_test.go denetler).
-const SURUM = '1.2.9';
+const SURUM = '1.2.10';
 // Apple çözücüsü (iPhone/iPad'deki tüm tarayıcılar ve Mac Safari) çok dilimli
 // H.264 karelerinde bazı dilimleri çözemiyor, görüntü bantlar halinde gri
 // kalıyordu; bu cihazlara kare tek dilim gönderilir.
@@ -63,7 +63,9 @@ class App {
     this.renderBook();
     setInterval(() => this.pollStatus(), 15000);
     window.addEventListener('online', () => { this.session?.nudge(); this.session?.nudgeWS(); });
-    document.addEventListener('visibilitychange', () => { if (!document.hidden) { this.session?.nudge(); this.requestWake(); } });
+    // Öne dönüş (kilit ekranı, arama, uygulama değiştirme): bağlantıyı yokla, ekranı
+    // uyanık tut; ses yeniden başlatılamazsa "bir kez dokunun" uyarısı yeniden çıkabilsin.
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) { this.audioHint = false; this.session?.nudge(); this.requestWake(); } });
     // Geri hareketi (iPhone'da kenardan kaydırma, Android geri tuşu) oturumu yanlışlıkla kapatmasın.
     window.addEventListener('popstate', () => {
       if (!this.viewerActive) return;
@@ -97,11 +99,25 @@ class App {
   // değişince yeni sürümü kendiliğinden göremez. Parolası doğrulanmış bir
   // bağlantıda bilgisayarın Köprü'sü daha yeniyse, servis çalışanı yeni kabuğu
   // bilgisayarın güncel adresinden alır; bağlantı bitince uygulama yeni sürümle açılır.
-  selfUpdate(ver) {
+  //
+  // Güvenlik: sunucusuz kipte adres herkese açık ilan panosundan gelir ve
+  // herkes oraya sahte ilan yazabilir. Sahte adres asıl bilgisayara aracılık
+  // ederse parola doğrulaması yine başarılı olur (kanıt araya gireni
+  // ilgilendirmez); ama kabuk o adresten alınırsa saldırganın kodu bu kökene
+  // yerleşir ve kayıtlı bütün parola anahtarlarını okur. Bu yüzden kabuk yalnızca,
+  // bu oturumda doğrulanmış parola anahtarıyla imzalı ilandaki adresten alınır.
+  async selfUpdate(ver) {
     const sw = navigator.serviceWorker?.controller;
-    const base = this.agentBase || location.origin;
     if (!sw || !ver || cmpVer(ver, SURUM) <= 0 || this.updating === ver) return;
     this.updating = ver;
+    let base = location.origin;
+    if (this.agentBase) {
+      const a = this.agentAnn, s = this.session;
+      let ok = false;
+      try { ok = !!(a && s?.key && a.u === this.agentBase && await hmac(s.key, 'kopru-p1', s.id, a.u, String(a.t)) === a.m); } catch {}
+      if (!ok) { console.warn('Köprü güncellenmedi: bilgisayarın adresi imzalı ilanla doğrulanamadı'); return; }
+      base = this.agentBase;
+    }
     sw.postMessage({ t: 'guncelle', u: base });
   }
 
@@ -133,7 +149,14 @@ class App {
     this.$('btn-settings').onclick = () => this.openSettings();
   }
 
-  showErr(msg) { this.$('connect-err').textContent = msg || ''; }
+  // showErr giriş formunun altındaki hata metni. Dikey telefonda bu satır ekranın
+  // dışında kalıyordu (ana ekrana ekle kartı yüzünden); kullanıcı "hiçbir şey olmadı"
+  // sanmasın diye görünür yere kaydırılır.
+  showErr(msg) {
+    const el = this.$('connect-err');
+    el.textContent = msg || '';
+    if (msg) setTimeout(() => { try { el.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch {} }, 50);
+  }
 
   renderBook() {
     const box = this.$('book');
@@ -193,7 +216,9 @@ class App {
       this.renderBook();
       this.$('in-id').value = fmtId(id);
       this.$('install-added').textContent = `"${h.get('ad') || fmtId(id)}" listeye eklendi. Bağlanmak için parolasını girmeniz yeterli.`;
-      history.replaceState(null, '', location.pathname);
+      // Kimlik adreste kalır: iPhone'da ana ekran uygulaması Safari'nin kayıtlarını
+      // görmeyebilir (ayrı depolama); o zaman bile kimlik alanı dolu açılır.
+      history.replaceState(null, '', location.pathname + location.search + '#id=' + id);
     }
     const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     if (ios && !standalone) this.$('install-banner').classList.remove('hidden');
@@ -279,6 +304,7 @@ class App {
     this.pwRemember = remember;
     let signal = this.sig, own = false;
     this.agentBase = null;
+    this.agentAnn = null;
     if (this.mode !== 'server') {
       this.enterViewer(id);
       this.$('overlay-text').textContent = 'Bilgisayar aranıyor…';
@@ -287,11 +313,14 @@ class App {
       if (!this.viewerActive) return;
       if (!p) {
         this.leaveViewer();
-        this.showErr(this.hub.connected() ? 'Bilgisayar bulunamadı: kapalı olabilir veya Köprü çalışmıyor olabilir.' : 'İnternet bağlantısı yok gibi görünüyor.');
+        this.showErr(this.hub.connected()
+          ? 'Bilgisayar bulunamadı: kapalı, uykuda ya da internete bağlı değil. Bilgisayarı açıp birkaç dakika sonra tekrar deneyin.'
+          : 'Bilgisayarların adres panosuna ulaşılamadı. İnternet bağlantınızı denetleyin; Wi-Fi\'deyseniz mobil veriyle (ya da tersi) deneyin.');
         return;
       }
       signal = new Signal(wsBase(p.u) + '/ws/client');
       this.agentBase = p.u;
+      this.agentAnn = p; // selfUpdate imzayı oturum anahtarıyla doğrular
       signal.resolve = async () => { const q = await this.findDevice(id, this.session?.key || key); return q ? wsBase(q.u) + '/ws/client' : null; };
       own = true;
     }
@@ -305,6 +334,7 @@ class App {
       prefer444: this.settings.prefer444 && !isTouchDevice(),
       forceRelay: /[?&]relay=1/.test(location.search), // hata ayıklama: yalnızca TURN aktarıcısı
       askPassword: (sess) => this.askPassword(sess),
+      startText: own ? 'Bilgisayara bağlanılıyor…' : undefined,
     });
     this.session = s;
     s.ownSignal = own;
@@ -372,6 +402,7 @@ class App {
 
   onState({ state, info }) {
     const ov = this.$('overlay');
+    this.stuckHint(state);
     if (state === 'connected') {
       ov.classList.add('hidden');
       this.requestWake();
@@ -387,6 +418,16 @@ class App {
     ov.classList.remove('hidden');
     this.$('overlay-text').textContent = info || '…';
     ov.classList.toggle('soft', state === 'reconnecting');
+  }
+
+  // stuckHint: bağlanma ya da yeniden bağlanma 20 sn'yi geçerse perdeye ne
+  // olabileceğini ve ne yapılabileceğini yazar (yalnızca dönen çember kalmasın).
+  stuckHint(state) {
+    const h = this.$('overlay-hint');
+    if (state === 'connected' || state === 'closed') { clearTimeout(this.stuckTimer); this.stuckTimer = null; h.classList.add('hidden'); return; }
+    if (this.stuckTimer || !h.classList.contains('hidden')) return;
+    const arm = () => { this.stuckTimer = setTimeout(() => { if (this.modalOpen) return arm(); this.stuckTimer = null; if (this.viewerActive) h.classList.remove('hidden'); }, 20000); };
+    arm();
   }
 
   onCtlOpen() {
@@ -543,11 +584,20 @@ class App {
 
   // ================= Görüntüleyici =================
   enterViewer(id) {
+    // Bağlan'a basılırken kimlik/parola alanı odakta kalır, iOS klavyesi açık
+    // kalır; alan gizlenince klavye görüntüleyicinin üstünde kapanır. iOS (özellikle
+    // ana ekran uygulaması, iOS 26) klavye kapanınca görünüm alanını kaymış
+    // bırakabiliyor; bu kayma çizim ile dokunuş noktasını ayırabilir. Odağı önce
+    // bırak, klavye kapanırken ve kapandıktan sonra sayfayı başa al.
+    const ae = document.activeElement;
+    if (ae && ae !== document.body && ae !== this.$('kbdsink') && typeof ae.blur === 'function') ae.blur();
+    for (const ms of [150, 450, 900]) setTimeout(() => this.unshift(), ms);
     this.$('home').classList.add('hidden');
     this.$('viewer').classList.remove('hidden');
     this.viewerActive = true;
     this.$('overlay').classList.remove('hidden', 'soft');
     this.$('overlay-text').textContent = 'Bağlanıyor…';
+    clearTimeout(this.stuckTimer); this.stuckTimer = null; this.$('overlay-hint').classList.add('hidden');
     this.$('tb-name').textContent = fmtId(id);
     this.$('stage').style.cursor = 'default';
     this.cursors.clear(); this.cursorImg = null;
@@ -585,10 +635,11 @@ class App {
     this.$('keys').classList.add('hidden');
     this.$('stats').classList.add('hidden');
     this.releaseWake();
+    clearTimeout(this.stuckTimer); this.stuckTimer = null; this.$('overlay-hint').classList.add('hidden');
     // Bağlantı sırasında yeni sürüm indirildiyse şimdi geç (oturum kesilmeden).
     if (this.updateReady) setTimeout(() => location.reload(), 300);
     if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
-    if (location.hash === '#oturum') history.replaceState(null, '', location.pathname);
+    if (location.hash === '#oturum') history.replaceState(null, '', location.pathname + location.search);
     this.renderBook();
     this.pollStatus();
   }
@@ -612,6 +663,8 @@ class App {
     this.$('tb-toggle').onclick = () => this.$('toolbar').classList.toggle('collapsed');
     this.$('tb-close').onclick = () => this.disconnect();
     this.$('tb-full').onclick = () => this.toggleFullscreen();
+    // iPhone Safari'de sayfa tam ekranı yok (düğme yalnızca "desteklenmiyor" diyordu); ana ekran uygulaması zaten tam ekran.
+    if (!document.fullscreenEnabled && !document.documentElement.requestFullscreen) this.$('tb-full').classList.add('hidden');
     this.$('tb-keys').onclick = () => { this.$('keys').classList.toggle('hidden'); };
     this.$('tb-kbd').onclick = () => (document.activeElement === this.$('kbdsink') ? this.input.hideKeyboard() : this.input.showKeyboard());
     this.$('tb-zoom').onclick = () => { this.input.resetZoom(); this.smartZoomed = false; };
@@ -984,8 +1037,11 @@ class App {
     t.className = 'toast' + (level ? ' ' + level : '');
     const span = document.createElement('span'); span.textContent = text; t.appendChild(span);
     if (action) { const b = document.createElement('button'); b.textContent = action; b.onclick = () => { onAction(); t.remove(); }; t.appendChild(b); }
-    const x = document.createElement('button'); x.className = 'x'; x.textContent = '✕'; x.onclick = () => t.remove(); t.appendChild(x);
-    (this.viewerActive ? this.$('toasts') : document.body).appendChild(t);
+    const x = document.createElement('button'); x.className = 'x'; x.textContent = '✕'; x.setAttribute('aria-label', 'Kapat'); x.onclick = () => t.remove(); t.appendChild(x);
+    const box = this.viewerActive ? this.$('toasts') : document.body;
+    // Aynı metin zaten görünüyorsa eskisini kaldır (ör. iki deneme arka arkaya "telefonu yan çevirin").
+    for (const o of box.querySelectorAll(':scope > .toast')) if (o.firstChild?.textContent === text) o.remove();
+    box.appendChild(t);
     setTimeout(() => t.remove(), timeout);
   }
 
@@ -1054,6 +1110,11 @@ class App {
       const kb = Math.max(0, Math.round(innerHeight - vv.height - vv.offsetTop));
       document.documentElement.style.setProperty('--kb', kb + 'px');
       const open = kb > 80 && document.activeElement === this.$('kbdsink');
+      // Herhangi bir klavye (parola penceresi dahil) kapandı: kendi klavyemiz
+      // değilse onKeyboard çağrılmaz; sayfanın kaymış kalmadığını yine de denetle.
+      const closed = (this.lastKb || 0) > 80 && kb <= 80;
+      this.lastKb = kb;
+      if (closed) { this.kbCloses = (this.kbCloses || 0) + 1; if (!open) for (const ms of [150, 450, 900]) setTimeout(() => this.unshift(), ms); }
       if (open !== this.kbOpen) { this.kbOpen = open; this.onKeyboard(open); }
       else if (open) this.ensureCaretVisible(false);
     };

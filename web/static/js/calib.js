@@ -101,7 +101,9 @@ export class Calib {
       screen: [screen.width, screen.height], dpr: devicePixelRatio,
       standalone: navigator.standalone === true || matchMedia('(display-mode: standalone)').matches,
       safe: ins, stage: r(this.app.$('stage')), img: r(this.input.canvas), zoom: +this.input.zoom.s.toFixed(2),
-      resets: this.resets,
+      resets: this.resets, kbCloses: this.app.kbCloses || 0,
+      // Dokunuş anında bir metin alanı odakta mı (klavye açık olabilir).
+      typing: !!document.activeElement && /^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName),
     };
     if (ld) {
       out.ev = { client: [Math.round(ld.cx), Math.round(ld.cy)], page: [Math.round(ld.px), Math.round(ld.py)], screen: [Math.round(ld.sx), Math.round(ld.sy)] };
@@ -114,6 +116,19 @@ export class Calib {
       }
     }
     return out;
+  }
+
+  // viewportSkew klavye kapalıyken görünen alanın sayfadan kısa ya da kaymış
+  // olmasını yazar (iOS 26'da klavye kapandıktan sonra görülen WebKit hatasının
+  // izi: visualViewport yüksekliği innerHeight'a dönmüyor). Yoksa boş.
+  viewportSkew(I) {
+    if (!I.vv || I.typing || I.vv[5] > 1.01) return '';
+    const short = I.inner[1] - I.vv[1], off = I.vv[3], sy = I.scroll[1];
+    const p = [];
+    if (Math.abs(short) > 2) p.push(`görünen yükseklik sayfadan ${short} px farklı`);
+    if (Math.abs(off) > 1) p.push(`görünen alan ${off} px aşağıda`);
+    if (Math.abs(sy) > 1) p.push(`sayfa ${sy} px kaymış`);
+    return p.join(', ');
   }
 
   render() {
@@ -149,7 +164,9 @@ export class Calib {
     } else if (this.tapN) L.push('Bilgisayarın yanıtı bekleniyor…');
     if (I) {
       const vv = I.vv ? `${I.vv[0]}×${I.vv[1]} +${I.vv[2]},+${I.vv[3]} sayfa ${I.vv[4]} ×${I.vv[5]}` : '—';
-      L.push(`Sayfa ${I.inner.join('×')} · görünen ${vv} · kaydırma ${I.scroll.join(',')}${I.resets ? ` (sıfırlandı ${I.resets})` : ''}`);
+      L.push(`Sayfa ${I.inner.join('×')} · görünen ${vv} · kaydırma ${I.scroll.join(',')}${I.resets ? ` (sıfırlandı ${I.resets})` : ''}${I.kbCloses ? ` · klavye kapanışı ${I.kbCloses}` : ''}`);
+      const sk = this.viewportSkew(I);
+      if (sk) L.push(`← GÖRÜNÜM ALANI KAYMIŞ: ${sk} (klavye kapalıyken olmamalı; iOS klavye sonrası hatası olabilir, dokunuş bu kadar CSS px kayabilir)`);
       L.push(`Ekran ${I.screen.join('×')} · dpr ${I.dpr} · ana ekran uyg. ${I.standalone ? 'evet' : 'hayır'} · güvenli alan ü${I.safe[0]} s${I.safe[1]} a${I.safe[2]} sl${I.safe[3]}`);
       L.push(`Sahne ${I.stage.join(',')} · görüntü ${I.img.join(',')} · yakınlaştırma ${I.zoom}`);
       if (I.ev) L.push(`Olay client ${I.ev.client.join(',')} · page ${I.ev.page.join(',')} · screen ${I.ev.screen.join(',')}`);

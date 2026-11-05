@@ -36,6 +36,8 @@ const YEREL_PORT = +(process.env.KOPRU_YEREL_PORT || 8080);
 const KANAL = process.env.KOPRU_TARAYICI_KANAL || 'msedge';
 // Kalibrasyon payı (fiziksel piksel): ajanın kapalı döngü payıyla aynı, max(12, yükseklik/150).
 const KAL_TOL = 12;
+// Kalibrasyonun ölçüldüğü çözünürlük (KOPRU_KAL_EKRAN="3840x2160": 4K iş akışı, test/canli/4k).
+const [KAL_W, KAL_H] = (process.env.KOPRU_KAL_EKRAN || '1920x1080').split('x').map(Number);
 fs.mkdirSync(OUT, { recursive: true }); fs.mkdirSync(WORK, { recursive: true });
 // Hizmet parolası bu makinede rastgele üretilir ve hiçbir yere düz yazılmaz; iPhone
 // işine yalnızca onun açık anahtarıyla şifrelenmiş olarak gider.
@@ -224,6 +226,9 @@ async function connectClient(page, url, id, pw, ms = 45000, o = {}) {
   const err = okc ? '' : await page.evaluate(() => (document.getElementById('connect-err')?.textContent || '') + ' | ' + (document.getElementById('overlay-text')?.textContent || '')).catch(() => '');
   return { ok: !!okc, ms: Date.now() - t0, err };
 }
+// iceTani istemcinin ICE özetini verir (session.js iceSummary): doğrudan yolda
+// seçilen çiftin türleri, tünele geçişte neden, aday türleri ve çift durumları.
+const iceTani = (page) => page.evaluate(() => app.session?.iceDiag || null).catch((e) => 'okunamadı: ' + e.message);
 // Aktarım: tünel, doğrudan bağlantıda RTP görüntüsü ya da (Apple cihazlarında, 1.2.6+) veri kanalı.
 const kindOf = (page) => page.evaluate(() => (app.session?.wsMode ? 'tünel(ws)' : app.session?.pc ? (app.wsv ? 'webrtc+veri kanalı' : 'webrtc') : '?'));
 async function remoteSize(page) {
@@ -548,18 +553,26 @@ async function kalIphoneTur(browser, url, id, pw, mod, noktalar, yenile = 0) {
 async function kalibrasyonOlc(browser, kp, url, id, pw, etiket, { yuzde100 = true } = {}) {
   const tum = (await (await target()).pg.evaluate(() => window.KAL)).map((p, i) => [i, p]);
   const res = { ortam: etiket, turlar: {}, tani: {}, ekran: null, hipotez: null };
-  // 1920×1080 (Windows bu çözünürlükte %150'ye izin verir)
+  // KAL_W×KAL_H (varsayılan 1920×1080: Windows bu çözünürlükte %150'ye izin verir;
+  // 4K iş akışında 3840×2160)
   await kp.evaluate(() => { app.modes = null; app.session.sendCtl({ t: 'modes' }); });
   const md = await waitFor(() => kp.evaluate(() => app.modes), 6000);
-  const big = md?.modes?.find((x) => x.w === 1920 && x.h === 1080);
-  if (big && (await remoteSize(kp)).w !== 1920) {
+  const big = md?.modes?.find((x) => x.w === KAL_W && x.h === KAL_H);
+  if (!big) res.uyari = `${KAL_W}×${KAL_H} kipi yok; şu anki çözünürlükte ölçülüyor`;
+  if (big && (await remoteSize(kp)).w !== KAL_W) {
     await kp.evaluate(([w, h]) => app.session.sendCtl({ t: 'mode', w, h }), [big.w, big.h]);
-    await waitFor(async () => (await remoteSize(kp)).w === 1920, 20000);
+    await waitFor(async () => (await remoteSize(kp)).w === KAL_W, 20000);
     await sleep(2000);
   }
   res.ekran = await remoteSize(kp);
   res.hedef = await hedefTamEkran(); // noktalar ekranın tamamına yayılsın
   await (await target()).pg.reload(); await sleep(1500);
+  if (yuzde100 && Math.abs((await (await target()).pg.evaluate(() => devicePixelRatio)) - 1) > 0.01) {
+    // Ölçek önceden %100 değil (4K iş akışı %150 ile başlar): "%100" turları gerçekten %100'de olsun.
+    await kp.evaluate(() => app.session.sendCtl({ t: 'scale', pct: 100 }));
+    res.dpr100 = await dprBekle(1);
+    await sleep(1500);
+  }
   if (yuzde100) {
     res.turlar['%100 Tablet'] = await kalIphoneTur(browser, url, id, pw, 'tablet', tum);
     res.turlar['%100 Doğrudan'] = await kalIphoneTur(browser, url, id, pw, 'direct', tum);
@@ -932,7 +945,9 @@ async function yerel() {
       const pd = await waitFor(() => tpg.evaluate(() => ev.filter((e) => e.t === 'pointerdown')).then((a) => (a.length ? a : null)), 4000);
       ok('tek parmak dokunuş Windows\'a ulaştı', !!pd, pd?.[0]);
       ok('dokunuş gerçek Windows dokunmatiği olarak geldi', pd && pd[0].pt === 'touch', pd?.[0]?.pt);
-      ok('dokunuş doğru noktada', pd && Math.abs(pd[0].x * dpr - tapC.x) <= 6 * dpr && Math.abs(pd[0].y * dpr - tapC.y) <= 6 * dpr, { beklenen: tapC, gelen: pd?.[0] });
+      // Olayın kendi dpr'ı kullanılır: önceki adımlar Windows ölçeğini değiştirmiş olabilir (4K koşusu).
+      const ed = pd?.[0]?.dpr || dpr;
+      ok('dokunuş doğru noktada', pd && Math.abs(pd[0].x * ed - tapC.x) <= 6 * ed && Math.abs(pd[0].y * ed - tapC.y) <= 6 * ed, { beklenen: tapC, gelen: pd?.[0] });
     });
     await step('uzun basma', async () => {
       await resetTarget(tpg);
@@ -1131,9 +1146,12 @@ async function kalibrasyon() {
     await s.m.screenshot({ path: path.join(OUT, 'kalibrasyon-oneri-karti.png') });
     ok('"telefona göre büyüt" önerisi ilk bağlantıda çıktı (1920×1080, %100)', !!kart, kart || await s.m.evaluate(() => ({ olcek: app.scales, ekran: app.currentDisplay })));
     if (kart) {
+      // Başlangıç ölçeği her zaman %100 değil (4K sanal monitörde Windows %200 seçer).
+      const dpr0 = await (await target()).pg.evaluate(() => devicePixelRatio);
       await s.m.click('#fitask-no').catch(() => {});
       const kayit = await s.m.evaluate(() => app.book.find((b) => b.id === app.session?.id)?.fit);
-      ok('öneri: "Olduğu gibi kalsın" bu bilgisayar için kaydedildi, Windows değişmedi', kayit === false && Math.abs((await (await target()).pg.evaluate(() => devicePixelRatio)) - 1) < 0.01, { kayit });
+      const dpr1 = await (await target()).pg.evaluate(() => devicePixelRatio);
+      ok('öneri: "Olduğu gibi kalsın" bu bilgisayar için kaydedildi, Windows değişmedi', kayit === false && Math.abs(dpr1 - dpr0) < 0.01, { kayit, dpr0, dpr1 });
     }
     await s.m.evaluate(() => app.disconnect()).catch(() => {});
     await s.ctx.close();
@@ -1151,8 +1169,8 @@ async function kalibrasyon() {
     if (!d.c.ok) return ok('kapalı döngü: denetim bağlantısı', false, d.c.err);
     await d.kp.evaluate(() => { app.modes = null; app.session.sendCtl({ t: 'modes' }); });
     await waitFor(() => d.kp.evaluate(() => app.modes), 6000);
-    await d.kp.evaluate(() => app.session.sendCtl({ t: 'mode', w: 1920, h: 1080 }));
-    await waitFor(async () => (await remoteSize(d.kp)).w === 1920, 20000);
+    await d.kp.evaluate(([w, h]) => app.session.sendCtl({ t: 'mode', w, h }), [KAL_W, KAL_H]);
+    await waitFor(async () => (await remoteSize(d.kp)).w === KAL_W, 20000);
     await sleep(1500);
     await hedefTamEkran();
     await d.kp.evaluate(() => app.session.sendCtl({ t: 'scale', pct: 150 }));
@@ -1299,6 +1317,7 @@ async function hizmet() {
   page.on('pageerror', (e) => console.log('  [istemci hata]', e.message));
   let c = await connectClient(page, U, cfg.id, PW, 60000);
   ok('hizmet: ilan panosundan bulup bağlandı', c.ok, `${c.ms} ms ${c.ok ? await kindOf(page) : c.err}`);
+  note('hizmet: ICE tanısı (istemci)', await iceTani(page));
   if (c.ok) {
     await sleep(2500);
     await step('hizmet yakalama', async () => {
@@ -1532,6 +1551,9 @@ async function bekle() {
   try { note('ajan bağlantı geçmişi', ((await uiHelper(PD)('/api/state')).history || []).slice(0, 8).map((x) => `${x.who} ${x.secs}sn ${x.conn} ${/iPhone/.test(x.ua) ? 'iPhone' : ''}`)); } catch {}
   // Hizmet günlüğü: GPU yolu varsayılan kapalı (iPhone'un küçültülmüş akışında da); ses yakalama yolu.
   const lg = logOf(PD);
+  // Doğrudan yol tanısı (icetani.go): her oturumda seçilen çift ya da tünele
+  // geçişte istemcinin ve ajanın ICE özeti; pion'un mDNS/ICE uyarıları.
+  note('ICE tanısı: doğrudan yol / tünele geçiş nedenleri (hizmet günlüğü)', logLines(lg, /doğrudan yol|pion /).slice(-12).map((l) => l.slice(0, 900)));
   ok('hizmet: GPU ile küçültme varsayılan olarak kapalı (günlükte "ekran kartında küçültme açık" yok)', !logLines(lg, /ekran kartında küçültme açık/).length, logLines(lg, /ekran kartında küçültme/).slice(-3));
   const sesG = logLines(lg, /ses yakalama:|ses aktarımı başladı|ses yakalanamıyor|ses veri kanalından/).slice(-8);
   let hazir = {};

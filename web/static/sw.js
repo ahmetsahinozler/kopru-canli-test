@@ -8,7 +8,7 @@
 // bilgisayarın güncel adresini bildirir ("kaynak"); kabuk dosyaları oradan
 // alınıp bu adresin önbelleğine yazılır. Uygulama bir sonraki açılışta yeni
 // sürümle başlar. Dosyaların hepsi alınamazsa hiçbiri yazılmaz (yarım sürüm yok).
-const V = 'kopru-v14';
+const V = 'kopru-v15';
 const META = 'kopru-meta';
 const SHELL = ['./', 'index.html', 'app.css', 'manifest.webmanifest', 'icon.svg', 'icon-192.png', 'icon-512.png',
   'js/main.js', 'js/session.js', 'js/input.js', 'js/clip.js', 'js/files.js', 'js/keymap.js', 'js/mqtt.js', 'js/wsvideo.js', 'js/audio.js', 'js/ses-isleyici.js', 'js/profiles.js', 'js/calib.js', 'js/loupe.js'];
@@ -79,7 +79,14 @@ self.addEventListener('fetch', (e) => {
       try {
         const res = await Promise.race([fetch(req), timeout(3000)]);
         if (res.ok && res.type === 'basic') cache.put(key, res.clone());
-        return res;
+        if (res.ok) return res;
+        // Eski tünel adresi ölüyken Cloudflare kendi hata sayfasını döndürür
+        // (530 / 1033, 502…): ağ hatası gibi önbellekteki kabuk verilir; yoksa
+        // ana ekran uygulaması Köprü yerine Cloudflare hata sayfası açıyordu.
+        const hit = await cache.match(key, { ignoreSearch: true });
+        if (!hit) return res;
+        if (res.status >= 500) downUntil = Date.now() + 30000;
+        return hit;
       } catch {
         downUntil = Date.now() + 30000;
       }

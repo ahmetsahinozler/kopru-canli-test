@@ -1,0 +1,125 @@
+# Canlı test, kullanıcının ekranıyla: 3840×2160 + %150 (Windows).
+#
+# GitHub'ın Windows sanal makinesinde yalnızca Hyper-V ekran kartı var (en çok
+# 1920×1080). test/canli/4k/ekran-4k.ps1 açık kaynak, imzalı IddCx sanal monitör
+# sürücüsünü (Virtual Display Driver, MIT; sabit sürüm + SHA-256) kurar, sanal
+# monitörü 3840×2160 birincil ekran yapar ve ölçeği %150'ye alır. Sonra
+# test/canli/windows.js'nin "yerel" ve "kalibrasyon" aşamaları bu ekranda koşar
+# (kalibrasyon 3840×2160'ta %100 ve %150 ölçer: KOPRU_KAL_EKRAN).
+#
+# Seçenekler (yalnızca elle başlatınca): hdr — sanal monitörde HDR açılır (renk
+# denetimi "yerel" aşamasında: kırmızı/yeşil/mavi/beyaz kutular); iki_monitor —
+# Hyper-V monitörü ayrılmaz, 4K'nın soluna (negatif koordinatlar) alınır.
+#
+# kopru.exe depoda varsa (herkese açık test deposu) o kullanılır, yoksa derlenir.
+name: Canlı test 4K (%150)
+
+on:
+  workflow_dispatch:
+    inputs:
+      hdr:
+        description: 'Sanal monitörde HDR aç'
+        type: boolean
+        default: false
+      iki_monitor:
+        description: 'Hyper-V monitörünü sola al (iki monitör, negatif koordinatlar)'
+        type: boolean
+        default: false
+  push:
+    branches: [deneme-4k]
+
+concurrency:
+  group: canli-4k
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  windows-4k:
+    runs-on: windows-latest
+    timeout-minutes: 60
+    env:
+      KOPRU_BIN: ${{ github.workspace }}\kopru.exe
+      OUT: ${{ github.workspace }}\out
+      WORK: ${{ github.workspace }}\..\kopru-canli
+      KOPRU_KAL_EKRAN: 3840x2160
+    steps:
+      - uses: actions/checkout@v4
+      - name: Hazır ikili
+        if: hashFiles('kopru.exe') != ''
+        shell: pwsh
+        run: Get-FileHash kopru.exe -Algorithm SHA256 | Format-Table -AutoSize | Out-String -Width 200
+      - uses: actions/setup-go@v5
+        if: hashFiles('kopru.exe') == ''
+        with:
+          go-version-file: go.mod
+      - name: Derle
+        if: hashFiles('kopru.exe') == ''
+        shell: bash
+        run: CGO_ENABLED=0 go build -trimpath -ldflags "-s -w -H windowsgui" -o kopru.exe ./cmd/kopru
+      - name: Playwright
+        shell: bash
+        working-directory: test/canli
+        run: |
+          npm init -y >/dev/null
+          npm i playwright@1.49.1
+          npx playwright install chromium
+      # Sanal monitör kurulamazsa ya da 3840×2160 olmazsa iş burada durur: 1080p'de
+      # koşan bir "4K" sonucu yanıltıcı olurdu.
+      - name: Sanal 4K monitör (Virtual Display Driver) + %150
+        shell: pwsh
+        run: |
+          $a = @{}
+          if ('${{ inputs.hdr }}' -eq 'true') { $a.Hdr = $true }
+          if ('${{ inputs.iki_monitor }}' -eq 'true') { $a.IkiMonitor = $true }
+          & test/canli/4k/ekran-4k.ps1 @a
+      - uses: actions/upload-artifact@v4
+        if: always()
+        continue-on-error: true
+        with:
+          name: ara-0-ekran
+          path: |
+            out/ekran-4k.json
+            out/masaustu-4k-baslangic.png
+          if-no-files-found: ignore
+      - name: Hedef programı masaüstünde aç
+        shell: pwsh
+        working-directory: test/canli
+        run: |
+          $exe = node -e "console.log(require('playwright').chromium.executablePath())"
+          $url = 'file:///' + ((Resolve-Path hedef.html).Path -replace '\\','/')
+          Start-Process -FilePath $exe -ArgumentList @('--kiosk','--remote-debugging-port=9222',"--user-data-dir=$env:RUNNER_TEMP\hedef",'--no-first-run','--no-default-browser-check','--disable-features=Translate',$url)
+          Start-Sleep 6
+          New-Item -ItemType Directory -Force $env:OUT | Out-Null
+      - name: 1) Kullanıcı oturumunda gerçek Windows API testleri (4K, %150)
+        continue-on-error: true
+        working-directory: test/canli
+        run: node windows.js yerel
+      - uses: actions/upload-artifact@v4
+        continue-on-error: true
+        with: { name: ara-1-yerel, path: 'out/sonuc-yerel.json', if-no-files-found: ignore }
+      - name: 1b) Dokunuş kalibrasyonu (3840×2160'ta %100 / %150, Tablet ve Doğrudan, kapalı döngü)
+        continue-on-error: true
+        working-directory: test/canli
+        run: node windows.js kalibrasyon
+      - name: Günlükleri topla
+        if: always()
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Continue'
+          New-Item -ItemType Directory -Force $env:OUT | Out-Null
+          Copy-Item "$env:WORK\home\kopru.log" "$env:OUT\yerel-kopru.log" -ErrorAction SilentlyContinue
+          Copy-Item "$env:WORK\home\cokme.log" "$env:OUT\yerel-cokme.log" -ErrorAction SilentlyContinue
+          Get-ChildItem "$env:WORK\surec-*-hata.log" -ErrorAction SilentlyContinue | Where-Object Length -gt 0 | Copy-Item -Destination $env:OUT -ErrorAction SilentlyContinue
+          Copy-Item 'C:\VirtualDisplayDriver\*.log' $env:OUT -ErrorAction SilentlyContinue
+          Get-ChildItem 'C:\VirtualDisplayDriver' -Recurse -Filter *.txt -ErrorAction SilentlyContinue | Copy-Item -Destination $env:OUT -ErrorAction SilentlyContinue
+          Add-Type -AssemblyName System.Windows.Forms,System.Drawing
+          $b=[System.Windows.Forms.SystemInformation]::VirtualScreen
+          try { $bmp=New-Object Drawing.Bitmap $b.Width,$b.Height; [Drawing.Graphics]::FromImage($bmp).CopyFromScreen($b.Left,$b.Top,0,0,$bmp.Size); $bmp.Save("$env:OUT\masaustu-4k-son.png") } catch { "ekran görüntüsü alınamadı: $_" }
+          exit 0
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: windows-4k-sonuc
+          path: out/
