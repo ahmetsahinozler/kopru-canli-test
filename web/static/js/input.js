@@ -28,6 +28,22 @@ const HOLD_MS = 550, HOLD_DELAY = 150; // Touchpad/Doğrudan: uzun bas = sağ t�
 // Windows ayarıdır. Varsayılanın yaklaşığı; gerçek Windows'ta ölçülüp ayarlanmalı.
 const HOLD_TABLET_MS = 1000, HOLD_TABLET_DELAY = 300;
 
+// sinkDiff gizli metin alanının önceki ve yeni içeriğinden uzak bilgisayara
+// gidecekleri çıkarır: kaç kez geri silme (dels) ve sonra yazılacak metin (ins).
+// Silinenler kod noktası olarak sayılır: Windows'ta geri silme bir emojiyi
+// (iki UTF-16 birimi) tek seferde siler; birim saymak fazladan bir harf silerdi.
+// Ortak önek bir vekil çiftin (emoji) ortasında bitmez: aynı yüksek vekille
+// başlayan iki emoji yer değiştirince yarım (bozuk) karakter gönderilmezdi.
+export function sinkDiff(prev, cur) {
+  let p = 0;
+  while (p < prev.length && p < cur.length && prev[p] === cur[p]) p++;
+  if (p > 0 && p < Math.max(prev.length, cur.length)) {
+    const c = prev.charCodeAt(p - 1);
+    if (c >= 0xd800 && c <= 0xdbff) p--;
+  }
+  return { dels: [...prev.slice(p)].length, ins: cur.slice(p) };
+}
+
 export const isTouchDevice = () => matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 1 && !matchMedia('(pointer: fine)').matches;
 export const isMac = /Mac/.test(navigator.platform) && !isTouchDevice();
 
@@ -782,10 +798,14 @@ export class Input {
       else if (code === 'ControlLeft') code = 'MetaLeft';
     }
     const sc = scancodeFor({ code, key: e.key });
-    const touch = isTouchDevice();
+    // Dokunmatik cihazda yazılabilir karakterler gizli metin alanının 'input'
+    // olayıyla işlenir (IME, dikte, uzun basmayla ş/ğ). Bu yalnız alan odaktayken
+    // geçerli: iPad'e bağlı donanım klavyesinde alan odakta değilken 'input' hiç
+    // gelmez; harfler burada atlanırsa kaybolurdu. O zaman masaüstündeki gibi
+    // tuş olarak gönderilir.
+    const viaSink = isTouchDevice() && tgt === this.sink;
     const mods = e.ctrlKey || e.altKey || e.metaKey;
-    // Dokunmatik cihazda yazılabilir karakterler 'input' ile işlenir (IME, otomatik düzeltme).
-    if (touch && (e.keyCode === 229 || (e.key.length === 1 && !mods) || !sc)) return;
+    if (viaSink && (e.keyCode === 229 || (e.key.length === 1 && !mods) || !sc)) return;
     if (!sc) {
       if (down && e.key.length === 1 && !mods) { e.preventDefault(); this.sendText(e.key); }
       return;
@@ -829,10 +849,7 @@ export class Input {
     // Mobil klavye: önceki ve yeni metni karşılaştır, farkı gönder.
     const prev = this.sinkPrev ?? this.sinkBase;
     const cur = this.sink.value;
-    let p = 0;
-    while (p < prev.length && p < cur.length && prev[p] === cur[p]) p++;
-    const dels = prev.length - p;
-    const ins = cur.slice(p);
+    const { dels, ins } = sinkDiff(prev, cur);
     for (let i = 0; i < dels; i++) this.tap(SC.Backspace);
     if (ins) this.sendText(ins.replace(/\r/g, ''));
     this.sinkPrev = cur;

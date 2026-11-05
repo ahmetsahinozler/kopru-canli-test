@@ -63,7 +63,9 @@ class App {
     this.renderBook();
     setInterval(() => this.pollStatus(), 15000);
     window.addEventListener('online', () => { this.session?.nudge(); this.session?.nudgeWS(); });
-    document.addEventListener('visibilitychange', () => { if (!document.hidden) { this.session?.nudge(); this.requestWake(); } });
+    // Öne dönüş (kilit ekranı, arama, uygulama değiştirme): bağlantıyı yokla, ekranı
+    // uyanık tut; ses yeniden başlatılamazsa "bir kez dokunun" uyarısı yeniden çıkabilsin.
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) { this.audioHint = false; this.session?.nudge(); this.requestWake(); } });
     // Geri hareketi (iPhone'da kenardan kaydırma, Android geri tuşu) oturumu yanlışlıkla kapatmasın.
     window.addEventListener('popstate', () => {
       if (!this.viewerActive) return;
@@ -97,11 +99,25 @@ class App {
   // değişince yeni sürümü kendiliğinden göremez. Parolası doğrulanmış bir
   // bağlantıda bilgisayarın Köprü'sü daha yeniyse, servis çalışanı yeni kabuğu
   // bilgisayarın güncel adresinden alır; bağlantı bitince uygulama yeni sürümle açılır.
-  selfUpdate(ver) {
+  //
+  // Güvenlik: sunucusuz kipte adres herkese açık ilan panosundan gelir ve
+  // herkes oraya sahte ilan yazabilir. Sahte adres asıl bilgisayara aracılık
+  // ederse parola doğrulaması yine başarılı olur (kanıt araya gireni
+  // ilgilendirmez); ama kabuk o adresten alınırsa saldırganın kodu bu kökene
+  // yerleşir ve kayıtlı bütün parola anahtarlarını okur. Bu yüzden kabuk yalnızca,
+  // bu oturumda doğrulanmış parola anahtarıyla imzalı ilandaki adresten alınır.
+  async selfUpdate(ver) {
     const sw = navigator.serviceWorker?.controller;
-    const base = this.agentBase || location.origin;
     if (!sw || !ver || cmpVer(ver, SURUM) <= 0 || this.updating === ver) return;
     this.updating = ver;
+    let base = location.origin;
+    if (this.agentBase) {
+      const a = this.agentAnn, s = this.session;
+      let ok = false;
+      try { ok = !!(a && s?.key && a.u === this.agentBase && await hmac(s.key, 'kopru-p1', s.id, a.u, String(a.t)) === a.m); } catch {}
+      if (!ok) { console.warn('Köprü güncellenmedi: bilgisayarın adresi imzalı ilanla doğrulanamadı'); return; }
+      base = this.agentBase;
+    }
     sw.postMessage({ t: 'guncelle', u: base });
   }
 
@@ -279,6 +295,7 @@ class App {
     this.pwRemember = remember;
     let signal = this.sig, own = false;
     this.agentBase = null;
+    this.agentAnn = null;
     if (this.mode !== 'server') {
       this.enterViewer(id);
       this.$('overlay-text').textContent = 'Bilgisayar aranıyor…';
@@ -292,6 +309,7 @@ class App {
       }
       signal = new Signal(wsBase(p.u) + '/ws/client');
       this.agentBase = p.u;
+      this.agentAnn = p; // selfUpdate imzayı oturum anahtarıyla doğrular
       signal.resolve = async () => { const q = await this.findDevice(id, this.session?.key || key); return q ? wsBase(q.u) + '/ws/client' : null; };
       own = true;
     }
@@ -543,6 +561,14 @@ class App {
 
   // ================= Görüntüleyici =================
   enterViewer(id) {
+    // Bağlan'a basılırken kimlik/parola alanı odakta kalır, iOS klavyesi açık
+    // kalır; alan gizlenince klavye görüntüleyicinin üstünde kapanır. iOS (özellikle
+    // ana ekran uygulaması, iOS 26) klavye kapanınca görünüm alanını kaymış
+    // bırakabiliyor; bu kayma çizim ile dokunuş noktasını ayırabilir. Odağı önce
+    // bırak, klavye kapanırken ve kapandıktan sonra sayfayı başa al.
+    const ae = document.activeElement;
+    if (ae && ae !== document.body && ae !== this.$('kbdsink') && typeof ae.blur === 'function') ae.blur();
+    for (const ms of [150, 450, 900]) setTimeout(() => this.unshift(), ms);
     this.$('home').classList.add('hidden');
     this.$('viewer').classList.remove('hidden');
     this.viewerActive = true;
@@ -1054,6 +1080,11 @@ class App {
       const kb = Math.max(0, Math.round(innerHeight - vv.height - vv.offsetTop));
       document.documentElement.style.setProperty('--kb', kb + 'px');
       const open = kb > 80 && document.activeElement === this.$('kbdsink');
+      // Herhangi bir klavye (parola penceresi dahil) kapandı: kendi klavyemiz
+      // değilse onKeyboard çağrılmaz; sayfanın kaymış kalmadığını yine de denetle.
+      const closed = (this.lastKb || 0) > 80 && kb <= 80;
+      this.lastKb = kb;
+      if (closed) { this.kbCloses = (this.kbCloses || 0) + 1; if (!open) for (const ms of [150, 450, 900]) setTimeout(() => this.unshift(), ms); }
       if (open !== this.kbOpen) { this.kbOpen = open; this.onKeyboard(open); }
       else if (open) this.ensureCaretVisible(false);
     };

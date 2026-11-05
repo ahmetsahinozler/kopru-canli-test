@@ -36,6 +36,8 @@ const YEREL_PORT = +(process.env.KOPRU_YEREL_PORT || 8080);
 const KANAL = process.env.KOPRU_TARAYICI_KANAL || 'msedge';
 // Kalibrasyon payı (fiziksel piksel): ajanın kapalı döngü payıyla aynı, max(12, yükseklik/150).
 const KAL_TOL = 12;
+// Kalibrasyonun ölçüldüğü çözünürlük (KOPRU_KAL_EKRAN="3840x2160": 4K iş akışı, test/canli/4k).
+const [KAL_W, KAL_H] = (process.env.KOPRU_KAL_EKRAN || '1920x1080').split('x').map(Number);
 fs.mkdirSync(OUT, { recursive: true }); fs.mkdirSync(WORK, { recursive: true });
 // Hizmet parolası bu makinede rastgele üretilir ve hiçbir yere düz yazılmaz; iPhone
 // işine yalnızca onun açık anahtarıyla şifrelenmiş olarak gider.
@@ -548,18 +550,26 @@ async function kalIphoneTur(browser, url, id, pw, mod, noktalar, yenile = 0) {
 async function kalibrasyonOlc(browser, kp, url, id, pw, etiket, { yuzde100 = true } = {}) {
   const tum = (await (await target()).pg.evaluate(() => window.KAL)).map((p, i) => [i, p]);
   const res = { ortam: etiket, turlar: {}, tani: {}, ekran: null, hipotez: null };
-  // 1920×1080 (Windows bu çözünürlükte %150'ye izin verir)
+  // KAL_W×KAL_H (varsayılan 1920×1080: Windows bu çözünürlükte %150'ye izin verir;
+  // 4K iş akışında 3840×2160)
   await kp.evaluate(() => { app.modes = null; app.session.sendCtl({ t: 'modes' }); });
   const md = await waitFor(() => kp.evaluate(() => app.modes), 6000);
-  const big = md?.modes?.find((x) => x.w === 1920 && x.h === 1080);
-  if (big && (await remoteSize(kp)).w !== 1920) {
+  const big = md?.modes?.find((x) => x.w === KAL_W && x.h === KAL_H);
+  if (!big) res.uyari = `${KAL_W}×${KAL_H} kipi yok; şu anki çözünürlükte ölçülüyor`;
+  if (big && (await remoteSize(kp)).w !== KAL_W) {
     await kp.evaluate(([w, h]) => app.session.sendCtl({ t: 'mode', w, h }), [big.w, big.h]);
-    await waitFor(async () => (await remoteSize(kp)).w === 1920, 20000);
+    await waitFor(async () => (await remoteSize(kp)).w === KAL_W, 20000);
     await sleep(2000);
   }
   res.ekran = await remoteSize(kp);
   res.hedef = await hedefTamEkran(); // noktalar ekranın tamamına yayılsın
   await (await target()).pg.reload(); await sleep(1500);
+  if (yuzde100 && Math.abs((await (await target()).pg.evaluate(() => devicePixelRatio)) - 1) > 0.01) {
+    // Ölçek önceden %100 değil (4K iş akışı %150 ile başlar): "%100" turları gerçekten %100'de olsun.
+    await kp.evaluate(() => app.session.sendCtl({ t: 'scale', pct: 100 }));
+    res.dpr100 = await dprBekle(1);
+    await sleep(1500);
+  }
   if (yuzde100) {
     res.turlar['%100 Tablet'] = await kalIphoneTur(browser, url, id, pw, 'tablet', tum);
     res.turlar['%100 Doğrudan'] = await kalIphoneTur(browser, url, id, pw, 'direct', tum);
@@ -1151,8 +1161,8 @@ async function kalibrasyon() {
     if (!d.c.ok) return ok('kapalı döngü: denetim bağlantısı', false, d.c.err);
     await d.kp.evaluate(() => { app.modes = null; app.session.sendCtl({ t: 'modes' }); });
     await waitFor(() => d.kp.evaluate(() => app.modes), 6000);
-    await d.kp.evaluate(() => app.session.sendCtl({ t: 'mode', w: 1920, h: 1080 }));
-    await waitFor(async () => (await remoteSize(d.kp)).w === 1920, 20000);
+    await d.kp.evaluate(([w, h]) => app.session.sendCtl({ t: 'mode', w, h }), [KAL_W, KAL_H]);
+    await waitFor(async () => (await remoteSize(d.kp)).w === KAL_W, 20000);
     await sleep(1500);
     await hedefTamEkran();
     await d.kp.evaluate(() => app.session.sendCtl({ t: 'scale', pct: 150 }));

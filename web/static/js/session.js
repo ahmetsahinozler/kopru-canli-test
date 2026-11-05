@@ -9,6 +9,9 @@ import { badProfiles, markBadProfile, profileOf } from './profiles.js';
 
 const enc = new TextEncoder();
 
+// MIN_ITER kabul edilen en düşük PBKDF2 tekrar sayısı (ajan: proto.PBKDF2Iter = 210000).
+export const MIN_ITER = 100000;
+
 export const b64u = {
   enc(buf) {
     let s = '';
@@ -250,6 +253,15 @@ export class RemoteSession extends EventTarget {
   }
 
   async onChallenge(d) {
+    // İstemci kanıtını karşı taraftan önce gönderir; sahte bir "bilgisayar" (ör.
+    // ilan panosundaki sahte adres) tuzu ve tekrar sayısını kendisi seçip, yakaladığı
+    // kanıtla parolayı çevrimdışı dener. Tekrar sayısı 1 olsaydı bu çok ucuz olurdu:
+    // Köprü ajanı her zaman 210000 ve 16 baytlık tuz kullanır, altı reddedilir.
+    let saltLen = 0;
+    try { saltLen = b64u.dec(String(d.salt || '')).length; } catch {}
+    if (!Number.isInteger(d.iter) || d.iter < MIN_ITER || saltLen < 16) {
+      return this.fail('Güvenlik uyarısı: uzak bilgisayar zayıf parola ayarları istedi. Bağlantı iptal edildi.', false, true);
+    }
     this.challenge = d;
     this.peerName = d.name || this.peerName;
     if (!this.key || this.keySalt !== d.salt) {

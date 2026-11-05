@@ -26,6 +26,11 @@ export function wsProfile() {
 }
 
 const CODECS = { high: 'avc1.640033', main: 'avc1.4D0033', baseline: 'avc1.42E033' };
+// Ajanın kodladığı görüntünün renk uzayı: BT.709 matris, sınırlı aralık, sRGB
+// aktarım (ekran içeriği). Çözücü yapılandırmasında verilince bit dizisindeki
+// bilginin önüne geçer: eski ajanlar aktarımı "bt709" yazıyordu; Apple bunu
+// ~1,96 gamayla açıp tuvale ara tonları açık, siyahları gri çiziyordu.
+const RENK = { primaries: 'bt709', transfer: 'iec61966-2-1', matrix: 'bt709', fullRange: false };
 
 // pickWsProfile çözücünün desteklediği ilk profili seçer; bu cihazda daha önce
 // çözülemediği görülenleri ve "skip" ile verileni atlar.
@@ -94,8 +99,12 @@ export class WsVideo {
     this.lastOut = performance.now(); this.inN = 0; this.inKeys = 0; this.kfAsked = false;
     const dec = new VideoDecoder({ output: (f) => this.onFrame(f, dec), error: (e) => this.onError(e, dec) });
     this.dec = dec;
-    try { dec.configure({ codec: CODECS[this.profile] || CODECS.high, optimizeForLatency: true }); }
-    catch (e) { this.onError(e, dec); }
+    const cfg = { codec: CODECS[this.profile] || CODECS.high, optimizeForLatency: true };
+    try { dec.configure({ ...cfg, colorSpace: RENK }); }
+    catch {
+      // Renk uzayını tanımayan tarayıcı: bit dizisindeki bilgiyle devam.
+      try { dec.configure(cfg); } catch (e) { this.onError(e, dec); }
+    }
   }
 
   // ---- çözücüdeki kareler ----

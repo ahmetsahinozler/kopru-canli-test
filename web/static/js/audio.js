@@ -7,11 +7,35 @@
 //    kayıp paketin yeri doldurulur. AudioWorklet yoksa eski yol (her paket ayrı
 //    AudioBufferSourceNode) kullanılır.
 // iOS/Safari sesi ancak bir dokunuştan sonra çalar: ilk dokunuşta kilit açılır.
+//
+// iPhone'un yan tuşu (zil/sessiz) sessizdeyken Safari, Web Audio'yu (AudioContext)
+// "ortam sesi" sayar ve susturur; <audio> öğesi ise çalar. Veri kanalı yolunda
+// ses AudioContext'ten çıktığı için sessiz kipte hiç duyulmuyordu. Safari 16.4+
+// navigator.audioSession ile sayfanın sesinin "oynatma" (video/müzik gibi) olduğu
+// söylenebilir: o zaman sessiz kipte de çalar. Tür, ses oturumu başlamadan
+// (AudioContext kurulup çalmaya başlamadan) önce ayarlanmalıdır. Yan etkisi:
+// "playback" türü karışmaz; ses çalmaya başlayınca telefonda çalan müzik durur
+// (video uygulamalarındaki gibi). Ses kapatılınca ve bağlantı bitince tür
+// "auto"ya döner. navigator.audioSession yoksa (iOS < 16.4, diğer tarayıcılar)
+// hiçbir şey yapılmaz; iOS'ta sessiz kipte ses duyulmaz.
+//
+// Arka plan / kilit ekranı / gelen arama: iOS AudioContext'i "suspended" ya da
+// (yalnız WebKit) "interrupted" durumuna alır. Sayfa öne gelince ve her
+// dokunuşta yeniden başlatılır; başlatılamazsa "bir kez dokunun" uyarısı çıkar.
 
 // HOLD: sırasız kanalda öne geçen paket, eksik olanı en çok bu kadar (ms)
 // bekler. Hücresel ağ paketleri çoğunlukla sırayla teslim eder; eksik paket
 // büyük olasılıkla kayıptır, uzun beklemek her kayıpta gecikme eklerdi.
 const HOLD = 6;
+
+// sesOturumu iOS ses oturumunun türünü ayarlar ("playback": sessiz kipte de çal;
+// "auto": tarayıcı karar versin). Desteklenmiyorsa sessizce geçer.
+export function sesOturumu(tur) {
+  try {
+    const a = navigator.audioSession;
+    if (a && a.type !== tur) a.type = tur;
+  } catch {}
+}
 
 export class RemoteAudio {
   constructor(el) {
@@ -23,6 +47,21 @@ export class RemoteAudio {
     this.resetState();
     const unlock = () => this.unlock();
     for (const ev of ['pointerdown', 'touchend', 'keydown']) document.addEventListener(ev, unlock, { capture: true, passive: true });
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) this.wake(); });
+  }
+
+  // stalled: ses açık, bağlam var ama çalmıyor (askıya alınmış ya da kesilmiş).
+  stalled() { const st = this.ctx?.state; return !!this.ctx && this.enabled && st !== 'running' && st !== 'closed'; }
+
+  // wake sayfa öne gelince bağlamı yeniden başlatır. Bir kez dokunuşla açılmış
+  // bağlam iOS'ta dokunuşsuz da sürdürülebilir; olmazsa (ör. arama sürüyor)
+  // kısa süre sonra uyarı verilir, ilk dokunuşta unlock yeniden dener.
+  wake() {
+    if (!this.stalled()) return;
+    sesOturumu('playback');
+    this.ctx.resume().catch(() => {});
+    clearTimeout(this.wakeT);
+    this.wakeT = setTimeout(() => { if (this.stalled() && !document.hidden) { this.blocked = true; this.onblocked?.(); } }, 600);
   }
 
   resetState() {
@@ -49,7 +88,8 @@ export class RemoteAudio {
 
   unlock() {
     if (this.blocked || (this.el.srcObject && this.el.paused)) { this.blocked = false; this.play(); }
-    if (this.ctx && this.ctx.state === 'suspended' && this.enabled) this.ctx.resume().catch(() => {});
+    // "interrupted": WebKit'in arama/Siri/başka uygulama sesi sonrası durumu; "suspended" gibi sürdürülür.
+    if (this.stalled()) { sesOturumu('playback'); this.ctx.resume().catch(() => {}); }
   }
 
   setEnabled(on) {
@@ -57,9 +97,12 @@ export class RemoteAudio {
     this.el.muted = !on;
     if (on) {
       this.play();
-      this.ctx?.resume().catch(() => {});
+      if (this.ctx) { sesOturumu('playback'); this.ctx.resume().catch(() => {}); }
       this.node?.port.postMessage({ t: 'sifirla' }); // kapalıyken kalan eski sesi çalma
-    } else this.ctx?.suspend().catch(() => {});
+    } else {
+      this.ctx?.suspend().catch(() => {});
+      sesOturumu('auto'); // ses kapalıyken telefonun kendi sesine (müzik) karışma
+    }
   }
 
   // unwrap 16 bitlik sıra numarasını sürekli artan kare numarasına çevirir.
@@ -77,8 +120,17 @@ export class RemoteAudio {
   pushOpus(data, seq = false) {
     if (!this.enabled || !RemoteAudio.wsSupported()) return;
     if (!this.ctx) {
-      this.ctx = new AudioContext({ sampleRate: 48000, latencyHint: 'interactive' });
-      if (this.ctx.state === 'suspended') { this.blocked = true; this.onblocked?.(); }
+      sesOturumu('playback'); // bağlam kurulmadan önce: sessiz kipte de çalsın
+      const ctx = new AudioContext({ sampleRate: 48000, latencyHint: 'interactive' });
+      this.ctx = ctx;
+      // Çalmaya (yeniden) başlayınca askıdayken kalan eski ses atılır.
+      let was = ctx.state;
+      ctx.onstatechange = () => {
+        if (this.ctx !== ctx) return;
+        if (ctx.state === 'running' && was !== 'running') this.node?.port.postMessage({ t: 'sifirla' });
+        was = ctx.state;
+      };
+      if (ctx.state === 'suspended') { this.blocked = true; this.onblocked?.(); }
       this.startWorklet();
     }
     let n;
@@ -205,6 +257,8 @@ export class RemoteAudio {
     this.node?.disconnect();
     this.ctx?.close().catch(() => {});
     this.ctx = null;
+    clearTimeout(this.wakeT);
+    sesOturumu('auto');
     this.resetState();
   }
 }

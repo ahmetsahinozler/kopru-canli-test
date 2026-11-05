@@ -24,7 +24,9 @@ a.btn.primary { background: var(--acc); border-color: var(--acc); color: #fff; }
 button.big { width: 100%; padding: 13px; font-size: 16px; font-weight: 600; }
 button.on { background: var(--acc); border-color: var(--acc); color: #fff; }
 .icon-btn { background: transparent; border: 0; font-size: 20px; padding: 6px 10px; }
-input, select, textarea { font: inherit; color: var(--text); background: #0b0e13; border: 1px solid var(--line); border-radius: 10px; padding: 11px 12px; width: 100%; }
+/* 16 px: iOS, odaklanan alanı 16 px'ten küçük yazıda kendiliğinden yakınlaştırır ve
+   klavye kapanınca geri uzaklaştırmaz (görüntüleyiciye yakınlaşmış görünüm alanıyla girilirdi). */
+input, select, textarea { font: inherit; font-size: 16px; color: var(--text); background: #0b0e13; border: 1px solid var(--line); border-radius: 10px; padding: 11px 12px; width: 100%; }
 input:focus, select:focus, textarea:focus { outline: 2px solid var(--acc); outline-offset: -1px; }
 .field { display: block; margin-bottom: 14px; } .field > span { display: block; color: var(--muted); font-size: 13px; margin-bottom: 6px; }
 .check { display: flex; align-items: center; gap: 10px; margin: 10px 0; } .check input { width: 18px; height: 18px; }
