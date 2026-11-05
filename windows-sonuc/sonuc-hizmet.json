@@ -1,0 +1,206 @@
+[
+  {
+    "phase": "hizmet",
+    "name": "sunucusuz: Cloudflare tüneli açıldı",
+    "pass": true,
+    "info": "https://assume-rhythm-inquire-teaching.trycloudflare.com"
+  },
+  {
+    "phase": "hizmet",
+    "name": "hizmet: ilan panosundan bulup bağlandı",
+    "pass": true,
+    "info": "8179 ms webrtc"
+  },
+  {
+    "phase": "hizmet",
+    "name": "hizmet: ICE tanısı (istemci)",
+    "note": true,
+    "info": "{\"ok\":true,\"ice\":\"connected\",\"toplama\":\"complete\",\"yerel\":{\"host/?\":1},\"uzak\":{\"prflx/?\":2,\"host/v4\":2,\"srflx/v4\":1},\"ciftler\":{\"waiting\":4,\"succeeded\":1},\"istekGiden\":3,\"istekGelen\":6,\"yanitGelen\":3,\"gelen\":9,\"basarili\":true,\"secili\":\"host/? > host/v4\",\"rtt\":2,\"sonuc\":\"doğrudan\",\"ms\":null}"
+  },
+  {
+    "phase": "hizmet",
+    "name": "hizmet (SYSTEM) kullanıcı masaüstünü yakalıyor",
+    "pass": true,
+    "info": "{\"cap\":\"dxgi\",\"enc\":\"x264 superfast high444\"}"
+  },
+  {
+    "phase": "hizmet",
+    "name": "hizmet: fare tıklaması (SYSTEM işçisinden)",
+    "pass": true,
+    "info": ""
+  },
+  {
+    "phase": "hizmet",
+    "name": "hizmet: klavye ve Türkçe metin",
+    "pass": true,
+    "info": "hizmet 42 ÇŞ"
+  },
+  {
+    "phase": "hizmet",
+    "name": "hizmet: pano (kullanıcı oturumunun panosu)",
+    "pass": true,
+    "info": "hizmet-pano-ĞÜ"
+  },
+  {
+    "phase": "hizmet",
+    "name": "hizmet: dosya gezgini kullanıcının klasörlerini görüyor",
+    "pass": true,
+    "info": "[\"Masaüstü=C:\\\\Users\\\\runneradmin\\\\Desktop\",\"İndirilenler=C:\\\\Users\\\\runneradmin\\\\Downloads\",\"Belgeler=C:\\\\Users\\\\runneradmin\\\\Documents\",\"Kullanıcı klasörü=C:\\\\Users\\\\runneradmin\",\"Sürücü C:=C:\\\\\",\"Sürücü D:=D:\\\\\"]"
+  },
+  {
+    "phase": "hizmet",
+    "name": "hizmet: ölçek seçenekleri",
+    "note": true,
+    "info": "{\"changed\":false,\"cur\":100,\"display\":0,\"list\":[100,125,150,175],\"orig\":100,\"t\":\"scales\"}"
+  },
+  {
+    "phase": "hizmet",
+    "name": "hizmet: Windows yazı ölçeği %100 → %175 (programlar büyüdü, çözünürlük aynı)",
+    "pass": true,
+    "info": "{\"once\":1,\"sonra\":1.75,\"cozunurluk\":{\"w\":1920,\"h\":1080}}"
+  },
+  {
+    "phase": "hizmet",
+    "name": "hizmet: çözünürlük 1280×720 olunca yazı boyutu aralığa sığdırıldı (%100)",
+    "pass": true,
+    "info": "{\"liste\":[100],\"cur\":100,\"dpr\":1}"
+  },
+  {
+    "phase": "hizmet",
+    "name": "hizmet: 1920×1080'e dönünce seçilen %175 geri geldi",
+    "pass": true,
+    "info": "{\"dpr\":1.75}"
+  },
+  {
+    "phase": "hizmet",
+    "name": "hizmet: yazı ölçeği eski haline döndü",
+    "pass": true,
+    "info": "{\"geri\":1}"
+  },
+  {
+    "phase": "hizmet",
+    "name": "hizmet: telefona uydur (iPhone 15 Pro) → %175, programlar büyüdü",
+    "pass": true,
+    "info": "{\"liste\":[100,125,150,175],\"cur\":175,\"dpr\":1.75}"
+  },
+  {
+    "phase": "hizmet",
+    "name": "kalibrasyon (hizmet): Windows'un girdi koordinat uzayı (ajanın tanısı)",
+    "note": true,
+    "info": "{\"%150\":{\"calisma\":[0,0,1920,1008],\"girdi\":\"monitör başına v2\",\"monitor\":[0,0,1920,1080],\"olcek\":150,\"sanal\":[0,0,1920,1080],\"surec\":\"monitör başına v2\"}}"
+  },
+  {
+    "phase": "hizmet",
+    "name": "kalibrasyon (hizmet): %150 Doğrudan (fare) dokunuşları hedefte",
+    "pass": true,
+    "info": "{\"nokta\":9,\"gelen\":9,\"isabet\":9,\"tol\":12,\"enBuyuk\":0,\"ortFark\":[0,0],\"x\":{\"egim\":1,\"kesisim\":0},\"y\":{\"egim\":1,\"kesisim\":0},\"turler\":{\"mouse\":9},\"imlec\":{\"olculen\":0,\"tasindi\":0},\"fareyeGecis\":-1}"
+  },
+  {
+    "phase": "hizmet",
+    "name": "kalibrasyon (hizmet): %150 Tablet dokunuşları hedefte (kayma varsa kapalı döngüyle fareye geçtikten sonra)",
+    "pass": true,
+    "info": "{\"nokta\":9,\"gelen\":9,\"isabet\":9,\"tol\":12,\"enBuyuk\":0,\"ortFark\":[0,0],\"x\":{\"egim\":1,\"kesisim\":0},\"y\":{\"egim\":1,\"kesisim\":0},\"turler\":{\"touch\":9},\"imlec\":{\"olculen\":9,\"tasindi\":0},\"fareyeGecis\":-1}"
+  },
+  {
+    "phase": "hizmet",
+    "name": "kalibrasyon (hizmet): Windows dokunuşta imleci taşıyor mu (kapalı döngünün ölçebilmesi için)",
+    "note": true,
+    "info": "{\"olculen\":9,\"tasindi\":0,\"sonuc\":\"hayır (kapalı döngü ölçemez)\"}"
+  },
+  {
+    "phase": "hizmet",
+    "name": "kalibrasyon (hizmet): HİPOTEZ A (Windows %150'de enjekte edilen dokunuşu kaydırıyor) → REDDEDİLDİ",
+    "note": true,
+    "info": "{\"karar\":\"REDDEDİLDİ\",\"neden\":\"%150'de dokunmatik (9 nokta) ve fare (9 nokta) ±12 px içinde\",\"dokunmatik\":{\"nokta\":9,\"gelen\":9,\"isabet\":9,\"tol\":12,\"enBuyuk\":0,\"ortFark\":[0,0],\"x\":{\"egim\":1,\"kesisim\":0},\"y\":{\"egim\":1,\"kesisim\":0},\"turler\":{\"touch\":9},\"imlec\":{\"olculen\":9,\"tasindi\":0},\"fareyeGecis\":-1},\"fare\":{\"nokta\":9,\"gelen\":9,\"isabet\":9,\"tol\":12,\"enBuyuk\":0,\"ortFark\":[0,0],\"x\":{\"egim\":1,\"kesisim\":0},\"y\":{\"egim\":1,\"kesisim\":0},\"turler\":{\"mouse\":9},\"imlec\":{\"olculen\":0,\"tasindi\":0},\"fareyeGecis\":-1}}"
+  },
+  {
+    "phase": "hizmet",
+    "name": "hizmet: tek parmak dokunuş Windows'a ulaştı",
+    "pass": true,
+    "info": "{\"t\":\"pointerdown\",\"x\":215,\"y\":300,\"pt\":\"touch\",\"b\":0,\"id\":\"tap\",\"ts\":1793852365651,\"dpr\":1}"
+  },
+  {
+    "phase": "hizmet",
+    "name": "hizmet: dokunuş türü",
+    "note": true,
+    "info": "gerçek dokunmatik"
+  },
+  {
+    "phase": "hizmet",
+    "name": "hizmet: Cloudflare tüneli üzerinden şifreli aktarım",
+    "pass": true,
+    "info": "855 ms "
+  },
+  {
+    "phase": "hizmet",
+    "name": "tünelde ekran değişince görüntü akıyor",
+    "pass": true,
+    "info": "56 kare / 2,5 sn, RTT 7 ms"
+  },
+  {
+    "phase": "hizmet",
+    "name": "tünelde fare tıklaması",
+    "pass": true,
+    "info": ""
+  },
+  {
+    "phase": "hizmet",
+    "name": "girdi → görüntü gecikmesi (Cloudflare tüneli üzerinden, internet)",
+    "note": true,
+    "info": "{\"olcumler\":[51,65,65,79,81,81,82,82,82,83,84,99],\"ortanca\":82,\"p90\":84,\"basarili\":\"12/12\"}"
+  },
+  {
+    "phase": "hizmet",
+    "name": "tünel üzerinden girdi → görüntü gecikmesi ölçüldü",
+    "pass": true,
+    "info": "{\"olcumler\":[51,65,65,79,81,81,82,82,82,83,84,99],\"ortanca\":82,\"p90\":84,\"basarili\":\"12/12\"}"
+  },
+  {
+    "phase": "hizmet",
+    "name": "yeni tünel adresi",
+    "note": true,
+    "info": "https://drink-throws-hat-cope.trycloudflare.com"
+  },
+  {
+    "phase": "hizmet",
+    "name": "tünel koptu, adres değişti → istemci kendiliğinden yeniden bağlandı",
+    "pass": true,
+    "info": "{\"eski\":\"https://assume-rhythm-inquire-teaching.trycloudflare.com\",\"yeni\":\"https://drink-throws-hat-cope.trycloudflare.com\",\"durum\":\"connected | Bağlantı koptu, yeniden bağlanılıyor…\"}"
+  },
+  {
+    "phase": "hizmet",
+    "name": "hizmet yeniden başlayınca ayar sayfası kendiliğinden açılmadı (ekranı kapatmıyor)",
+    "pass": true,
+    "info": "0 tarayıcı penceresi"
+  },
+  {
+    "phase": "hizmet",
+    "name": "hizmet yeniden başlayınca istemci parola sormadan geri bağlandı",
+    "pass": true,
+    "info": "connected | Bağlantı kuruluyor… | "
+  },
+  {
+    "phase": "hizmet",
+    "name": "işçi süreç çökünce hizmet onu yeniden başlattı, bilgisayar yine çevrimiçi",
+    "pass": true,
+    "info": "{\"eski\":\"856\",\"yeni\":\"5828\"}"
+  },
+  {
+    "phase": "hizmet",
+    "name": "iPhone için hedef program ekranı tam kaplıyor (telefon testleri ekranın oranına dokunur)",
+    "pass": true,
+    "info": "{\"ok\":true,\"pencere\":[1920,1080],\"ekran\":[1920,1080],\"dpr\":1}"
+  },
+  {
+    "phase": "hizmet",
+    "name": "iPhone aşaması için Windows",
+    "note": true,
+    "info": "{\"id\":\"248875928\",\"name\":\"runnervmhao91\",\"url\":\"https://collaborative-thick-weekend-collectibles.trycloudflare.com\",\"ekran\":\"1920x1080\",\"ekranAyar\":\"0\",\"hedef\":{\"ok\":true,\"pencere\":[1920,1080],\"ekran\":[1920,1080],\"dpr\":1},\"ses\":true,\"dpr\":1}"
+  },
+  {
+    "phase": "hizmet",
+    "name": "hizmet: Köprü bu aşamada hiç çökmedi",
+    "pass": true,
+    "info": ""
+  }
+]

@@ -1,0 +1,68 @@
+[
+  {
+    "phase": "kur",
+    "name": "kurulumdan önce hizmet",
+    "note": true,
+    "info": "yok"
+  },
+  {
+    "phase": "kur",
+    "name": "çift tıklayınca kendini Windows hizmeti olarak kurdu ve başlattı",
+    "pass": true,
+    "info": "Running"
+  },
+  {
+    "phase": "kur",
+    "name": "program dosyaları kuruldu (kopru.exe, x264, opus)",
+    "pass": true,
+    "info": "[\"kopru.exe\",\"libx264-164.dll\",\"opus.dll\",\"vcruntime140.dll\"]"
+  },
+  {
+    "phase": "kur",
+    "name": "güvenlik duvarı kuralı eklendi",
+    "pass": true,
+    "info": ""
+  },
+  {
+    "phase": "kur",
+    "name": "Başlat menüsü kısayolu oluşturuldu",
+    "pass": true,
+    "info": ""
+  },
+  {
+    "phase": "kur",
+    "name": "hizmet kimlik aldı",
+    "pass": true,
+    "info": "248875928"
+  },
+  {
+    "phase": "kur",
+    "name": "Köprü süreçleri",
+    "note": true,
+    "info": "876 oturum=2 NT AUTHORITY\\SYSTEM\r\n3024 oturum=0 NT AUTHORITY\\SYSTEM"
+  },
+  {
+    "phase": "kur",
+    "name": "ilk açılışta ayar sayfası (kimlik, parola, iPhone QR) tarayıcıda açıldı",
+    "pass": true,
+    "info": ""
+  },
+  {
+    "phase": "kur",
+    "name": "ayar sayfası kimlik ve otomatik parolayı gösteriyor",
+    "pass": true,
+    "info": "{\"id\":\"248 875 928\",\"parolaVar\":true}"
+  },
+  {
+    "phase": "kur",
+    "name": "kendi parolasını belirledi (artık sayfada gösterilmiyor)",
+    "pass": true,
+    "info": ""
+  },
+  {
+    "phase": "kur",
+    "name": "kur: Köprü bu aşamada hiç çökmedi",
+    "pass": true,
+    "info": ""
+  }
+]

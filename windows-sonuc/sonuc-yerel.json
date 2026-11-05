@@ -1,0 +1,440 @@
+[
+  {
+    "phase": "yerel",
+    "name": "Windows",
+    "note": true,
+    "info": "Microsoft Windows Server 2025 Datacenter 10.0.26100.0"
+  },
+  {
+    "phase": "yerel",
+    "name": "oturumlar",
+    "note": true,
+    "info": "HATA:  SESSIONNAME               USERNAME                 ID  STATE   TYPE        DEVICE \r\n services                                            0  Disc                        \r\n>console                   runneradmin               2  Active                      \r\n 31c5ce94259d4006a9e4                            65536  Listen                      \r\n rdp-tcp                                         65537  Listen                      \r\n\r\nCommand failed: powershell -NoProfile -NonInteractive -STA -EncodedCommand JABQAHIAbwBnAHIAZQBzAHMAUAByAGUAZgBlAHIAZQBuAGMAZQA9ACcAUwBpAGwAZQBuAHQAbAB5AEMAbwBuAHQAaQBuAH"
+  },
+  {
+    "phase": "yerel",
+    "name": "ekran kartı",
+    "note": true,
+    "info": "Microsoft Hyper-V Video 1024x768"
+  },
+  {
+    "phase": "yerel",
+    "name": "ses aygıtları",
+    "note": true,
+    "info": "aygıtlar=[VB-Audio Virtual Cable] Audiosrv=Running"
+  },
+  {
+    "phase": "yerel",
+    "name": "ekran",
+    "note": true,
+    "info": "1024x768"
+  },
+  {
+    "phase": "yerel",
+    "name": "ajan gerçek Windows'ta başladı ve kaydoldu",
+    "pass": true,
+    "info": "kimlik 180581240"
+  },
+  {
+    "phase": "yerel",
+    "name": "yanlış parola reddedildi",
+    "pass": true,
+    "info": "Parola hatalı. Uzak bilgisayardaki Köprü penceresinde görünen parolayı girin."
+  },
+  {
+    "phase": "yerel",
+    "name": "Edge ile bağlantı (doğrudan WebRTC), görüntü geldi",
+    "pass": true,
+    "info": "1380 ms "
+  },
+  {
+    "phase": "yerel",
+    "name": "ekran yakalama ve kodlayıcı",
+    "pass": true,
+    "info": "{\"cap\":\"dxgi\",\"enc\":\"x264 superfast high444\",\"boyut\":{\"w\":1024,\"h\":768},\"aktarim\":\"webrtc\"}"
+  },
+  {
+    "phase": "yerel",
+    "name": "renkler doğru",
+    "pass": true,
+    "info": "{\"#red\":{\"got\":[228,57,55],\"ref\":[229,57,53]},\"#green\":{\"got\":[67,160,76],\"ref\":[67,160,71]},\"#blue\":{\"got\":[30,135,222],\"ref\":[30,136,229]},\"#white\":{\"got\":[255,255,255],\"ref\":[255,255,255]}}"
+  },
+  {
+    "phase": "yerel",
+    "name": "ekran değişince görüntü akıyor",
+    "pass": true,
+    "info": "62 kare / 2,5 sn"
+  },
+  {
+    "phase": "yerel",
+    "name": "fare sol tık doğru noktada",
+    "pass": true,
+    "info": "{\"beklenen\":{\"x\":215,\"y\":300},\"gelen\":{\"t\":\"mousedown\",\"x\":215,\"y\":300,\"b\":0,\"id\":\"tap\",\"ts\":1793852293369,\"dpr\":1}}"
+  },
+  {
+    "phase": "yerel",
+    "name": "fare sağ tık (bağlam menüsü)",
+    "pass": true,
+    "info": ""
+  },
+  {
+    "phase": "yerel",
+    "name": "fare tekerleği uzak sayfayı kaydırdı",
+    "pass": true,
+    "info": "scrollTop 600"
+  },
+  {
+    "phase": "yerel",
+    "name": "klavye (tarama kodları)",
+    "pass": true,
+    "info": "Merhaba Kopru 123!"
+  },
+  {
+    "phase": "yerel",
+    "name": "kısayol Ctrl+A, Sil",
+    "pass": true,
+    "info": ""
+  },
+  {
+    "phase": "yerel",
+    "name": "Türkçe karakterler (telefon klavyesi yolu)",
+    "pass": true,
+    "info": "\"Çağrı ŞÖÜ İı ğ €\""
+  },
+  {
+    "phase": "yerel",
+    "name": "tuş tuş yazdırma (giriş ekranı yolu)",
+    "pass": true,
+    "info": "\"Kopru-Ş1 Çğ@ü\""
+  },
+  {
+    "phase": "yerel",
+    "name": "pano metin: Windows → istemci",
+    "pass": true,
+    "info": "uzak-ÇĞŞ-123"
+  },
+  {
+    "phase": "yerel",
+    "name": "pano metin: istemci → Windows",
+    "pass": true,
+    "info": "yerel-ÖÜİ-456"
+  },
+  {
+    "phase": "yerel",
+    "name": "pano görsel: Windows → istemci",
+    "pass": true,
+    "info": ""
+  },
+  {
+    "phase": "yerel",
+    "name": "pano dosya: Gezgin'de kopyalanan dosya istemcide görünüyor",
+    "pass": true,
+    "info": "[\"pano-dosya.txt\"]"
+  },
+  {
+    "phase": "yerel",
+    "name": "24 MB dosya indirme (bütünlük)",
+    "pass": true,
+    "info": "18.6 MB/sn"
+  },
+  {
+    "phase": "yerel",
+    "name": "klasörü ZIP olarak indirme",
+    "pass": true,
+    "info": "klasor/,klasor/a.txt,klasor/alt/,klasor/alt/b.txt"
+  },
+  {
+    "phase": "yerel",
+    "name": "12 MB dosya yükleme (bütünlük)",
+    "pass": true,
+    "info": "21.9 MB/sn"
+  },
+  {
+    "phase": "yerel",
+    "name": "sürekli hareketli ekranda akıcılık (≥25 fps)",
+    "pass": true,
+    "info": "{\"fps\":27,\"kbps\":178.2,\"kodlamaMs\":78.4,\"kademe\":0}"
+  },
+  {
+    "phase": "yerel",
+    "name": "kare aralığı (yakalama zamanlaması, sürekli kaydırmada tarayıcıya varış)",
+    "note": true,
+    "info": "{\"kare\":78,\"ortMs\":38.9,\"sapmaMs\":10,\"p50\":35.1,\"p95\":60.1,\"enCok\":65}"
+  },
+  {
+    "phase": "yerel",
+    "name": "kontrol kanalı gidiş-dönüş",
+    "note": true,
+    "info": "0 ms"
+  },
+  {
+    "phase": "yerel",
+    "name": "netleştirme: ince yazılı tam ekran değişiklikten sonra kalite hedefine ulaştı (📶 \"Netleştirme\")",
+    "pass": true,
+    "info": "{\"once\":\"hedef · 322 kare · RF 21.0 (hedef 21.5)\",\"seri\":[{\"ms\":402,\"netl\":\"hedef · 322 kare · RF 21.0 (hedef 21.5)\",\"fps\":2,\"kbps\":4},{\"ms\":1207,\"netl\":\"hedef · 17 kare · RF 21.0 (hedef 21.5)\",\"fps\":18,\"kbps\":10134}],\"kare\":30}"
+  },
+  {
+    "phase": "yerel",
+    "name": "yetenekler",
+    "note": true,
+    "info": "{\"audio\":true,\"audseq\":true,\"clipboard\":true,\"files\":true,\"input\":true,\"modes\":true,\"privacy\":true,\"sas\":false,\"scales\":true,\"touch\":true,\"typekeys\":true}"
+  },
+  {
+    "phase": "yerel",
+    "name": "gecikme ölçümü öncesi ajan durumu",
+    "note": true,
+    "info": "{\"bwe\":40000,\"cap\":\"dxgi\",\"enc\":\"x264 superfast high444\",\"encMs\":0,\"floor\":3000,\"fps\":0,\"h\":768,\"kbps\":0,\"netl\":\"hedef · 4 kare · RF 21.0 (hedef 21.5)\",\"perf\":0,\"queueMs\":0,\"t\":\"stats\",\"target\":34000,\"w\":1024}"
+  },
+  {
+    "phase": "yerel",
+    "name": "girdi → görüntü gecikmesi (aynı makine, doğrudan WebRTC)",
+    "note": true,
+    "info": "{\"olcumler\":[47,47,47,48,48,48,49,49,64,64,65,66,80,98,122],\"ortanca\":49,\"p90\":98,\"basarili\":\"15/15\"}"
+  },
+  {
+    "phase": "yerel",
+    "name": "girdi → görüntü gecikmesi ölçüldü ve 150 ms altında (ortanca)",
+    "pass": true,
+    "info": "{\"olcumler\":[47,47,47,48,48,48,49,49,64,64,65,66,80,98,122],\"ortanca\":49,\"p90\":98,\"basarili\":\"15/15\"}"
+  },
+  {
+    "phase": "yerel",
+    "name": "gizlilik: ajanın bildirdiği durum",
+    "note": true,
+    "info": "{\"durum\":\"pencere=0x30214 var=true görünür=true yakalamaDışı=0x11 alan=0,0-1024,768\",\"on\":true,\"t\":\"privacy\"}"
+  },
+  {
+    "phase": "yerel",
+    "name": "gizlilik: yerel ekranı kaplayan siyah pencere açıldı ve ekran yakalamadan dışlandı",
+    "pass": true,
+    "info": "var görünür=True yakalamaDışı=0x11"
+  },
+  {
+    "phase": "yerel",
+    "name": "gizlilik: uzaktan görüntü kararmadı",
+    "pass": true,
+    "info": "[228,57,55]"
+  },
+  {
+    "phase": "yerel",
+    "name": "gizlilik: Köprü'nün tıklaması alttaki programa geçiyor",
+    "pass": true,
+    "info": ""
+  },
+  {
+    "phase": "yerel",
+    "name": "gizlilik: Köprü'nün klavyesi alttaki programa geçiyor",
+    "pass": true,
+    "info": "gizli"
+  },
+  {
+    "phase": "yerel",
+    "name": "gizlilik kapatılınca siyah pencere kalktı",
+    "pass": true,
+    "info": ""
+  },
+  {
+    "phase": "yerel",
+    "name": "desteklenen çözünürlükler",
+    "note": true,
+    "info": "[\"1920x1080\",\"1680x1050\",\"1600x1200\",\"1600x900\",\"1440x900\",\"1366x768\",\"1280x1024\",\"1280x800\",\"1280x720\",\"1152x864\",\"1024x768\",\"800x600\"]"
+  },
+  {
+    "phase": "yerel",
+    "name": "çözünürlük değiştirme ve geri alma (gerçek monitör)",
+    "pass": true,
+    "info": "{\"once\":{\"w\":1024,\"h\":768},\"hedef\":{\"w\":1920,\"h\":1080,\"hz\":64},\"sonra\":{\"w\":1024,\"h\":768}}"
+  },
+  {
+    "phase": "yerel",
+    "name": "yerel: ölçek seçenekleri",
+    "note": true,
+    "info": "{\"changed\":false,\"cur\":100,\"display\":0,\"list\":[100,125,150,175],\"orig\":100,\"t\":\"scales\"}"
+  },
+  {
+    "phase": "yerel",
+    "name": "yerel: Windows yazı ölçeği %100 → %175 (programlar büyüdü, çözünürlük aynı)",
+    "pass": true,
+    "info": "{\"once\":1,\"sonra\":1.75,\"cozunurluk\":{\"w\":1920,\"h\":1080}}"
+  },
+  {
+    "phase": "yerel",
+    "name": "yerel: çözünürlük 1280×720 olunca yazı boyutu aralığa sığdırıldı (%100)",
+    "pass": true,
+    "info": "{\"liste\":[100],\"cur\":100,\"dpr\":1}"
+  },
+  {
+    "phase": "yerel",
+    "name": "yerel: 1920×1080'e dönünce seçilen %175 geri geldi",
+    "pass": true,
+    "info": "{\"dpr\":1.75}"
+  },
+  {
+    "phase": "yerel",
+    "name": "yerel: yazı ölçeği eski haline döndü",
+    "pass": true,
+    "info": "{\"geri\":1}"
+  },
+  {
+    "phase": "yerel",
+    "name": "yerel: telefona uydur (iPhone 15 Pro) → %175, programlar büyüdü",
+    "pass": true,
+    "info": "{\"liste\":[100,125,150,175],\"cur\":175,\"dpr\":1.75}"
+  },
+  {
+    "phase": "yerel",
+    "name": "ses: Windows sesi (WASAPI geri döngü) masaüstü tarayıcısına akıyor",
+    "pass": true,
+    "info": "{\"paketSn\":100,\"once\":{\"p\":7508,\"e\":0,\"gizlenen\":31560,\"t\":1793852363561.478},\"sonra\":{\"p\":7809,\"e\":0,\"gizlenen\":31560,\"t\":1793852366564.683},\"aygit\":\"aygıtlar=[VB-Audio Virtual Cable] Audiosrv=Running\"}"
+  },
+  {
+    "phase": "yerel",
+    "name": "ses: 10 ms Opus (saniyede ~100 paket)",
+    "pass": true,
+    "info": "{\"paketSn\":100}"
+  },
+  {
+    "phase": "yerel",
+    "name": "ses: sinyal (ton çalıyor; enerji artışı)",
+    "note": true,
+    "info": "0"
+  },
+  {
+    "phase": "yerel",
+    "name": "ses: WASAPI olay güdümlü yakalama kuruldu (günlük)",
+    "pass": true,
+    "info": "[\"2026/11/05 04:19:21 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)\",\"2026/11/05 04:19:21 [bd7de3] ses aktarımı başladı\"]"
+  },
+  {
+    "phase": "yerel",
+    "name": "prize takılıyken uyku engeli (powercfg /requests)",
+    "pass": true,
+    "info": "DISPLAY: [PROCESS] \\Device\\HarddiskVolume5\\a\\kopru-canli-test\\kopru-canli-test\\kopru.exe [PROCESS] \\Device\\HarddiskVolume3\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe Video Wake Lock SYSTEM: [DRIVER] VB-Audio Virtual Cable (ROOT\\MEDIA\\0000) An audio stream is currently in use. [PROCESS"
+  },
+  {
+    "phase": "yerel",
+    "name": "iPhone (emülasyon) bağlandı",
+    "pass": true,
+    "info": "6007 ms "
+  },
+  {
+    "phase": "yerel",
+    "name": "iPhone (emülasyon): görüntü veri kanalından + WebCodecs, RTP görüntüsü boş",
+    "pass": true,
+    "info": "{\"veriKanali\":true,\"video\":false,\"cozulen\":3,\"profil\":\"high\",\"rtp\":null}"
+  },
+  {
+    "phase": "yerel",
+    "name": "iPhone (emülasyon): ses \"aud\" veri kanalından (sira16, sırasız, yeniden gönderimsiz), 10 ms paket",
+    "pass": true,
+    "info": "{\"kanal\":{\"protokol\":\"sira16\",\"durum\":\"open\",\"sirali\":false,\"yeniden\":0},\"paketSn\":100,\"acik\":true,\"hata\":\"\",\"calici\":true,\"baglam\":\"running\",\"durumu\":{\"buf\":10,\"target\":17,\"c\":17,\"jitter\":2,\"pkts\":1322,\"under\":0,\"lost\":0,\"late\":0,\"acc\":8,\"exp\":5,\"conceal\":0,\"resync\":0,\"skip\":0,\"dropped\":0,\"out\":66},\"not\":\"veri kanalı · tampon 10 ms (hedef 17, sarsıntı 2) · kesinti 0 · kayıp/geç 0 · gizlenen 0 ms · eritilen 8 ms · cihaz 66 ms\"}"
+  },
+  {
+    "phase": "yerel",
+    "name": "iPhone (emülasyon): AudioWorklet çalıcısı (ses-isleyici.js) çalışıyor, tampon ölçülüyor",
+    "pass": true,
+    "info": "{\"kanal\":{\"protokol\":\"sira16\",\"durum\":\"open\",\"sirali\":false,\"yeniden\":0},\"paketSn\":100,\"acik\":true,\"hata\":\"\",\"calici\":true,\"baglam\":\"running\",\"durumu\":{\"buf\":10,\"target\":17,\"c\":17,\"jitter\":2,\"pkts\":1322,\"under\":0,\"lost\":0,\"late\":0,\"acc\":8,\"exp\":5,\"conceal\":0,\"resync\":0,\"skip\":0,\"dropped\":0,\"out\":66},\"not\":\"veri kanalı · tampon 10 ms (hedef 17, sarsıntı 2) · kesinti 0 · kayıp/geç 0 · gizlenen 0 ms · eritilen 8 ms · cihaz 66 ms\"}"
+  },
+  {
+    "phase": "yerel",
+    "name": "tek parmak dokunuş Windows'a ulaştı",
+    "pass": true,
+    "info": "{\"t\":\"pointerdown\",\"x\":215,\"y\":300,\"pt\":\"touch\",\"b\":0,\"id\":\"tap\",\"ts\":1793852382160,\"dpr\":1}"
+  },
+  {
+    "phase": "yerel",
+    "name": "dokunuş gerçek Windows dokunmatiği olarak geldi",
+    "pass": true,
+    "info": "touch"
+  },
+  {
+    "phase": "yerel",
+    "name": "dokunuş doğru noktada",
+    "pass": true,
+    "info": "{\"beklenen\":{\"x\":215,\"y\":300},\"gelen\":{\"t\":\"pointerdown\",\"x\":215,\"y\":300,\"pt\":\"touch\",\"b\":0,\"id\":\"tap\",\"ts\":1793852382160,\"dpr\":1}}"
+  },
+  {
+    "phase": "yerel",
+    "name": "uzun basma = sağ tık",
+    "pass": true,
+    "info": "[\"pointerdown:touch\",\"pointerup:touch\",\"contextmenu:touch\"]"
+  },
+  {
+    "phase": "yerel",
+    "name": "tek parmakla kaydırma uzak sayfayı kaydırdı",
+    "pass": true,
+    "info": "scrollTop 620"
+  },
+  {
+    "phase": "yerel",
+    "name": "iki parmakla sıkıştırma telefonda yakınlaştırdı, Windows'a dokunuş gitmedi",
+    "pass": true,
+    "info": "{\"zoom\":3.4782608695652173,\"uzakDokunus\":0}"
+  },
+  {
+    "phase": "yerel",
+    "name": "iki parmakla kaydırma: tekerlek iletisi konumlu (9 bayt), Windows'ta parmakların altındaki alan kaydı",
+    "pass": true,
+    "info": "{\"ileti\":78,\"boylar\":[9],\"tekerlek\":68,\"hedefler\":[\"scroll\"],\"scrollTop\":1745,\"ilkTekerlek\":{\"t\":\"wheel\",\"x\":727,\"y\":542,\"b\":0,\"id\":\"scroll\",\"ts\":1793852387599,\"dpr\":1}}"
+  },
+  {
+    "phase": "yerel",
+    "name": "çift dokunuş (tablet): 9 px aralı ikinci dokunuş ilkinin noktasına oturdu",
+    "pass": true,
+    "info": "{\"basis\":[[850,84,\"touch\"],[850,84,\"touch\"]],\"cift\":[\"dbl\"],\"renk\":\"rgb(0, 229, 255)\"}"
+  },
+  {
+    "phase": "yerel",
+    "name": "çift dokunuş (Tablet): Windows dokunmatik çift dokunuşu programa çift tık olarak verdi mi",
+    "note": true,
+    "info": "evet (dblclick)"
+  },
+  {
+    "phase": "yerel",
+    "name": "çift dokunuş (direct): 9 px aralı ikinci dokunuş ilkinin noktasına oturdu",
+    "pass": true,
+    "info": "{\"basis\":[[850,84,\"mouse\"],[850,84,\"mouse\"]],\"cift\":[\"dbl\"],\"renk\":\"rgb(0, 229, 255)\"}"
+  },
+  {
+    "phase": "yerel",
+    "name": "çift dokunuş (Doğrudan): Windows'taki programda gerçek çift tık (dblclick)",
+    "pass": true,
+    "info": "{\"basis\":[[850,84,\"mouse\"],[850,84,\"mouse\"]],\"cift\":[\"dbl\"],\"renk\":\"rgb(0, 229, 255)\"}"
+  },
+  {
+    "phase": "yerel",
+    "name": "büyüteç: parmak durunca açıldı (120 ms'de değil, 470 ms'de), ortası parmağın altındaki rengi gösteriyor, kalkınca kapandı",
+    "pass": true,
+    "info": "{\"erken\":false,\"acik\":true,\"gorunur\":true,\"merkez\":[228,60,57],\"kutu\":[237,8,132],\"kapandi\":true}"
+  },
+  {
+    "phase": "yerel",
+    "name": "üç parmakla dokunma klavyeyi açtı ve kapattı, Windows'a tık gitmedi",
+    "pass": true,
+    "info": "{\"acildi\":true,\"kapandi\":true,\"uzakOlay\":0}"
+  },
+  {
+    "phase": "yerel",
+    "name": "iki cihaz aynı anda bağlı, ikisine de görüntü akıyor",
+    "pass": true,
+    "info": "{\"telefon3sn\":66,\"bilgisayar3sn\":85,\"telefonAjan\":{\"bwe\":6000,\"cap\":\"gdi\",\"enc\":\"x264 superfast high tek dilim\",\"encMs\":64.0409,\"floor\":3000,\"flowCuts\":0,\"flowHolds\":0,\"flowKbps\":24,\"flowQ\":0,\"fps\":22,\"h\":768,\"kbps\":15,\"laneSw\":0,\"lanes\":true,\"netl\":\"sürüyor · 11 kare · RF 21.0 (hedef 21.5)\",\"perf\":0,\"queueMs\":0,\"t\":\"stats\",\"target\":40000,\"w\":1024},\"bilgisayarAjan\":{\"bwe\":1253,\"cap\":\"dxgi\",\"enc\":\"x264 superfast high444\",\"encMs\":92.9501,\"floor\":3000,\"fps\":28,\"h\":768,\"kbps\":31,\"netl\":\"sürüyor · 63 kare · RF 21.0 (hedef 22.5)\",\"perf\":0,\"queueMs\":0,\"t\":\"stats\",\"target\":2550,\"w\":1024}}"
+  },
+  {
+    "phase": "yerel",
+    "name": "H.264 çözemeyen tarayıcıda takılma yok (bağlandı ya da açıkça uyardı)",
+    "pass": true,
+    "info": "{\"webrtcH264\":false,\"aktarim\":\"\",\"mesaj\":\"Bu tarayıcı H.264 görüntüyü çözemiyor. Chrome, Edge veya Safari kullanın. | Anahtar türetiliyor…\"}"
+  },
+  {
+    "phase": "yerel",
+    "name": "bağlantı geçmişi kaydediliyor",
+    "pass": true,
+    "info": "[\"127.0.0.1 111sn direct\",\"127.0.0.1 30sn direct\"]"
+  },
+  {
+    "phase": "yerel",
+    "name": "yerel: Köprü bu aşamada hiç çökmedi",
+    "pass": true,
+    "info": ""
+  }
+]

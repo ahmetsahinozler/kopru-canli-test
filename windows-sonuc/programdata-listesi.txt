@@ -1,0 +1,14 @@
+
+    Directory: C:\ProgramData\Kopru
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----           11/5/2026  4:36 AM                yerel-sunucu
+-a---           11/5/2026  4:36 AM            449 agent.json
+-a---           11/5/2026  4:36 AM            404 cokme.log
+-a---           11/5/2026  4:36 AM           2388 gecmis.json
+-a---           11/5/2026  4:18 AM              0 isci-hata.log
+-a---           11/5/2026  4:36 AM          19571 kopru.log
+-a---           11/5/2026  4:36 AM             50 ui.url
+
+

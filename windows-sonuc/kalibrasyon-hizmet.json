@@ -1,0 +1,1088 @@
+{
+  "ortam": "Windows hizmeti (SYSTEM işçisi, sunucusuz)",
+  "turlar": {
+    "%150 Tablet": {
+      "rows": [
+        {
+          "i": 0,
+          "oran": [
+            0.12,
+            0.11
+          ],
+          "hedef": [
+            230,
+            119
+          ],
+          "gelen": [
+            230,
+            119
+          ],
+          "fark": [
+            0,
+            0
+          ],
+          "tur": "touch",
+          "ajan": [
+            230,
+            119
+          ],
+          "yol": "dokunmatik",
+          "imlec": [
+            960,
+            540
+          ],
+          "imlecGorunur": false,
+          "esleme": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "kare": [
+            1920,
+            1080
+          ],
+          "ham": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "bildirim": null,
+          "dpr": 1.5
+        },
+        {
+          "i": 1,
+          "oran": [
+            0.435,
+            0.11
+          ],
+          "hedef": [
+            835,
+            119
+          ],
+          "gelen": [
+            835,
+            119
+          ],
+          "fark": [
+            0,
+            0
+          ],
+          "tur": "touch",
+          "ajan": [
+            835,
+            119
+          ],
+          "yol": "dokunmatik",
+          "imlec": [
+            960,
+            540
+          ],
+          "imlecGorunur": false,
+          "esleme": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "kare": [
+            1920,
+            1080
+          ],
+          "ham": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "bildirim": null,
+          "dpr": 1.5
+        },
+        {
+          "i": 2,
+          "oran": [
+            0.97,
+            0.11
+          ],
+          "hedef": [
+            1862,
+            119
+          ],
+          "gelen": [
+            1862,
+            119
+          ],
+          "fark": [
+            0,
+            0
+          ],
+          "tur": "touch",
+          "ajan": [
+            1862,
+            119
+          ],
+          "yol": "dokunmatik",
+          "imlec": [
+            960,
+            540
+          ],
+          "imlecGorunur": false,
+          "esleme": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "kare": [
+            1920,
+            1080
+          ],
+          "ham": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "bildirim": null,
+          "dpr": 1.5
+        },
+        {
+          "i": 3,
+          "oran": [
+            0.435,
+            0.45
+          ],
+          "hedef": [
+            835,
+            486
+          ],
+          "gelen": [
+            835,
+            486
+          ],
+          "fark": [
+            0,
+            0
+          ],
+          "tur": "touch",
+          "ajan": [
+            835,
+            486
+          ],
+          "yol": "dokunmatik",
+          "imlec": [
+            960,
+            540
+          ],
+          "imlecGorunur": false,
+          "esleme": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "kare": [
+            1920,
+            1080
+          ],
+          "ham": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "bildirim": null,
+          "dpr": 1.5
+        },
+        {
+          "i": 4,
+          "oran": [
+            0.71,
+            0.59
+          ],
+          "hedef": [
+            1363,
+            637
+          ],
+          "gelen": [
+            1363,
+            637
+          ],
+          "fark": [
+            0,
+            0
+          ],
+          "tur": "touch",
+          "ajan": [
+            1363,
+            637
+          ],
+          "yol": "dokunmatik",
+          "imlec": [
+            960,
+            540
+          ],
+          "imlecGorunur": false,
+          "esleme": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "kare": [
+            1920,
+            1080
+          ],
+          "ham": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "bildirim": null,
+          "dpr": 1.5
+        },
+        {
+          "i": 5,
+          "oran": [
+            0.97,
+            0.55
+          ],
+          "hedef": [
+            1862,
+            594
+          ],
+          "gelen": [
+            1862,
+            594
+          ],
+          "fark": [
+            0,
+            0
+          ],
+          "tur": "touch",
+          "ajan": [
+            1862,
+            594
+          ],
+          "yol": "dokunmatik",
+          "imlec": [
+            960,
+            540
+          ],
+          "imlecGorunur": false,
+          "esleme": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "kare": [
+            1920,
+            1080
+          ],
+          "ham": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "bildirim": null,
+          "dpr": 1.5
+        },
+        {
+          "i": 6,
+          "oran": [
+            0.12,
+            0.95
+          ],
+          "hedef": [
+            230,
+            1026
+          ],
+          "gelen": [
+            230,
+            1026
+          ],
+          "fark": [
+            0,
+            0
+          ],
+          "tur": "touch",
+          "ajan": [
+            230,
+            1026
+          ],
+          "yol": "dokunmatik",
+          "imlec": [
+            960,
+            540
+          ],
+          "imlecGorunur": false,
+          "esleme": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "kare": [
+            1920,
+            1080
+          ],
+          "ham": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "bildirim": null,
+          "dpr": 1.5
+        },
+        {
+          "i": 7,
+          "oran": [
+            0.435,
+            0.85
+          ],
+          "hedef": [
+            835,
+            918
+          ],
+          "gelen": [
+            835,
+            918
+          ],
+          "fark": [
+            0,
+            0
+          ],
+          "tur": "touch",
+          "ajan": [
+            835,
+            918
+          ],
+          "yol": "dokunmatik",
+          "imlec": [
+            960,
+            540
+          ],
+          "imlecGorunur": false,
+          "esleme": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "kare": [
+            1920,
+            1080
+          ],
+          "ham": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "bildirim": null,
+          "dpr": 1.5
+        },
+        {
+          "i": 8,
+          "oran": [
+            0.97,
+            0.95
+          ],
+          "hedef": [
+            1862,
+            1026
+          ],
+          "gelen": [
+            1862,
+            1026
+          ],
+          "fark": [
+            0,
+            0
+          ],
+          "tur": "touch",
+          "ajan": [
+            1862,
+            1026
+          ],
+          "yol": "dokunmatik",
+          "imlec": [
+            960,
+            540
+          ],
+          "imlecGorunur": false,
+          "esleme": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "kare": [
+            1920,
+            1080
+          ],
+          "ham": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "bildirim": null,
+          "dpr": 1.5
+        }
+      ],
+      "diag": {
+        "calisma": [
+          0,
+          0,
+          1920,
+          1008
+        ],
+        "girdi": "monitör başına v2",
+        "monitor": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "olcek": 150,
+        "sanal": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "surec": "monitör başına v2"
+      },
+      "aktarim": "webrtc+veri kanalı",
+      "hata": null,
+      "ozet": {
+        "nokta": 9,
+        "gelen": 9,
+        "isabet": 9,
+        "tol": 12,
+        "enBuyuk": 0,
+        "ortFark": [
+          0,
+          0
+        ],
+        "x": {
+          "egim": 1,
+          "kesisim": 0
+        },
+        "y": {
+          "egim": 1,
+          "kesisim": 0
+        },
+        "turler": {
+          "touch": 9
+        },
+        "imlec": {
+          "olculen": 9,
+          "tasindi": 0
+        },
+        "fareyeGecis": -1
+      }
+    },
+    "%150 Doğrudan": {
+      "rows": [
+        {
+          "i": 0,
+          "oran": [
+            0.12,
+            0.11
+          ],
+          "hedef": [
+            230,
+            119
+          ],
+          "gelen": [
+            230,
+            119
+          ],
+          "fark": [
+            0,
+            0
+          ],
+          "tur": "mouse",
+          "ajan": [
+            230,
+            119
+          ],
+          "yol": "fare",
+          "imlec": [
+            230,
+            119
+          ],
+          "imlecGorunur": false,
+          "esleme": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "kare": [
+            1920,
+            1080
+          ],
+          "ham": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "bildirim": null,
+          "dpr": 1.5
+        },
+        {
+          "i": 1,
+          "oran": [
+            0.435,
+            0.11
+          ],
+          "hedef": [
+            835,
+            119
+          ],
+          "gelen": [
+            835,
+            119
+          ],
+          "fark": [
+            0,
+            0
+          ],
+          "tur": "mouse",
+          "ajan": [
+            835,
+            119
+          ],
+          "yol": "fare",
+          "imlec": [
+            835,
+            119
+          ],
+          "imlecGorunur": true,
+          "esleme": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "kare": [
+            1920,
+            1080
+          ],
+          "ham": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "bildirim": null,
+          "dpr": 1.5
+        },
+        {
+          "i": 2,
+          "oran": [
+            0.97,
+            0.11
+          ],
+          "hedef": [
+            1862,
+            119
+          ],
+          "gelen": [
+            1862,
+            119
+          ],
+          "fark": [
+            0,
+            0
+          ],
+          "tur": "mouse",
+          "ajan": [
+            1862,
+            119
+          ],
+          "yol": "fare",
+          "imlec": [
+            1862,
+            119
+          ],
+          "imlecGorunur": true,
+          "esleme": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "kare": [
+            1920,
+            1080
+          ],
+          "ham": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "bildirim": null,
+          "dpr": 1.5
+        },
+        {
+          "i": 3,
+          "oran": [
+            0.435,
+            0.45
+          ],
+          "hedef": [
+            835,
+            486
+          ],
+          "gelen": [
+            835,
+            486
+          ],
+          "fark": [
+            0,
+            0
+          ],
+          "tur": "mouse",
+          "ajan": [
+            835,
+            486
+          ],
+          "yol": "fare",
+          "imlec": [
+            835,
+            486
+          ],
+          "imlecGorunur": true,
+          "esleme": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "kare": [
+            1920,
+            1080
+          ],
+          "ham": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "bildirim": null,
+          "dpr": 1.5
+        },
+        {
+          "i": 4,
+          "oran": [
+            0.71,
+            0.59
+          ],
+          "hedef": [
+            1363,
+            637
+          ],
+          "gelen": [
+            1363,
+            637
+          ],
+          "fark": [
+            0,
+            0
+          ],
+          "tur": "mouse",
+          "ajan": [
+            1363,
+            637
+          ],
+          "yol": "fare",
+          "imlec": [
+            1363,
+            637
+          ],
+          "imlecGorunur": true,
+          "esleme": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "kare": [
+            1920,
+            1080
+          ],
+          "ham": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "bildirim": null,
+          "dpr": 1.5
+        },
+        {
+          "i": 5,
+          "oran": [
+            0.97,
+            0.55
+          ],
+          "hedef": [
+            1862,
+            594
+          ],
+          "gelen": [
+            1862,
+            594
+          ],
+          "fark": [
+            0,
+            0
+          ],
+          "tur": "mouse",
+          "ajan": [
+            1862,
+            594
+          ],
+          "yol": "fare",
+          "imlec": [
+            1862,
+            594
+          ],
+          "imlecGorunur": true,
+          "esleme": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "kare": [
+            1920,
+            1080
+          ],
+          "ham": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "bildirim": null,
+          "dpr": 1.5
+        },
+        {
+          "i": 6,
+          "oran": [
+            0.12,
+            0.95
+          ],
+          "hedef": [
+            230,
+            1026
+          ],
+          "gelen": [
+            230,
+            1026
+          ],
+          "fark": [
+            0,
+            0
+          ],
+          "tur": "mouse",
+          "ajan": [
+            230,
+            1026
+          ],
+          "yol": "fare",
+          "imlec": [
+            230,
+            1026
+          ],
+          "imlecGorunur": true,
+          "esleme": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "kare": [
+            1920,
+            1080
+          ],
+          "ham": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "bildirim": null,
+          "dpr": 1.5
+        },
+        {
+          "i": 7,
+          "oran": [
+            0.435,
+            0.85
+          ],
+          "hedef": [
+            835,
+            918
+          ],
+          "gelen": [
+            835,
+            918
+          ],
+          "fark": [
+            0,
+            0
+          ],
+          "tur": "mouse",
+          "ajan": [
+            835,
+            918
+          ],
+          "yol": "fare",
+          "imlec": [
+            835,
+            918
+          ],
+          "imlecGorunur": true,
+          "esleme": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "kare": [
+            1920,
+            1080
+          ],
+          "ham": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "bildirim": null,
+          "dpr": 1.5
+        },
+        {
+          "i": 8,
+          "oran": [
+            0.97,
+            0.95
+          ],
+          "hedef": [
+            1862,
+            1026
+          ],
+          "gelen": [
+            1862,
+            1026
+          ],
+          "fark": [
+            0,
+            0
+          ],
+          "tur": "mouse",
+          "ajan": [
+            1862,
+            1026
+          ],
+          "yol": "fare",
+          "imlec": [
+            1862,
+            1026
+          ],
+          "imlecGorunur": true,
+          "esleme": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "kare": [
+            1920,
+            1080
+          ],
+          "ham": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "bildirim": null,
+          "dpr": 1.5
+        }
+      ],
+      "diag": {
+        "calisma": [
+          0,
+          0,
+          1920,
+          1008
+        ],
+        "girdi": "monitör başına v2",
+        "monitor": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "olcek": 150,
+        "sanal": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "surec": "monitör başına v2"
+      },
+      "aktarim": "webrtc+veri kanalı",
+      "hata": null,
+      "ozet": {
+        "nokta": 9,
+        "gelen": 9,
+        "isabet": 9,
+        "tol": 12,
+        "enBuyuk": 0,
+        "ortFark": [
+          0,
+          0
+        ],
+        "x": {
+          "egim": 1,
+          "kesisim": 0
+        },
+        "y": {
+          "egim": 1,
+          "kesisim": 0
+        },
+        "turler": {
+          "mouse": 9
+        },
+        "imlec": {
+          "olculen": 0,
+          "tasindi": 0
+        },
+        "fareyeGecis": -1
+      }
+    }
+  },
+  "tani": {
+    "%150": {
+      "calisma": [
+        0,
+        0,
+        1920,
+        1008
+      ],
+      "girdi": "monitör başına v2",
+      "monitor": [
+        0,
+        0,
+        1920,
+        1080
+      ],
+      "olcek": 150,
+      "sanal": [
+        0,
+        0,
+        1920,
+        1080
+      ],
+      "surec": "monitör başına v2"
+    }
+  },
+  "ekran": {
+    "w": 1920,
+    "h": 1080
+  },
+  "hipotez": {
+    "karar": "REDDEDİLDİ",
+    "neden": "%150'de dokunmatik (9 nokta) ve fare (9 nokta) ±12 px içinde",
+    "dokunmatik": {
+      "nokta": 9,
+      "gelen": 9,
+      "isabet": 9,
+      "tol": 12,
+      "enBuyuk": 0,
+      "ortFark": [
+        0,
+        0
+      ],
+      "x": {
+        "egim": 1,
+        "kesisim": 0
+      },
+      "y": {
+        "egim": 1,
+        "kesisim": 0
+      },
+      "turler": {
+        "touch": 9
+      },
+      "imlec": {
+        "olculen": 9,
+        "tasindi": 0
+      },
+      "fareyeGecis": -1
+    },
+    "fare": {
+      "nokta": 9,
+      "gelen": 9,
+      "isabet": 9,
+      "tol": 12,
+      "enBuyuk": 0,
+      "ortFark": [
+        0,
+        0
+      ],
+      "x": {
+        "egim": 1,
+        "kesisim": 0
+      },
+      "y": {
+        "egim": 1,
+        "kesisim": 0
+      },
+      "turler": {
+        "mouse": 9
+      },
+      "imlec": {
+        "olculen": 0,
+        "tasindi": 0
+      },
+      "fareyeGecis": -1
+    }
+  },
+  "hedef": {
+    "ok": true,
+    "pencere": [
+      1920,
+      1080
+    ],
+    "ekran": [
+      1920,
+      1080
+    ],
+    "dpr": 1,
+    "yol": "CDP"
+  },
+  "olcekler": [
+    100,
+    125,
+    150,
+    175
+  ],
+  "dpr150": 1.5
+}

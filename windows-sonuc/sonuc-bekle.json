@@ -1,0 +1,86 @@
+[
+  {
+    "phase": "bekle",
+    "name": "iPhone işi",
+    "note": true,
+    "info": "bitti"
+  },
+  {
+    "phase": "bekle",
+    "name": "iPhone oturumunda Windows'taki programa gelen olaylar (özet)",
+    "note": true,
+    "info": "{\"durum\":{\"scroll\":2653.142822265625,\"ta\":\"Kopru-Ş1\",\"tap\":\"rgb(0, 200, 0)\",\"dbl\":\"rgb(96, 96, 96)\",\"w\":1098,\"h\":618,\"sx\":0,\"sy\":0,\"dpr\":1.75},\"sayilar\":{\"keydown\":23,\"pointerdown:touch\":16,\"pointerup:touch\":15,\"mousedown\":25,\"wheel\":72,\"dblclick\":2,\"pointerdown:mouse\":11,\"pointerup:mouse\":11,\"contextmenu:touch\":1},\"son\":[{\"t\":\"keydown\",\"k\":\"F2\",\"id\":\"\",\"ts\":1793852592022,\"dpr\":1.75,\"kal\":\"dogrudan\"},{\"t\":\"keydown\",\"k\":\"F4\",\"id\":\"\",\"ts\":1793852593528,\"dpr\":1.75},{\"t\":\"keydown\",\"k\":\"F4\",\"id\":\"\",\"ts\":1793852603764,\"dpr\":1.75},{\"t\":\"keydown\",\"k\":\"F9\",\"id\":\"\",\"ts\":1793852626839,\"dpr\":1.75},{\"t\":\"pointerdown\",\"x\":477.14288330078125,\"y\":277.71429443359375,\"pt\":\"touch\",\"b\":0,\"id\":\"\",\"ts\":1793852627865,\"dpr\":1.75,\"kal\":\"tablet\"},{\"t\":\"pointerup\",\"x\":477.14288330078125,\"y\":277.71429443359375,\"pt\":\"touch\",\"b\":0,\"id\":\"\",\"ts\":1793852627885,\"dpr\":1.75,\"kal\":\"tablet\"},{\"t\":\"mousedown\",\"x\":477,\"y\":277,\"b\":0,\"id\":\"\",\"ts\":1793852627887,\"dpr\":1.75,\"kal\":\"tablet\"},{\"t\":\"keydown\",\"k\":\"F2\",\"id\":\"\",\"ts\":1793852628179,\"dpr\":1.75,\"kal\":\"tablet\"},{\"t\":\"keydown\",\"k\":\"F4\",\"id\":\"\",\"ts\":1793852672353,\"dpr\":1.75},{\"t\":\"keydown\",\"k\":\"F4\",\"id\":\"\",\"ts\":1793852673880,\"dpr\":1.75}]}"
+  },
+  {
+    "phase": "bekle",
+    "name": "gerçek iPhone Safari → Windows: Tablet (Windows %175) dokunuşları hedefte (±12 px, fareye geçildiyse sonrası)",
+    "pass": true,
+    "info": "{\"nokta\":10,\"gelen\":10,\"isabet\":10,\"tol\":12,\"enBuyuk\":3,\"ortFark\":[-1.7,-1.1],\"x\":{\"egim\":0.999,\"kesisim\":0},\"y\":{\"egim\":0.998,\"kesisim\":0},\"turler\":{\"touch\":10},\"imlec\":{\"olculen\":0,\"tasindi\":0},\"fareyeGecis\":-1}"
+  },
+  {
+    "phase": "bekle",
+    "name": "gerçek iPhone Safari → Windows: Doğrudan (Windows %175) dokunuşları hedefte (±12 px)",
+    "pass": true,
+    "info": "{\"nokta\":9,\"gelen\":9,\"isabet\":9,\"tol\":12,\"enBuyuk\":3,\"ortFark\":[-1.8,-1.1],\"x\":{\"egim\":0.999,\"kesisim\":0},\"y\":{\"egim\":0.998,\"kesisim\":0},\"turler\":{\"mouse\":9},\"imlec\":{\"olculen\":0,\"tasindi\":0},\"fareyeGecis\":-1}"
+  },
+  {
+    "phase": "bekle",
+    "name": "gerçek iPhone Safari: HİPOTEZ A → REDDEDİLDİ",
+    "note": true,
+    "info": "{\"karar\":\"REDDEDİLDİ\",\"neden\":\"%150'de dokunmatik (10 nokta) ve fare (9 nokta) ±12 px içinde\",\"dokunmatik\":{\"nokta\":10,\"gelen\":10,\"isabet\":10,\"tol\":12,\"enBuyuk\":3,\"ortFark\":[-1.7,-1.1],\"x\":{\"egim\":0.999,\"kesisim\":0},\"y\":{\"egim\":0.998,\"kesisim\":0},\"turler\":{\"touch\":10},\"imlec\":{\"olculen\":0,\"tasindi\":0},\"fareyeGecis\":-1},\"fare\":{\"nokta\":9,\"gelen\":9,\"isabet\":9,\"tol\":12,\"enBuyuk\":3,\"ortFark\":[-1.8,-1.1],\"x\":{\"egim\":0.999,\"kesisim\":0},\"y\":{\"egim\":0.998,\"kesisim\":0},\"turler\":{\"mouse\":9},\"imlec\":{\"olculen\":0,\"tasindi\":0},\"fareyeGecis\":-1}}"
+  },
+  {
+    "phase": "bekle",
+    "name": "gerçek iPhone Safari: iki parmakla kaydırmanın tekerleği parmakların altındaki alana gitti (#scroll)",
+    "pass": true,
+    "info": "{\"tekerlek\":72,\"hedefler\":[\"scroll\"]}"
+  },
+  {
+    "phase": "bekle",
+    "name": "gerçek iPhone Safari: çift dokunuş → Windows'ta çift tık (#dbl)",
+    "note": true,
+    "info": "[\"dbl\",\"dbl\"]"
+  },
+  {
+    "phase": "bekle",
+    "name": "iPhone bağlantısı bitince Windows ölçeği eski haline döndü (\"telefona göre büyüt\" geri alındı)",
+    "pass": true,
+    "info": "{\"iphoneSirasinda\":1.75,\"simdi\":1}"
+  },
+  {
+    "phase": "bekle",
+    "name": "ajan bağlantı geçmişi",
+    "note": true,
+    "info": "[\"13.105.117.181 227sn relay-ws iPhone\",\"52.159.139.240 3sn direct \",\"52.159.139.240 22sn relay-ws \",\"52.159.139.240 1sn direct iPhone\",\"52.159.139.240 56sn direct \",\"52.159.139.240 9sn direct iPhone\",\"52.159.139.240 15sn direct iPhone\"]"
+  },
+  {
+    "phase": "bekle",
+    "name": "ICE tanısı: doğrudan yol / tünele geçiş nedenleri (hizmet günlüğü)",
+    "note": true,
+    "info": "[\"2026/11/05 04:18:27 [11120f] doğrudan yol (direct): yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 prflx/v4×1 srflx/v4×1; çiftler in-progress×1 succeeded×3 waiting×8; istek giden 7 gelen 3, yanıt gelen 6; seçili host/v4>prflx/v4 rtt 1 ms\",\"2026/11/05 04:18:52 [95f721] doğrudan yol (direct): yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 prflx/v4×1 srflx/v4×1; çiftler in-progress×5 succeeded×3 waiting×4; istek giden 19 gelen 3, yanıt gelen 5; seçili host/v4>prflx/v4 rtt 1 ms\",\"2026/11/05 04:19:09 [764c45] doğrudan yol (direct): yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 prflx/v4×1 srflx/v4×1; çiftler in-progress×5 succeeded×3 waiting×4; istek giden 16 gelen 3, yanıt gelen 6; seçili host/v4>prflx/v4 rtt 2 ms\",\"2026/11/05 04:19:24 [664554] doğrudan yol (direct): yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 prflx/v4×1 srflx/v4×1; çiftler in-progress×5 succeeded×3 waiting×4; istek giden 19 gelen 3, yanıt gelen 5; seçili host/v4>prflx/v4 rtt 1 ms\",\"2026/11/05 04:19:26 [0e171a] doğrudan yol bırakıldı, tünele geçiliyor; istemci: yok (eski istemci); ajan: yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 srflx/v4×1; çiftler in-progress×5 succeeded×3; istek giden 20 gelen 1, yanıt gelen 4; seçili host/v4>host/mdns rtt 1 ms\",\"2026/11/05 04:19:52 [ab3188] doğrudan yol (direct): yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 srflx/v4×1; çiftler in-progress×5 succeeded×3; istek giden 21 gelen 3, yanıt gelen 5; seçili host/v4>host/mdns rtt 1 ms\",\"2026/11/05 04:20:05 [068c8c] doğrudan yol (direct): yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 prflx/v4×1 srflx/v4×1; çiftler in-progress×5 succeeded×3 waiting×4; istek giden 19 gelen 3, yanıt gelen 5; seçili host/v4>prflx/v4 rtt 0 ms\",\"2026/11/05 04:21:59 [90f1cc] doğrudan yol bırakıldı, tünele geçiliyor; istemci: {\\\"ice\\\":\\\"checking\\\",\\\"toplama\\\":\\\"complete\\\",\\\"yerel\\\":{\\\"host/?\\\":2,\\\"host/?/tcp\\\":2,\\\"srflx/v4\\\":2},\\\"uzak\\\":{\\\"srflx/v4\\\":2,\\\"host/?\\\":2},\\\"ciftler\\\":{\\\"in-progress\\\":4},\\\"istekGiden\\\":46,\\\"istekGelen\\\":0,\\\"yanitGelen\\\":0,\\\"gelen\\\":0,\\\"basarili\\\":false,\\\"secili\\\":null,\\\"rtt\\\":null,\\\"sonuc\\\":\\\"tünel\\\",\\\"neden\\\":\\\"karşı taraftan ICE yanıtı yok\\\",\\\"ms\\\":2597}; ajan: yerel host/v4×2 host/v6×2 srflx/v4×2; uzak srflx/v4×2; çiftler failed×8; istek giden 64 gelen 0, yanıt gelen 0\",\"2026/11/05 04:21:59 [90f1cc] pion ice WARNING: Failed to discover mDNS candidate 160cacd1-f218-4e27-b2fc-4fff79b20a51.local: mDNS: context has elapsed\"]"
+  },
+  {
+    "phase": "bekle",
+    "name": "hizmet: GPU ile küçültme varsayılan olarak kapalı (günlükte \"ekran kartında küçültme açık\" yok)",
+    "pass": true,
+    "info": "[]"
+  },
+  {
+    "phase": "bekle",
+    "name": "hizmet: iPhone oturumunda WASAPI olay güdümlü yakalama kuruldu (günlük)",
+    "pass": true,
+    "info": "[\"2026/11/05 04:19:26 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)\",\"2026/11/05 04:19:26 [0e171a] ses aktarımı başladı\",\"2026/11/05 04:19:52 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)\",\"2026/11/05 04:19:52 [ab3188] ses aktarımı başladı\",\"2026/11/05 04:20:05 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)\",\"2026/11/05 04:20:05 [068c8c] ses aktarımı başladı\",\"2026/11/05 04:21:59 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)\",\"2026/11/05 04:21:59 [90f1cc] ses aktarımı başladı\"]"
+  },
+  {
+    "phase": "bekle",
+    "name": "ekran geri alındı",
+    "note": true,
+    "info": "{\"sonuc\":\"0\",\"simdi\":\"1024x768\"}"
+  },
+  {
+    "phase": "bekle",
+    "name": "hedef program yeniden ekrana yayıldı",
+    "note": true,
+    "info": "{\"ok\":true,\"pencere\":[1024,768],\"ekran\":[1024,768],\"dpr\":1}"
+  }
+]

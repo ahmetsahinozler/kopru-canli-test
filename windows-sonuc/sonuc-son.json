@@ -1,0 +1,68 @@
+[
+  {
+    "phase": "son",
+    "name": "yeni sürümü çift tıklayınca güncellendi; kimlik ve parola korundu",
+    "pass": true,
+    "info": "{\"dosyaDegisti\":true,\"kimlikAyni\":true,\"baglandi\":true,\"hata\":\"\"}"
+  },
+  {
+    "phase": "son",
+    "name": "son aşama bağlantısı",
+    "pass": true,
+    "info": ""
+  },
+  {
+    "phase": "son",
+    "name": "uzaktan Ctrl+Alt+Del güvenlik ekranını açtı",
+    "pass": true,
+    "info": ""
+  },
+  {
+    "phase": "son",
+    "name": "Ctrl+Alt+Del menüsü Esc ile kapandı",
+    "note": true,
+    "info": "true"
+  },
+  {
+    "phase": "son",
+    "name": "uzaktan kilitleme",
+    "pass": true,
+    "info": ""
+  },
+  {
+    "phase": "son",
+    "name": "kilit ekranında parolayı uzaktan yazıp Windows'u açtı",
+    "pass": true,
+    "info": ""
+  },
+  {
+    "phase": "son",
+    "name": "bağlantı bitince Windows kendiliğinden kilitlendi",
+    "pass": true,
+    "info": ""
+  },
+  {
+    "phase": "son",
+    "name": "art arda yanlış parolalardan sonra denemeler geçici olarak kilitlendi",
+    "pass": true,
+    "info": "[\"Parola hatalı. Uzak bilgisayardaki Köprü penceresinde görünen parolayı girin.\",\"Parola hatalı. Uzak bilgisayardaki Köprü penceresinde görünen parolayı girin.\",\"Parola hatalı. Uzak bilgisayardaki Köprü penceresinde görünen parolayı girin.\",\"Parola hatalı. Uzak bilgisayardaki Köprü penceresinde görünen parolayı girin.\",\"Parola hatalı. 30 sn sonra tekrar deneyin.\",\"Çok fazla hatalı deneme. 30 sn bekleyin.\",\"Çok fazla hatalı deneme. 29 sn bekleyin.\"]"
+  },
+  {
+    "phase": "son",
+    "name": "kaldırma: hizmet silindi",
+    "pass": true,
+    "info": ""
+  },
+  {
+    "phase": "son",
+    "name": "kaldırma: güvenlik duvarı kuralı silindi",
+    "pass": true,
+    "info": ""
+  },
+  {
+    "phase": "son",
+    "name": "son: Köprü bu aşamada hiç çökmedi",
+    "pass": true,
+    "info": ""
+  }
+]

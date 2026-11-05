@@ -1,0 +1,32 @@
+[
+  {
+    "phase": "gpu",
+    "name": "GPU ile küçültme (KOPRU_GPU yok)",
+    "note": true,
+    "info": "{\"kare\":99,\"caps\":[\"dxgi\"],\"boyut\":{\"w\":960,\"h\":540},\"renk\":[228,57,55],\"gunluk\":[],\"cokme\":[]}"
+  },
+  {
+    "phase": "gpu",
+    "name": "GPU ile küçültme varsayılan olarak kapalı (küçültülmüş akışta yakalama \"dxgi\", günlükte \"açık\" yok)",
+    "pass": true,
+    "info": "{\"kare\":99,\"caps\":[\"dxgi\"],\"boyut\":{\"w\":960,\"h\":540},\"renk\":[228,57,55],\"gunluk\":[],\"cokme\":[]}"
+  },
+  {
+    "phase": "gpu",
+    "name": "KOPRU_GPU=1 (yazılım bağdaştırıcısı): açıldı ve ilk kare denetimini geçti",
+    "note": true,
+    "info": "{\"kare\":99,\"caps\":[\"dxgi +GPU ölçek\"],\"boyut\":{\"w\":960,\"h\":540},\"renk\":[228,57,55],\"gunluk\":[\"2026/11/05 04:23:04 ekran kartında küçültme açık: 1920x1080 → 960x540 (işlemciyle en büyük fark 1)\"],\"cokme\":[]}"
+  },
+  {
+    "phase": "gpu",
+    "name": "KOPRU_GPU=1: görüntü akıyor, renk doğru, çökme yok (GPU açılsa da kapansa da)",
+    "pass": true,
+    "info": "{\"kare\":99,\"caps\":[\"dxgi +GPU ölçek\"],\"boyut\":{\"w\":960,\"h\":540},\"renk\":[228,57,55],\"gunluk\":[\"2026/11/05 04:23:04 ekran kartında küçültme açık: 1920x1080 → 960x540 (işlemciyle en büyük fark 1)\"],\"cokme\":[]}"
+  },
+  {
+    "phase": "gpu",
+    "name": "gpu: Köprü bu aşamada hiç çökmedi",
+    "pass": true,
+    "info": ""
+  }
+]

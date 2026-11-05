@@ -1,0 +1,226 @@
+2026/11/05 04:17:58 ayar sayfası: http://127.0.0.1:21880/?k=0cXkMyEzP5OeNfVaqfVlyZfs
+2026/11/05 04:17:58 Köprü ajanı 1.2.10 başladı · sunucu http://127.0.0.1:8080 · parola: otomatik (günlüğe yazılmaz)
+2026/11/05 04:17:58 sunucuya bağlandı, kimlik 180 581 240
+2026/11/05 04:18:06 bağlantı isteği: 127.0.0.1
+2026/11/05 04:18:06 [653d4b] hatalı parola denemesi (127.0.0.1)
+2026/11/05 04:18:06 [653d4b] oturum kapandı: hatalı parola
+2026/11/05 04:18:06 bağlantı isteği: 127.0.0.1
+2026/11/05 04:18:06 [bd7de3] kimlik doğrulandı (127.0.0.1)
+2026/11/05 04:18:06 [bd7de3] bağlantı durumu: connecting
+2026/11/05 04:18:06 [bd7de3] WebRTC hazır, profil high444 (f4001f)
+2026/11/05 04:18:07 [bd7de3] bağlantı durumu: connected
+2026/11/05 04:18:07 [bd7de3] doğrudan yol (direct): yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 prflx/v4×1; çiftler in-progress×1 succeeded×3 waiting×4; istek giden 6 gelen 3, yanıt gelen 5; seçili host/v4>prflx/v4 rtt 0 ms
+2026/11/05 04:18:07 DXGI yakalama: Microsoft Basic Render Driver [1414:008c] · \\.\DISPLAY1 1024x768 @0,0 1 Hz, döndürme 1 · DuplicateOutput1 (BGRA) · SDR (8 bit, renk uzayı 0) · masaüstü sistem belleğinde
+2026/11/05 04:18:07 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)
+2026/11/05 04:18:07 [bd7de3] ses aktarımı başladı
+2026/11/05 04:18:22 [bd7de3] indirme tamamlandı: 25165824 bayt, 37.1 MB/sn
+2026/11/05 04:18:23 [bd7de3] indirme tamamlandı: 544 bayt, 0.1 MB/sn
+2026/11/05 04:18:24 [bd7de3] yükleme tamamlandı: C:\Users\runneradmin\Downloads\kopru-canli\yukle.bin (12582912 bayt, 28.3 MB/sn)
+2026/11/05 04:18:52 [bd7de3] gizlilik kipi açıldı (uzaktaki ekran karartıldı, yerel girdi kapalı)
+2026/11/05 04:18:52 [bd7de3] gizlilik durumu: pencere=0x30214 var=true görünür=true yakalamaDışı=0x11 alan=0,0-1024,768
+2026/11/05 04:19:05 [bd7de3] gizlilik durumu: kapalı
+2026/11/05 04:19:06 [bd7de3] çözünürlük geçici olarak 1920x1080 yapıldı
+2026/11/05 04:19:06 DXGI yakalama: Microsoft Basic Render Driver [1414:008c] · \\.\DISPLAY1 1920x1080 @0,0 1 Hz, döndürme 1 · DuplicateOutput1 (BGRA) · SDR (8 bit, renk uzayı 0) · masaüstü sistem belleğinde
+2026/11/05 04:19:07 DXGI yakalama: Microsoft Basic Render Driver [1414:008c] · \\.\DISPLAY1 1024x768 @0,0 1 Hz, döndürme 1 · DuplicateOutput (eski arayüz; DuplicateOutput1: E_ACCESSDENIED) · SDR (8 bit, renk uzayı 0) · masaüstü sistem belleğinde
+2026/11/05 04:19:10 [bd7de3] çözünürlük geçici olarak 1920x1080 yapıldı
+2026/11/05 04:19:10 [bd7de3] yakalama hatası: AcquireNextFrame: DXGI_ERROR_INVALID_CALL
+2026/11/05 04:19:12 [bd7de3] Windows ölçeği geçici olarak %175 yapıldı
+2026/11/05 04:19:12 [bd7de3] çözünürlük geçici olarak 1280x720 yapıldı
+2026/11/05 04:19:12 DXGI yakalama: Microsoft Basic Render Driver [1414:008c] · \\.\DISPLAY1 1280x720 @0,0 1 Hz, döndürme 1 · DuplicateOutput1 (BGRA) · SDR (8 bit, renk uzayı 0) · masaüstü sistem belleğinde
+2026/11/05 04:19:13 [bd7de3] çözünürlük değişti, yazı boyutu %100 olarak korundu
+2026/11/05 04:19:15 [bd7de3] çözünürlük geçici olarak 1920x1080 yapıldı
+2026/11/05 04:19:15 [bd7de3] yakalama hatası: AcquireNextFrame: DXGI_ERROR_INVALID_CALL
+2026/11/05 04:19:16 [bd7de3] çözünürlük değişti, yazı boyutu %175 olarak korundu
+2026/11/05 04:19:17 [bd7de3] Windows ölçeği eski haline döndü
+2026/11/05 04:19:17 [bd7de3] telefona uydur: ekran 1920x1080, telefon 852x393 → istenen %225, uygulanan %175
+2026/11/05 04:19:17 [bd7de3] Windows ölçeği geçici olarak %175 yapıldı
+2026/11/05 04:19:17 [bd7de3] Windows ölçeği eski haline döndü
+2026/11/05 04:19:17 [bd7de3] yakalama hatası: AcquireNextFrame: DXGI_ERROR_INVALID_CALL
+2026/11/05 04:19:21 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)
+2026/11/05 04:19:21 [bd7de3] ses aktarımı başladı
+2026/11/05 04:19:27 bağlantı isteği: 127.0.0.1
+2026/11/05 04:19:27 [be66b9] kimlik doğrulandı (127.0.0.1)
+2026/11/05 04:19:27 [be66b9] bağlantı durumu: connecting
+2026/11/05 04:19:27 [be66b9] WebRTC hazır, profil main (4d001f)
+2026/11/05 04:19:27 [be66b9] bağlantı durumu: connected
+2026/11/05 04:19:27 [be66b9] görüntü veri kanalından (WebCodecs, high, şeritli: false)
+2026/11/05 04:19:27 [be66b9] ses veri kanalından (WebCodecs)
+2026/11/05 04:19:27 DXGI çoğaltması açılamadı (Microsoft Basic Render Driver [1414:008c], \\.\DISPLAY1): DuplicateOutput: HRESULT 0x80070057 — geçersiz bağımsız değişken (aygıt çıkışın ekran kartında değil)
+2026/11/05 04:19:27 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)
+2026/11/05 04:19:27 [be66b9] ses aktarımı başladı
+2026/11/05 04:19:28 [be66b9] doğrudan yol (direct): yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 prflx/v4×1 srflx/v4×1; çiftler in-progress×4 succeeded×2 waiting×6; istek giden 17 gelen 3, yanıt gelen 7; seçili host/v4>prflx/v4 rtt 1 ms
+2026/11/05 04:19:29 [be66b9] ekran yakalanamıyor: DuplicateOutput: HRESULT 0x80070057
+2026/11/05 04:19:44 [be66b9] ekran yakalanamıyor: DuplicateOutput: HRESULT 0x80070057
+2026/11/05 04:19:58 [be66b9] oturum kapandı: istemci ayrıldı
+2026/11/05 04:19:58 [be66b9] bağlantı durumu: closed
+2026/11/05 04:19:58 [bd7de3] oturum kapandı: istemci ayrıldı
+2026/11/05 04:19:58 [bd7de3] bağlantı durumu: closed
+2026/11/05 04:19:58 [be66b9] video hattı durdu
+2026/11/05 04:19:58 [bd7de3] video hattı durdu
+2026/11/05 04:19:59 bağlantı isteği: 127.0.0.1
+2026/11/05 04:19:59 [0b27b0] oturum kapandı: istemci ayrıldı
+2026/11/05 04:20:47 ayar sayfası: http://127.0.0.1:21880/?k=M1OCX1UDARmBNleKqojpB9K5
+2026/11/05 04:20:47 Köprü ajanı 1.2.10 başladı · sunucu http://127.0.0.1:8080 · parola: otomatik (günlüğe yazılmaz)
+2026/11/05 04:20:47 sunucuya bağlandı, kimlik 180 581 240
+2026/11/05 04:20:52 bağlantı isteği: 127.0.0.1
+2026/11/05 04:20:52 [aef311] kimlik doğrulandı (127.0.0.1)
+2026/11/05 04:20:52 [aef311] bağlantı durumu: connecting
+2026/11/05 04:20:52 [aef311] WebRTC hazır, profil high444 (f4001f)
+2026/11/05 04:20:54 [aef311] bağlantı durumu: connected
+2026/11/05 04:20:54 DXGI yakalama: Microsoft Basic Render Driver [1414:008c] · \\.\DISPLAY1 1024x768 @0,0 1 Hz, döndürme 1 · DuplicateOutput1 (BGRA) · SDR (8 bit, renk uzayı 0) · masaüstü sistem belleğinde
+2026/11/05 04:20:54 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)
+2026/11/05 04:20:54 [aef311] ses aktarımı başladı
+2026/11/05 04:20:54 [aef311] çözünürlük geçici olarak 1920x1080 yapıldı
+2026/11/05 04:20:54 DXGI çoğaltması açılamadı (Microsoft Basic Render Driver [1414:008c], \\.\DISPLAY1): DuplicateOutput: E_ACCESSDENIED — masaüstüne erişim yok (UAC/kilit ekranı; hizmet olarak çalışmıyorsa görülemez)
+2026/11/05 04:20:54 [aef311] doğrudan yol (direct): yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 prflx/v4×1; çiftler in-progress×1 succeeded×3 waiting×4; istek giden 6 gelen 3, yanıt gelen 5; seçili host/v4>prflx/v4 rtt 1 ms
+2026/11/05 04:20:54 DXGI yakalama: Microsoft Basic Render Driver [1414:008c] · \\.\DISPLAY1 1920x1080 @0,0 1 Hz, döndürme 1 · DuplicateOutput1 (BGRA) · SDR (8 bit, renk uzayı 0) · masaüstü sistem belleğinde
+2026/11/05 04:20:59 bağlantı isteği: 127.0.0.1
+2026/11/05 04:20:59 [596a89] kimlik doğrulandı (127.0.0.1)
+2026/11/05 04:20:59 [596a89] bağlantı durumu: connecting
+2026/11/05 04:20:59 [596a89] WebRTC hazır, profil main (4d001f)
+2026/11/05 04:20:59 [596a89] bağlantı durumu: connected
+2026/11/05 04:20:59 [596a89] görüntü veri kanalından (WebCodecs, high, şeritli: false)
+2026/11/05 04:20:59 [596a89] ses veri kanalından (WebCodecs)
+2026/11/05 04:20:59 DXGI çoğaltması açılamadı (Microsoft Basic Render Driver [1414:008c], \\.\DISPLAY1): DuplicateOutput: HRESULT 0x80070057 — geçersiz bağımsız değişken (aygıt çıkışın ekran kartında değil)
+2026/11/05 04:20:59 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)
+2026/11/05 04:20:59 [596a89] ses aktarımı başladı
+2026/11/05 04:21:00 [596a89] doğrudan yol (direct): yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 prflx/v4×1 srflx/v4×1; çiftler in-progress×4 succeeded×2 waiting×6; istek giden 16 gelen 3, yanıt gelen 6; seçili host/v4>prflx/v4 rtt 0 ms
+2026/11/05 04:21:00 [596a89] ekran yakalanamıyor: DuplicateOutput: HRESULT 0x80070057
+2026/11/05 04:21:14 [596a89] oturum kapandı: istemci ayrıldı
+2026/11/05 04:21:14 [596a89] bağlantı durumu: closed
+2026/11/05 04:21:15 [596a89] video hattı durdu
+2026/11/05 04:21:16 bağlantı isteği: 127.0.0.1
+2026/11/05 04:21:16 [8548d8] kimlik doğrulandı (127.0.0.1)
+2026/11/05 04:21:16 [8548d8] bağlantı durumu: connecting
+2026/11/05 04:21:16 [8548d8] WebRTC hazır, profil main (4d001f)
+2026/11/05 04:21:16 [8548d8] bağlantı durumu: connected
+2026/11/05 04:21:16 [8548d8] görüntü veri kanalından (WebCodecs, high, şeritli: false)
+2026/11/05 04:21:16 [8548d8] ses veri kanalından (WebCodecs)
+2026/11/05 04:21:16 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)
+2026/11/05 04:21:16 [8548d8] ses aktarımı başladı
+2026/11/05 04:21:17 [8548d8] doğrudan yol (direct): yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 prflx/v4×1 srflx/v4×1; çiftler in-progress×3 succeeded×1 waiting×8; istek giden 10 gelen 3, yanıt gelen 5; seçili host/v4>prflx/v4 rtt 1 ms
+2026/11/05 04:21:26 [8548d8] oturum kapandı: istemci ayrıldı
+2026/11/05 04:21:26 [8548d8] video hattı durdu
+2026/11/05 04:21:26 [8548d8] bağlantı durumu: closed
+2026/11/05 04:21:27 [aef311] Windows ölçeği geçici olarak %150 yapıldı
+2026/11/05 04:21:29 bağlantı isteği: 127.0.0.1
+2026/11/05 04:21:29 [2a14dd] kimlik doğrulandı (127.0.0.1)
+2026/11/05 04:21:29 [2a14dd] bağlantı durumu: connecting
+2026/11/05 04:21:29 [2a14dd] WebRTC hazır, profil main (4d001f)
+2026/11/05 04:21:29 [2a14dd] bağlantı durumu: connected
+2026/11/05 04:21:29 [2a14dd] görüntü veri kanalından (WebCodecs, high, şeritli: false)
+2026/11/05 04:21:29 [2a14dd] ses veri kanalından (WebCodecs)
+2026/11/05 04:21:29 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)
+2026/11/05 04:21:29 [2a14dd] ses aktarımı başladı
+2026/11/05 04:21:30 [2a14dd] doğrudan yol (direct): yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 prflx/v4×1 srflx/v4×1; çiftler in-progress×3 succeeded×1 waiting×8; istek giden 12 gelen 3, yanıt gelen 5; seçili host/v4>prflx/v4 rtt 1 ms
+2026/11/05 04:21:39 [2a14dd] oturum kapandı: istemci ayrıldı
+2026/11/05 04:21:39 [2a14dd] bağlantı durumu: closed
+2026/11/05 04:21:39 [2a14dd] video hattı durdu
+2026/11/05 04:21:40 bağlantı isteği: 127.0.0.1
+2026/11/05 04:21:40 [fb77d2] kimlik doğrulandı (127.0.0.1)
+2026/11/05 04:21:40 [fb77d2] bağlantı durumu: connecting
+2026/11/05 04:21:40 [fb77d2] WebRTC hazır, profil main (4d001f)
+2026/11/05 04:21:40 [fb77d2] bağlantı durumu: connected
+2026/11/05 04:21:40 [fb77d2] görüntü veri kanalından (WebCodecs, high, şeritli: false)
+2026/11/05 04:21:40 [fb77d2] ses veri kanalından (WebCodecs)
+2026/11/05 04:21:40 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)
+2026/11/05 04:21:40 [fb77d2] ses aktarımı başladı
+2026/11/05 04:21:41 [fb77d2] doğrudan yol (direct): yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 prflx/v4×1 srflx/v4×1; çiftler in-progress×3 succeeded×1 waiting×8; istek giden 10 gelen 3, yanıt gelen 5; seçili host/v4>prflx/v4 rtt 2 ms
+2026/11/05 04:21:41 [fb77d2] ekran yakalanamıyor: DuplicateOutput: HRESULT 0x80070057
+2026/11/05 04:21:55 [fb77d2] oturum kapandı: istemci ayrıldı
+2026/11/05 04:21:55 [fb77d2] bağlantı durumu: closed
+2026/11/05 04:21:55 [fb77d2] video hattı durdu
+2026/11/05 04:21:56 [aef311] Windows ölçeği eski haline döndü
+2026/11/05 04:21:58 bağlantı isteği: 127.0.0.1
+2026/11/05 04:21:58 [2125c9] kimlik doğrulandı (127.0.0.1)
+2026/11/05 04:21:58 [2125c9] bağlantı durumu: connecting
+2026/11/05 04:21:58 [2125c9] WebRTC hazır, profil main (4d001f)
+2026/11/05 04:21:58 [2125c9] bağlantı durumu: connected
+2026/11/05 04:21:58 [2125c9] görüntü veri kanalından (WebCodecs, high, şeritli: false)
+2026/11/05 04:21:58 [2125c9] ses veri kanalından (WebCodecs)
+2026/11/05 04:21:58 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)
+2026/11/05 04:21:58 [2125c9] ses aktarımı başladı
+2026/11/05 04:21:59 [2125c9] doğrudan yol (direct): yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 prflx/v4×1 srflx/v4×1; çiftler in-progress×4 succeeded×2 waiting×6; istek giden 14 gelen 3, yanıt gelen 5; seçili host/v4>prflx/v4 rtt 2 ms
+2026/11/05 04:22:00 [2125c9] oturum kapandı: istemci ayrıldı
+2026/11/05 04:22:00 [2125c9] bağlantı durumu: closed
+2026/11/05 04:22:00 [2125c9] video hattı durdu
+2026/11/05 04:22:03 [aef311] oturum kapandı: istemci ayrıldı
+2026/11/05 04:22:03 [aef311] bağlantı durumu: closed
+2026/11/05 04:22:04 ayar sayfası: http://127.0.0.1:21880/?k=85CiVt2DYuFTPXSWQj3QhDxV
+2026/11/05 04:22:04 Köprü ajanı 1.2.10 başladı · sunucu http://127.0.0.1:8080 · parola: otomatik (günlüğe yazılmaz)
+2026/11/05 04:22:04 sunucuya bağlandı, kimlik 180 581 240
+2026/11/05 04:22:08 bağlantı isteği: 127.0.0.1
+2026/11/05 04:22:08 [1d8bff] kimlik doğrulandı (127.0.0.1)
+2026/11/05 04:22:08 [1d8bff] bağlantı durumu: connecting
+2026/11/05 04:22:08 [1d8bff] WebRTC hazır, profil high444 (f4001f)
+2026/11/05 04:22:08 [1d8bff] bağlantı durumu: connected
+2026/11/05 04:22:08 DXGI yakalama: Microsoft Basic Render Driver [1414:008c] · \\.\DISPLAY1 1024x768 @0,0 1 Hz, döndürme 1 · DuplicateOutput1 (BGRA) · SDR (8 bit, renk uzayı 0) · masaüstü sistem belleğinde
+2026/11/05 04:22:08 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)
+2026/11/05 04:22:08 [1d8bff] ses aktarımı başladı
+2026/11/05 04:22:08 [1d8bff] çözünürlük geçici olarak 1920x1080 yapıldı
+2026/11/05 04:22:08 DXGI çoğaltması açılamadı (Microsoft Basic Render Driver [1414:008c], \\.\DISPLAY1): DuplicateOutput: E_ACCESSDENIED — masaüstüne erişim yok (UAC/kilit ekranı; hizmet olarak çalışmıyorsa görülemez)
+2026/11/05 04:22:08 [1d8bff] doğrudan yol (direct): yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 prflx/v4×1 srflx/v4×1; çiftler in-progress×3 succeeded×1 waiting×8; istek giden 10 gelen 3, yanıt gelen 5; seçili host/v4>prflx/v4 rtt 1 ms
+2026/11/05 04:22:08 DXGI yakalama: Microsoft Basic Render Driver [1414:008c] · \\.\DISPLAY1 1920x1080 @0,0 1 Hz, döndürme 1 · DuplicateOutput1 (BGRA) · SDR (8 bit, renk uzayı 0) · masaüstü sistem belleğinde
+2026/11/05 04:22:11 [1d8bff] Windows ölçeği geçici olarak %150 yapıldı
+2026/11/05 04:22:13 bağlantı isteği: 127.0.0.1
+2026/11/05 04:22:13 [39cb93] kimlik doğrulandı (127.0.0.1)
+2026/11/05 04:22:13 [39cb93] bağlantı durumu: connecting
+2026/11/05 04:22:13 [39cb93] WebRTC hazır, profil main (4d001f)
+2026/11/05 04:22:13 [39cb93] bağlantı durumu: connected
+2026/11/05 04:22:13 [39cb93] görüntü veri kanalından (WebCodecs, high, şeritli: false)
+2026/11/05 04:22:13 [39cb93] ses veri kanalından (WebCodecs)
+2026/11/05 04:22:13 DXGI çoğaltması açılamadı (Microsoft Basic Render Driver [1414:008c], \\.\DISPLAY1): DuplicateOutput: HRESULT 0x80070057 — geçersiz bağımsız değişken (aygıt çıkışın ekran kartında değil)
+2026/11/05 04:22:13 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)
+2026/11/05 04:22:13 [39cb93] ses aktarımı başladı
+2026/11/05 04:22:13 [39cb93] doğrudan yol (direct): yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 prflx/v4×1 srflx/v4×1; çiftler in-progress×3 succeeded×1 waiting×8; istek giden 10 gelen 3, yanıt gelen 5; seçili host/v4>prflx/v4 rtt 1 ms
+2026/11/05 04:22:14 [39cb93] ekran yakalanamıyor: DuplicateOutput: HRESULT 0x80070057
+2026/11/05 04:22:26 [39cb93] oturum kapandı: istemci ayrıldı
+2026/11/05 04:22:26 [39cb93] bağlantı durumu: closed
+2026/11/05 04:22:26 [39cb93] video hattı durdu
+2026/11/05 04:22:27 [1d8bff] Windows ölçeği eski haline döndü
+2026/11/05 04:22:29 [1d8bff] oturum kapandı: istemci ayrıldı
+2026/11/05 04:22:29 [1d8bff] bağlantı durumu: closed
+2026/11/05 04:22:29 [1d8bff] bağlantı durumu: closed
+2026/11/05 04:22:29 [1d8bff] video hattı durdu
+2026/11/05 04:22:31 ayar sayfası: http://127.0.0.1:21880/?k=qg92beFXkTRo-lkU2lw-IAQo
+2026/11/05 04:22:31 Köprü ajanı 1.2.10 başladı · sunucu http://127.0.0.1:8080 · parola: otomatik (günlüğe yazılmaz)
+2026/11/05 04:22:31 sunucuya bağlandı, kimlik 180 581 240
+2026/11/05 04:22:40 ayar sayfası: http://127.0.0.1:21880/?k=2wSDARf7kJMvwJqSbjNlpdp_
+2026/11/05 04:22:40 Köprü ajanı 1.2.10 başladı · sunucu http://127.0.0.1:8080 · parola: otomatik (günlüğe yazılmaz)
+2026/11/05 04:22:40 sunucuya bağlandı, kimlik 180 581 240
+2026/11/05 04:22:44 bağlantı isteği: 127.0.0.1
+2026/11/05 04:22:44 [d25583] kimlik doğrulandı (127.0.0.1)
+2026/11/05 04:22:44 [d25583] bağlantı durumu: connecting
+2026/11/05 04:22:44 [d25583] WebRTC hazır, profil high444 (f4001f)
+2026/11/05 04:22:44 [d25583] bağlantı durumu: connected
+2026/11/05 04:22:44 DXGI yakalama: Microsoft Basic Render Driver [1414:008c] · \\.\DISPLAY1 1024x768 @0,0 1 Hz, döndürme 1 · DuplicateOutput1 (BGRA) · SDR (8 bit, renk uzayı 0) · masaüstü sistem belleğinde
+2026/11/05 04:22:44 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)
+2026/11/05 04:22:44 [d25583] ses aktarımı başladı
+2026/11/05 04:22:44 [d25583] çözünürlük geçici olarak 1920x1080 yapıldı
+2026/11/05 04:22:44 [d25583] doğrudan yol (direct): yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 prflx/v4×1 srflx/v4×1; çiftler in-progress×3 succeeded×1 waiting×8; istek giden 10 gelen 3, yanıt gelen 5; seçili host/v4>prflx/v4 rtt 0 ms
+2026/11/05 04:22:44 DXGI yakalama: Microsoft Basic Render Driver [1414:008c] · \\.\DISPLAY1 1920x1080 @0,0 1 Hz, döndürme 1 · DuplicateOutput1 (BGRA) · SDR (8 bit, renk uzayı 0) · masaüstü sistem belleğinde
+2026/11/05 04:22:56 DXGI çoğaltması açılamadı (Microsoft Basic Render Driver [1414:008c], \\.\DISPLAY1): DuplicateOutput: E_ACCESSDENIED — masaüstüne erişim yok (UAC/kilit ekranı; hizmet olarak çalışmıyorsa görülemez)
+2026/11/05 04:22:58 [d25583] oturum kapandı: istemci ayrıldı
+2026/11/05 04:22:58 [d25583] bağlantı durumu: closed
+2026/11/05 04:22:59 ayar sayfası: http://127.0.0.1:21880/?k=kPnuUvNRM-XXDYBUWP4fQMnE
+2026/11/05 04:22:59 Köprü ajanı 1.2.10 başladı · sunucu http://127.0.0.1:8080 · parola: otomatik (günlüğe yazılmaz)
+2026/11/05 04:22:59 sunucuya bağlandı, kimlik 180 581 240
+2026/11/05 04:23:03 bağlantı isteği: 127.0.0.1
+2026/11/05 04:23:03 [119faa] kimlik doğrulandı (127.0.0.1)
+2026/11/05 04:23:03 [119faa] bağlantı durumu: connecting
+2026/11/05 04:23:03 [119faa] WebRTC hazır, profil high444 (f4001f)
+2026/11/05 04:23:03 [119faa] bağlantı durumu: connected
+2026/11/05 04:23:03 DXGI yakalama: Microsoft Basic Render Driver [1414:008c] · \\.\DISPLAY1 1024x768 @0,0 1 Hz, döndürme 1 · DuplicateOutput1 (BGRA) · SDR (8 bit, renk uzayı 0) · masaüstü sistem belleğinde
+2026/11/05 04:23:03 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)
+2026/11/05 04:23:03 [119faa] ses aktarımı başladı
+2026/11/05 04:23:03 [119faa] çözünürlük geçici olarak 1920x1080 yapıldı
+2026/11/05 04:23:03 DXGI çoğaltması açılamadı (Microsoft Basic Render Driver [1414:008c], \\.\DISPLAY1): DuplicateOutput: E_ACCESSDENIED — masaüstüne erişim yok (UAC/kilit ekranı; hizmet olarak çalışmıyorsa görülemez)
+2026/11/05 04:23:03 [119faa] doğrudan yol (direct): yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 prflx/v4×1 srflx/v4×1; çiftler in-progress×3 succeeded×1 waiting×8; istek giden 12 gelen 3, yanıt gelen 5; seçili host/v4>prflx/v4 rtt 0 ms
+2026/11/05 04:23:03 DXGI yakalama: Microsoft Basic Render Driver [1414:008c] · \\.\DISPLAY1 1920x1080 @0,0 1 Hz, döndürme 1 · DuplicateOutput1 (BGRA) · SDR (8 bit, renk uzayı 0) · masaüstü sistem belleğinde
+2026/11/05 04:23:04 ekran kartında küçültme açık: 1920x1080 → 960x540 (işlemciyle en büyük fark 1)
+2026/11/05 04:23:16 [119faa] oturum kapandı: istemci ayrıldı
+2026/11/05 04:23:16 [119faa] bağlantı durumu: closed
+2026/11/05 04:23:17 [119faa] video hattı durdu
+2026/11/05 04:23:19 ayar sayfası: http://127.0.0.1:21880/?k=7o11Vd9KjeKPHy16srXJ3ppW
+2026/11/05 04:23:19 Köprü ajanı 1.2.10 başladı · sunucu http://127.0.0.1:8080 · parola: otomatik (günlüğe yazılmaz)
+2026/11/05 04:23:19 sunucuya bağlandı, kimlik 180 581 240

@@ -1,0 +1,38 @@
+[
+  {
+    "phase": "uzun",
+    "name": "dayanıklılık: bağlantı",
+    "pass": true,
+    "info": "880 ms webrtc"
+  },
+  {
+    "phase": "uzun",
+    "name": "dayanıklılık: 10 dakika boyunca bağlantı hiç kopmadı",
+    "pass": true,
+    "info": "{\"durumDegisimleri\":[]}"
+  },
+  {
+    "phase": "uzun",
+    "name": "dayanıklılık: akıcılık düşmedi (ortalama ≥ 25 fps, en düşük ≥ 15 fps)",
+    "pass": true,
+    "info": "{\"ortalama\":26.9,\"enDusuk\":26.2,\"rttOrt\":1}"
+  },
+  {
+    "phase": "uzun",
+    "name": "dayanıklılık: bellek şişmedi (artış < 80 MB)",
+    "pass": true,
+    "info": "{\"basta\":\"96 MB\",\"sonda\":\"104 MB\"}"
+  },
+  {
+    "phase": "uzun",
+    "name": "dayanıklılık örnekleri (15 sn arayla)",
+    "note": true,
+    "info": "[{\"fps\":27,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":27,\"kbps\":158},{\"fps\":27.266666666666666,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":27,\"kbps\":243},{\"fps\":27,\"rtt\":2,\"durum\":\"connected\",\"ajanFps\":27,\"kbps\":183},{\"fps\":27.066666666666666,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":27,\"kbps\":142},{\"fps\":26.4,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":29,\"kbps\":137},{\"fps\":26.866666666666667,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":28,\"kbps\":136},{\"fps\":27.133333333333333,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":28,\"kbps\":132},{\"fps\":26.733333333333334,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":27,\"kbps\":178},{\"fps\":26.733333333333334,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":26,\"kbps\":148},{\"fps\":27,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":27,\"kbps\":137},{\"fps\":27.066666666666666,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":24,\"kbps\":153},{\"fps\":27.6,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":27,\"kbps\":162},{\"fps\":26.666666666666668,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":25,\"kbps\":117},{\"fps\":27.2,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":27,\"kbps\":121},{\"fps\":26.666666666666668,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":28,\"kbps\":132},{\"fps\":27.266666666666666,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":27,\"kbps\":127},{\"fps\":26.866666666666667,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":29,\"kbps\":110},{\"fps\":27.133333333333333,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":28,\"kbps\":112},{\"fps\":26.733333333333334,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":28,\"kbps\":124},{\"fps\":27,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":25,\"kbps\":101},{\"fps\":26.733333333333334,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":30,\"kbps\":127},{\"fps\":26.333333333333332,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":26,\"kbps\":116},{\"fps\":26.866666666666667,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":26,\"kbps\":130},{\"fps\":26.8,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":24,\"kbps\":110},{\"fps\":27.266666666666666,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":28,\"kbps\":152},{\"fps\":26.266666666666666,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":27,\"kbps\":167},{\"fps\":26.466666666666665,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":25,\"kbps\":230},{\"fps\":26.533333333333335,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":29,\"kbps\":255},{\"fps\":26.866666666666667,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":28,\"kbps\":275},{\"fps\":26.8,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":26,\"kbps\":217},{\"fps\":26.933333333333334,\"rtt\":2,\"durum\":\"connected\",\"ajanFps\":23,\"kbps\":202},{\"fps\":26.2,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":27,\"kbps\":210},{\"fps\":27.866666666666667,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":28,\"kbps\":219},{\"fps\":26.8,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":27,\"kbps\":174},{\"fps\":26.933333333333334,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":28,\"kbps\":177},{\"fps\":26.933333333333334,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":26,\"kbps\":181},{\"fps\":26.666666666666668,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":26,\"kbps\":164},{\"fps\":26.6,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":28,\"kbps\":150},{\"fps\":26.8,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":28,\"kbps\":138},{\"fps\":26.466666666666665,\"rtt\":1,\"durum\":\"connected\",\"ajanFps\":26,\"kbps\":154}]"
+  },
+  {
+    "phase": "uzun",
+    "name": "uzun: Köprü bu aşamada hiç çökmedi",
+    "pass": true,
+    "info": ""
+  }
+]

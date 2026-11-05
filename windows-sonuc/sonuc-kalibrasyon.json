@@ -1,0 +1,86 @@
+[
+  {
+    "phase": "kalibrasyon",
+    "name": "kalibrasyon: ajan başladı",
+    "pass": true,
+    "info": "180581240"
+  },
+  {
+    "phase": "kalibrasyon",
+    "name": "kalibrasyon: denetim bağlantısı",
+    "pass": true,
+    "info": "1883 ms "
+  },
+  {
+    "phase": "kalibrasyon",
+    "name": "kalibrasyon (kullanıcı oturumu): Windows'un girdi koordinat uzayı (ajanın tanısı)",
+    "note": true,
+    "info": "{\"%100\":{\"calisma\":[0,0,1920,1032],\"girdi\":\"monitör başına v2\",\"monitor\":[0,0,1920,1080],\"olcek\":100,\"sanal\":[0,0,1920,1080],\"surec\":\"monitör başına v2\"},\"%150\":{\"calisma\":[0,0,1920,1008],\"girdi\":\"monitör başına v2\",\"monitor\":[0,0,1920,1080],\"olcek\":150,\"sanal\":[0,0,1920,1080],\"surec\":\"monitör başına v2\"}}"
+  },
+  {
+    "phase": "kalibrasyon",
+    "name": "kalibrasyon (kullanıcı oturumu): %100 Tablet dokunuşları hedefte (±12 px, 9 nokta)",
+    "pass": true,
+    "info": "{\"nokta\":9,\"gelen\":9,\"isabet\":9,\"tol\":12,\"enBuyuk\":0,\"ortFark\":[0,0],\"x\":{\"egim\":1,\"kesisim\":0},\"y\":{\"egim\":1,\"kesisim\":0},\"turler\":{\"touch\":9},\"imlec\":{\"olculen\":9,\"tasindi\":0},\"fareyeGecis\":-1}"
+  },
+  {
+    "phase": "kalibrasyon",
+    "name": "kalibrasyon (kullanıcı oturumu): %100 Doğrudan (fare) dokunuşları hedefte",
+    "pass": true,
+    "info": "{\"nokta\":9,\"gelen\":9,\"isabet\":9,\"tol\":12,\"enBuyuk\":0,\"ortFark\":[0,0],\"x\":{\"egim\":1,\"kesisim\":0},\"y\":{\"egim\":1,\"kesisim\":0},\"turler\":{\"mouse\":9},\"imlec\":{\"olculen\":0,\"tasindi\":0},\"fareyeGecis\":-1}"
+  },
+  {
+    "phase": "kalibrasyon",
+    "name": "kalibrasyon (kullanıcı oturumu): %150 Doğrudan (fare) dokunuşları hedefte",
+    "pass": true,
+    "info": "{\"nokta\":9,\"gelen\":9,\"isabet\":9,\"tol\":12,\"enBuyuk\":0,\"ortFark\":[0,0],\"x\":{\"egim\":1,\"kesisim\":0},\"y\":{\"egim\":1,\"kesisim\":0},\"turler\":{\"mouse\":9},\"imlec\":{\"olculen\":0,\"tasindi\":0},\"fareyeGecis\":-1}"
+  },
+  {
+    "phase": "kalibrasyon",
+    "name": "kalibrasyon (kullanıcı oturumu): %150 Tablet dokunuşları hedefte (kayma varsa kapalı döngüyle fareye geçtikten sonra)",
+    "pass": true,
+    "info": "{\"nokta\":9,\"gelen\":9,\"isabet\":9,\"tol\":12,\"enBuyuk\":0,\"ortFark\":[0,0],\"x\":{\"egim\":1,\"kesisim\":0},\"y\":{\"egim\":1,\"kesisim\":0},\"turler\":{\"touch\":9},\"imlec\":{\"olculen\":9,\"tasindi\":0},\"fareyeGecis\":-1}"
+  },
+  {
+    "phase": "kalibrasyon",
+    "name": "kalibrasyon (kullanıcı oturumu): Windows dokunuşta imleci taşıyor mu (kapalı döngünün ölçebilmesi için)",
+    "note": true,
+    "info": "{\"olculen\":9,\"tasindi\":0,\"sonuc\":\"hayır (kapalı döngü ölçemez)\"}"
+  },
+  {
+    "phase": "kalibrasyon",
+    "name": "kalibrasyon (kullanıcı oturumu): HİPOTEZ A (Windows %150'de enjekte edilen dokunuşu kaydırıyor) → REDDEDİLDİ",
+    "note": true,
+    "info": "{\"karar\":\"REDDEDİLDİ\",\"neden\":\"%150'de dokunmatik (9 nokta) ve fare (9 nokta) ±12 px içinde\",\"dokunmatik\":{\"nokta\":9,\"gelen\":9,\"isabet\":9,\"tol\":12,\"enBuyuk\":0,\"ortFark\":[0,0],\"x\":{\"egim\":1,\"kesisim\":0},\"y\":{\"egim\":1,\"kesisim\":0},\"turler\":{\"touch\":9},\"imlec\":{\"olculen\":9,\"tasindi\":0},\"fareyeGecis\":-1},\"fare\":{\"nokta\":9,\"gelen\":9,\"isabet\":9,\"tol\":12,\"enBuyuk\":0,\"ortFark\":[0,0],\"x\":{\"egim\":1,\"kesisim\":0},\"y\":{\"egim\":1,\"kesisim\":0},\"turler\":{\"mouse\":9},\"imlec\":{\"olculen\":0,\"tasindi\":0},\"fareyeGecis\":-1}}"
+  },
+  {
+    "phase": "kalibrasyon",
+    "name": "\"telefona göre büyüt\" önerisi ilk bağlantıda çıktı (1920×1080, %100)",
+    "pass": true,
+    "info": "Ekran 1920×1080, yazı boyutu %100. Bağlantı süresince Windows'un yazı boyutu bu telefona göre %175 yapılabilir; bağlantı bitince eski haline döner."
+  },
+  {
+    "phase": "kalibrasyon",
+    "name": "öneri: \"Olduğu gibi kalsın\" bu bilgisayar için kaydedildi, Windows değişmedi",
+    "pass": true,
+    "info": "{\"kayit\":false,\"dpr0\":1,\"dpr1\":1}"
+  },
+  {
+    "phase": "kalibrasyon",
+    "name": "kapalı döngü: Windows dokunuşta imleci taşımadığı için ölçüm yapılamadı (yanlış fareye geçiş yok)",
+    "note": true,
+    "info": "{\"ilk\":[\"#3 hedef(835,486) → gelen(835,336) fark(0,-150) touch imleç(960,540)\",\"#4 hedef(1363,637) → gelen(1363,487) fark(0,-150) touch imleç(960,540)\",\"#5 hedef(1862,594) → gelen(1862,444) fark(0,-150) touch imleç(960,540)\"],\"hata\":null}"
+  },
+  {
+    "phase": "kalibrasyon",
+    "name": "kalibrasyon sonrası ekran",
+    "note": true,
+    "info": "{\"ekran\":\"1024x768\",\"dpr\":1}"
+  },
+  {
+    "phase": "kalibrasyon",
+    "name": "kalibrasyon: Köprü bu aşamada hiç çökmedi",
+    "pass": true,
+    "info": ""
+  }
+]
