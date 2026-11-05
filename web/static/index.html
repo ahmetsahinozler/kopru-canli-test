@@ -50,7 +50,7 @@
       <h2>Bu bilgisayarı uzaktan erişime aç</h2>
       <p class="muted small">Windows bilgisayarda Köprü'yü indirip çift tıklayın. Kimlik ve parola otomatik oluşur; sunucu ayarı gerekmez.</p>
       <a class="btn primary" id="dl-agent" href="indir/kopru.exe" download>Windows için Köprü'yü indir</a>
-      <p class="muted small" style="margin-top:10px">İlk açılışta Windows "bilinmeyen yayımcı" uyarısı verebilir: <b>Ek bilgi → Yine de çalıştır</b>. Kalıcı ve oturum açma ekranı dahil erişim için açılan pencerede <b>Hizmet olarak kur</b>'a basın.</p>
+      <p class="muted small" style="margin-top:10px">Program imzalı olmadığı için ilk açılışta Windows <b>"Windows bilgisayarınızı korudu"</b> diyebilir: <b>Ek bilgi → Yine de çalıştır</b>. Microsoft Defender uzaktan erişim programlarını "istenmeyebilecek uygulama" sayıp engelleyebilir; o zaman Windows Güvenliği → Virüs ve tehdit koruması → Koruma geçmişi'nden <b>İzin ver</b>. Kalıcı ve oturum açma ekranı dahil erişim için açılan pencerede <b>Hizmet olarak kur</b>'a basın.</p>
     </div>
     <div class="muted small foot" id="foot"></div>
   </div>
@@ -61,7 +61,7 @@
   <div id="stage">
     <div id="canvas"><video id="video" autoplay playsinline muted disablepictureinpicture></video><canvas id="vcanvas" class="hidden"></canvas><audio id="audio" autoplay playsinline></audio></div>
     <div id="ghost" class="hidden"></div>
-    <div id="overlay" class="overlay"><div class="spinner"></div><div id="overlay-text">Bağlanıyor…</div><button id="overlay-cancel" class="ghost-btn">Vazgeç</button></div>
+    <div id="overlay" class="overlay"><div class="spinner"></div><div id="overlay-text">Bağlanıyor…</div><div id="overlay-hint" class="overlay-hint hidden">Uzun sürüyor. Bilgisayar kapanmış, uykuya geçmiş ya da interneti kesilmiş olabilir; Köprü beklemeye devam ediyor. Bilgisayar açıksa biraz daha bekleyin, değilse <b>Vazgeç</b>'e dokunun.</div><button id="overlay-cancel" class="ghost-btn">Vazgeç</button></div>
   </div>
 
   <button id="kchip" class="kchip ui hidden">⌨ Yazmak için dokunun</button>
@@ -122,7 +122,7 @@
 
   <!-- Dosyalar paneli -->
   <aside id="files" class="drawer ui">
-    <div class="drawer-head"><h3>Uzak dosyalar</h3><button class="icon-btn" data-close="files">✕</button></div>
+    <div class="drawer-head"><h3>Uzak dosyalar</h3><button class="icon-btn" data-close="files" aria-label="Kapat">✕</button></div>
     <div class="fs-bar">
       <button id="fs-up" title="Üst klasör">⬆</button>
       <button id="fs-home" title="Başlangıç">🏠</button>
@@ -145,7 +145,7 @@
 
   <!-- Pano paneli -->
   <aside id="clip" class="sheet ui">
-    <div class="drawer-head"><h3>Pano</h3><button class="icon-btn" data-close="clip">✕</button></div>
+    <div class="drawer-head"><h3>Pano</h3><button class="icon-btn" data-close="clip" aria-label="Kapat">✕</button></div>
     <label class="check"><input type="checkbox" id="clip-sync"> Otomatik pano eşitleme</label>
     <div class="muted small">Ctrl+C / Ctrl+V her iki yönde çalışır. Kopyalanan dosyalar da aktarılır.</div>
     <div class="clip-box">
@@ -163,7 +163,7 @@
 
   <!-- Ekran / kalite paneli -->
   <aside id="display" class="sheet ui">
-    <div class="drawer-head"><h3>Ekran ve kalite</h3><button class="icon-btn" data-close="display">✕</button></div>
+    <div class="drawer-head"><h3>Ekran ve kalite</h3><button class="icon-btn" data-close="display" aria-label="Kapat">✕</button></div>
     <div class="field"><span>Monitör</span><div id="disp-list" class="seg wrap"></div></div>
     <div class="field"><span>Öncelik</span>
       <div class="seg" id="q-seg"><button data-q="speed">Hız</button><button data-q="balanced">Dengeli</button><button data-q="quality">Kalite</button></div>

@@ -23,7 +23,7 @@ a.btn { display: inline-block; text-decoration: none; color: var(--text); backgr
 a.btn.primary { background: var(--acc); border-color: var(--acc); color: #fff; }
 button.big { width: 100%; padding: 13px; font-size: 16px; font-weight: 600; }
 button.on { background: var(--acc); border-color: var(--acc); color: #fff; }
-.icon-btn { background: transparent; border: 0; font-size: 20px; padding: 6px 10px; }
+.icon-btn { background: transparent; border: 0; font-size: 20px; padding: 6px 10px; min-width: 44px; min-height: 44px; }
 /* 16 px: iOS, odaklanan alanı 16 px'ten küçük yazıda kendiliğinden yakınlaştırır ve
    klavye kapanınca geri uzaklaştırmaz (görüntüleyiciye yakınlaşmış görünüm alanıyla girilirdi). */
 input, select, textarea { font: inherit; font-size: 16px; color: var(--text); background: #0b0e13; border: 1px solid var(--line); border-radius: 10px; padding: 11px 12px; width: 100%; }
@@ -63,7 +63,11 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--acc); outli
 .overlay.soft { background: rgba(10,12,16,.45); }
 .spinner { width: 42px; height: 42px; border-radius: 50%; border: 4px solid #2a3140; border-top-color: var(--acc); animation: spin 0.9s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.ghost-btn { background: transparent; }
+.ghost-btn { background: transparent; min-height: 44px; min-width: 120px; }
+.overlay-hint { max-width: 420px; font-size: 14px; color: var(--muted); }
+/* Yeniden bağlanırken perde yarı saydam: yazı uzak ekranın açık renklerinde okunmuyordu. */
+.overlay.soft #overlay-text, .overlay.soft .overlay-hint, .overlay.soft .ghost-btn { background: rgba(10,12,16,.82); border-radius: 10px; padding: 6px 12px; }
+.overlay.soft .overlay-hint { color: var(--text); }
 
 .toolbar { position: absolute; top: calc(8px + var(--safe-t)); left: 50%; transform: translateX(-50%); z-index: 45; display: flex; align-items: center; gap: 6px; background: rgba(23,27,35,.92); border: 1px solid var(--line); border-radius: 14px; padding: 5px; backdrop-filter: blur(10px); max-width: calc(100vw - 16px); }
 .tb-items { display: flex; align-items: center; gap: 4px; overflow-x: auto; scrollbar-width: none; }
@@ -79,6 +83,13 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--acc); outli
 .seg button { border: 0; background: transparent; padding: 6px 10px; font-size: 13px; border-radius: 8px; }
 .seg button.on { background: var(--acc); }
 body:not(.touch) .touch-only { display: none !important; }
+/* Dokunmatikte en az 44×44 pt dokunma hedefi (Apple önerisi). */
+body.touch .tb, body.touch .tb-handle { min-width: 44px; min-height: 44px; padding: 7px 6px; }
+body.touch .seg button { min-height: 40px; padding: 6px 8px; }
+body.touch .toast .x { min-width: 44px; min-height: 44px; }
+body.touch .icon-btn { min-width: 44px; min-height: 44px; }
+/* Yatay telefonda ad tek harfe sıkışıyor ve ✕ ekrandan taşıyordu: ad gizlenir (adı ana ekranda görürsünüz). */
+@media (max-width: 900px) { body.touch .tb-name { display: none; } }
 
 .keys { position: fixed; left: 0; right: 0; bottom: var(--kb, 0px); z-index: 30; background: rgba(23,27,35,.96); border-top: 1px solid var(--line); padding: 6px 6px calc(6px + var(--safe-b)); }
 .keys-row { display: flex; gap: 5px; overflow-x: auto; scrollbar-width: none; padding: 3px 0; }
@@ -136,9 +147,9 @@ body > .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(
   .tb-name { display: none; }
   .seg button { padding: 6px 8px; }
   .tb { padding: 7px 9px; }
-  .toasts { top: calc(110px + var(--safe-t)); }
-  .drawer { padding-top: calc(112px + var(--safe-t)); }
-  .sheet { padding-top: calc(112px + var(--safe-t)); }
+  .toasts { top: calc(122px + var(--safe-t)); }
+  .drawer { padding-top: calc(122px + var(--safe-t)); }
+  .sheet { padding-top: calc(122px + var(--safe-t)); }
 }
 
 .card.install { grid-column: 1 / -1; border-color: var(--acc); background: linear-gradient(135deg, rgba(79,140,255,.16), rgba(123,92,255,.12)); }

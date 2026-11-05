@@ -226,6 +226,9 @@ async function connectClient(page, url, id, pw, ms = 45000, o = {}) {
   const err = okc ? '' : await page.evaluate(() => (document.getElementById('connect-err')?.textContent || '') + ' | ' + (document.getElementById('overlay-text')?.textContent || '')).catch(() => '');
   return { ok: !!okc, ms: Date.now() - t0, err };
 }
+// iceTani istemcinin ICE özetini verir (session.js iceSummary): doğrudan yolda
+// seçilen çiftin türleri, tünele geçişte neden, aday türleri ve çift durumları.
+const iceTani = (page) => page.evaluate(() => app.session?.iceDiag || null).catch((e) => 'okunamadı: ' + e.message);
 // Aktarım: tünel, doğrudan bağlantıda RTP görüntüsü ya da (Apple cihazlarında, 1.2.6+) veri kanalı.
 const kindOf = (page) => page.evaluate(() => (app.session?.wsMode ? 'tünel(ws)' : app.session?.pc ? (app.wsv ? 'webrtc+veri kanalı' : 'webrtc') : '?'));
 async function remoteSize(page) {
@@ -942,7 +945,9 @@ async function yerel() {
       const pd = await waitFor(() => tpg.evaluate(() => ev.filter((e) => e.t === 'pointerdown')).then((a) => (a.length ? a : null)), 4000);
       ok('tek parmak dokunuş Windows\'a ulaştı', !!pd, pd?.[0]);
       ok('dokunuş gerçek Windows dokunmatiği olarak geldi', pd && pd[0].pt === 'touch', pd?.[0]?.pt);
-      ok('dokunuş doğru noktada', pd && Math.abs(pd[0].x * dpr - tapC.x) <= 6 * dpr && Math.abs(pd[0].y * dpr - tapC.y) <= 6 * dpr, { beklenen: tapC, gelen: pd?.[0] });
+      // Olayın kendi dpr'ı kullanılır: önceki adımlar Windows ölçeğini değiştirmiş olabilir (4K koşusu).
+      const ed = pd?.[0]?.dpr || dpr;
+      ok('dokunuş doğru noktada', pd && Math.abs(pd[0].x * ed - tapC.x) <= 6 * ed && Math.abs(pd[0].y * ed - tapC.y) <= 6 * ed, { beklenen: tapC, gelen: pd?.[0] });
     });
     await step('uzun basma', async () => {
       await resetTarget(tpg);
@@ -1141,9 +1146,12 @@ async function kalibrasyon() {
     await s.m.screenshot({ path: path.join(OUT, 'kalibrasyon-oneri-karti.png') });
     ok('"telefona göre büyüt" önerisi ilk bağlantıda çıktı (1920×1080, %100)', !!kart, kart || await s.m.evaluate(() => ({ olcek: app.scales, ekran: app.currentDisplay })));
     if (kart) {
+      // Başlangıç ölçeği her zaman %100 değil (4K sanal monitörde Windows %200 seçer).
+      const dpr0 = await (await target()).pg.evaluate(() => devicePixelRatio);
       await s.m.click('#fitask-no').catch(() => {});
       const kayit = await s.m.evaluate(() => app.book.find((b) => b.id === app.session?.id)?.fit);
-      ok('öneri: "Olduğu gibi kalsın" bu bilgisayar için kaydedildi, Windows değişmedi', kayit === false && Math.abs((await (await target()).pg.evaluate(() => devicePixelRatio)) - 1) < 0.01, { kayit });
+      const dpr1 = await (await target()).pg.evaluate(() => devicePixelRatio);
+      ok('öneri: "Olduğu gibi kalsın" bu bilgisayar için kaydedildi, Windows değişmedi', kayit === false && Math.abs(dpr1 - dpr0) < 0.01, { kayit, dpr0, dpr1 });
     }
     await s.m.evaluate(() => app.disconnect()).catch(() => {});
     await s.ctx.close();
@@ -1309,6 +1317,7 @@ async function hizmet() {
   page.on('pageerror', (e) => console.log('  [istemci hata]', e.message));
   let c = await connectClient(page, U, cfg.id, PW, 60000);
   ok('hizmet: ilan panosundan bulup bağlandı', c.ok, `${c.ms} ms ${c.ok ? await kindOf(page) : c.err}`);
+  note('hizmet: ICE tanısı (istemci)', await iceTani(page));
   if (c.ok) {
     await sleep(2500);
     await step('hizmet yakalama', async () => {
@@ -1542,6 +1551,9 @@ async function bekle() {
   try { note('ajan bağlantı geçmişi', ((await uiHelper(PD)('/api/state')).history || []).slice(0, 8).map((x) => `${x.who} ${x.secs}sn ${x.conn} ${/iPhone/.test(x.ua) ? 'iPhone' : ''}`)); } catch {}
   // Hizmet günlüğü: GPU yolu varsayılan kapalı (iPhone'un küçültülmüş akışında da); ses yakalama yolu.
   const lg = logOf(PD);
+  // Doğrudan yol tanısı (icetani.go): her oturumda seçilen çift ya da tünele
+  // geçişte istemcinin ve ajanın ICE özeti; pion'un mDNS/ICE uyarıları.
+  note('ICE tanısı: doğrudan yol / tünele geçiş nedenleri (hizmet günlüğü)', logLines(lg, /doğrudan yol|pion /).slice(-12).map((l) => l.slice(0, 900)));
   ok('hizmet: GPU ile küçültme varsayılan olarak kapalı (günlükte "ekran kartında küçültme açık" yok)', !logLines(lg, /ekran kartında küçültme açık/).length, logLines(lg, /ekran kartında küçültme/).slice(-3));
   const sesG = logLines(lg, /ses yakalama:|ses aktarımı başladı|ses yakalanamıyor|ses veri kanalından/).slice(-8);
   let hazir = {};

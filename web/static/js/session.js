@@ -128,6 +128,51 @@ export class Signal extends EventTarget {
 
 // ---------------- Oturum ----------------
 
+// Doğrudan yol bekleme süreleri (ms); bkz. RemoteSession.watchDirect.
+export const DIRECT_EARLY = 2500, DIRECT_GRACE = 1500, DIRECT_MAX = 6000;
+
+// candKind ICE adayının türü ve adres ailesi: "host/v4", "host/mdns" (tarayıcı
+// yerel adresi .local adıyla gizlemiş), "srflx/v6", "relay/v4/tcp"…
+function candKind(c) {
+  if (!c) return '?';
+  const a = c.address || c.ip || '';
+  const fam = !a ? '?' : /\.local$/i.test(a) ? 'mdns' : a.includes(':') ? 'v6' : 'v4';
+  return (c.candidateType || '?') + '/' + fam + (c.protocol && c.protocol !== 'udp' ? '/' + c.protocol : '');
+}
+
+// iceSummary bağlantı denetiminin durumunu getStats'tan özetler: aday türleri,
+// çift durumları, karşı taraftan gelen ICE paketleri. Hem tünele erken geçiş
+// kararında hem de tanıda (canlı testler, ajan günlüğü) kullanılır.
+export async function iceSummary(pc) {
+  const st = await pc.getStats();
+  const yerel = {}, uzak = {}, ciftler = {};
+  let istekGiden = 0, istekGelen = 0, yanitGelen = 0, basarili = false, alanVar = false, secili = null, rtt = null, ciftSay = 0;
+  const add = (o, k) => { o[k] = (o[k] || 0) + 1; };
+  st.forEach((r) => {
+    if (r.type === 'local-candidate') add(yerel, candKind(r));
+    else if (r.type === 'remote-candidate') add(uzak, candKind(r));
+    else if (r.type === 'candidate-pair') {
+      add(ciftler, r.state || '?');
+      ciftSay++;
+      if ('requestsReceived' in r || 'responsesReceived' in r) alanVar = true;
+      istekGiden += r.requestsSent || 0;
+      istekGelen += r.requestsReceived || 0;
+      yanitGelen += r.responsesReceived || 0;
+      if (r.state === 'succeeded') basarili = true;
+      if (r.nominated && r.state === 'succeeded' && !secili) {
+        secili = candKind(st.get(r.localCandidateId)) + ' > ' + candKind(st.get(r.remoteCandidateId));
+        if (r.currentRoundTripTime != null) rtt = Math.round(r.currentRoundTripTime * 1000);
+      }
+    }
+  });
+  return {
+    // ok: karar verilebilir mi (eski tarayıcı istek/yanıt sayılarını vermeyebilir).
+    // Hiç çift yoksa (uzak aday gelmedi ya da hiçbiri kullanılamadı) yol da yoktur.
+    ok: alanVar || basarili || ciftSay === 0, ice: pc.iceConnectionState, toplama: pc.iceGatheringState,
+    yerel, uzak, ciftler, istekGiden, istekGelen, yanitGelen, gelen: istekGelen + yanitGelen, basarili, secili, rtt,
+  };
+}
+
 // H.264 profil tercihi: 4:4:4 (en net metin) > High > Main > Constrained Baseline.
 // Bu cihazın çözemediği görülen profiller (görüntü bekçisi) listeye alınmaz.
 export function codecOrder(prefer444) {
@@ -186,7 +231,7 @@ export class RemoteSession extends EventTarget {
   setState(s, info) { this.state = s; this.emit('state', { state: s, info }); }
 
   start() {
-    this.setState('connecting', 'Sunucuya bağlanılıyor…');
+    this.setState('connecting', this.o.startText || 'Sunucuya bağlanılıyor…');
     this.sig.send({ t: 'connect', id: this.id });
   }
 
@@ -202,7 +247,7 @@ export class RemoteSession extends EventTarget {
     if (m.t === 'error' && (m.id === this.id && !this.sid || m.sid && m.sid === this.sid)) {
       if (m.err === 'offline') return this.fail('Uzak bilgisayar çevrimdışı', true);
       if (m.err === 'no_session') { if (this.pc && this.pc.connectionState === 'connected') return; return this.reconnectFull(); }
-      if (m.err === 'rate') return this.fail('Çok fazla deneme, biraz bekleyin');
+      if (m.err === 'rate') return this.fail('Çok fazla deneme; bir dakika bekleyip tekrar deneyin.');
       return this.fail('Sunucu hatası: ' + m.err);
     }
     if (m.t === 'session' && m.id === this.id && !this.sid) {
@@ -229,11 +274,15 @@ export class RemoteSession extends EventTarget {
         case 'challenge': await this.onChallenge(d); break;
         case 'answer': await this.onAnswer(d); break;
         case 'reanswer':
-          if (this.pc) await this.pc.setRemoteDescription({ type: 'answer', sdp: d.sdp });
+          if (this.pc) {
+            await this.pc.setRemoteDescription({ type: 'answer', sdp: d.sdp });
+            this.armRestartFallback();
+          }
           break;
         case 'wsok': await this.onWSOk(d); break;
         case 'cand':
           if (!d.cand) break;
+          this.lastCandAt = performance.now();
           if (this.pc && this.pc.remoteDescription) await this.pc.addIceCandidate(d.cand).catch(() => {});
           else this.pendingCands.push(d.cand);
           break;
@@ -241,7 +290,7 @@ export class RemoteSession extends EventTarget {
           if (d.reason === 'bad_password') {
             this.key = null;
             this.emit('badpassword', { retry: d.retry });
-            return this.fail(d.retry ? `Parola hatalı. ${d.retry} sn sonra tekrar deneyin.` : 'Parola hatalı', false, true);
+            return this.fail(d.retry ? `Parola hatalı. ${d.retry} sn sonra tekrar deneyin.` : 'Parola hatalı. Uzak bilgisayardaki Köprü penceresinde görünen parolayı girin.', false, true);
           }
           if (d.reason === 'locked') return this.fail(`Çok fazla hatalı deneme. ${d.retry} sn bekleyin.`, false, true);
           return this.fail('Bağlantı reddedildi: ' + d.reason, false, true);
@@ -279,7 +328,7 @@ export class RemoteSession extends EventTarget {
     // şifreli WebSocket aktarımına geç; görüntüyü WebCodecs çözer.
     if (!codecOrder(false)) {
       if (this.o.noFallback) return this.fail('Bu tarayıcı H.264 görüntüyü çözemiyor. Chrome, Edge veya Safari kullanın.', false, true);
-      return this.startWS();
+      return this.startWS('H.264 yok');
     }
     await this.createPeer();
     const offer = await this.pc.createOffer();
@@ -310,7 +359,50 @@ export class RemoteSession extends EventTarget {
     if (this.pc?.connectionState === 'connected' && this.state !== 'connected') this.onPCState();
     // Doğrudan bağlantı (P2P) kurulamazsa şifreli tünel aktarımına geç.
     clearTimeout(this.wsTimer);
-    if (!this.o.noFallback) this.wsTimer = setTimeout(() => { if (this.pc?.connectionState !== 'connected') this.startWS(); }, this.o.forceWS ? 0 : 6000);
+    if (this.o.noFallback) return;
+    // Zorunlu tünel (?transport=ws ya da görüntü bekçisi tünelde profil düşürdü):
+    // zamanlayıcısız, hemen. Eskiden 0 ms'lik zamanlayıcıydı; yerel ağda WebRTC o
+    // arada "connected" olunca onPCState zamanlayıcıyı siliyor, oturum zorunlu
+    // tünel yerine doğrudan yolda kalıyordu (p2p.js "görüntü bekçisi (tünel)").
+    if (this.o.forceWS) return this.startWS('zorunlu');
+    this.watchDirect();
+  }
+
+  // watchDirect doğrudan yolun kurulup kurulamayacağını ICE istatistiklerinden
+  // izler. Eskiden her bağlantıda körlemesine 6 sn beklenirdi: doğrudan yol
+  // olanaksızsa (iki taraf da simetrik NAT arkasında, UDP engelli) kullanıcı her
+  // seferinde 6 sn kaybediyordu. Doğrudan yol mümkünse karşı taraftan ilk ICE
+  // paketi (bağlantı denetimi isteği ya da yanıtı) aday geldikten sonra bir gidiş
+  // dönüş içinde gelir (yerel ağda < 50 ms, hücresel veride < 500 ms). Bu yüzden:
+  // en az DIRECT_EARLY geçtiği, son adaydan beri DIRECT_GRACE beklendiği hâlde
+  // karşı taraftan HİÇ ICE paketi gelmediyse tünele hemen geçilir. Bir paket
+  // geldiyse (yol var, belki DTLS sürüyor) eski üst sınır (DIRECT_MAX) geçerli.
+  //
+  // restart: ICE yeniden başlatmasından sonra (süren oturumda ağ değişimi).
+  // İstatistikler eski çiftlerin sayaçlarını da taşır; o yüzden başlangıçtaki
+  // gelen paket sayısına göre fark bakılır, eski "succeeded" çiftler sayılmaz.
+  async watchDirect(restart) {
+    const pc = this.pc;
+    clearTimeout(this.wsTimer);
+    const t0 = this.directT0 = performance.now();
+    const gen = this.watchGen = (this.watchGen || 0) + 1;
+    let gelen0 = 0;
+    if (restart) { const b = await iceSummary(pc).catch(() => null); gelen0 = b ? b.gelen : Infinity; }
+    const neden = restart ? 'ICE yeniden başlatma sonuç vermedi' : 'zaman aşımı';
+    const tick = async () => {
+      if (gen !== this.watchGen || pc !== this.pc || this.wsMode || this.closed) return;
+      if (pc.connectionState === 'connected') return;
+      const now = performance.now(), el = now - t0;
+      if (el >= DIRECT_MAX) return this.startWS(neden);
+      if (el >= DIRECT_EARLY && now - Math.max(this.lastCandAt || 0, t0) >= DIRECT_GRACE) {
+        const d = await iceSummary(pc).catch(() => null);
+        if (gen !== this.watchGen || pc !== this.pc || this.wsMode || this.closed || pc.connectionState === 'connected') return;
+        // İstatistik yoksa (eski tarayıcı) karar verilemez: üst sınırı bekle.
+        if (d && d.ok && d.gelen <= gelen0 && (restart || !d.basarili)) return this.startWS(restart ? neden + ' (yanıt yok)' : 'karşı taraftan ICE yanıtı yok');
+      }
+      this.wsTimer = setTimeout(tick, 250);
+    };
+    this.wsTimer = setTimeout(tick, 250);
   }
 
   async createPeer() {
@@ -393,7 +485,7 @@ export class RemoteSession extends EventTarget {
     this.dc.ctl.onmessage = (e) => this.onCtl(e.data);
     this.dc.mv.onmessage = (e) => this.emit('mv', e.data);
     this.dc.fs.onmessage = (e) => this.emit('fs', e.data);
-    pc.onicecandidate = (e) => { if (e.candidate) this.sendE2E({ k: 'cand', cand: e.candidate.toJSON() }); };
+    pc.onicecandidate = (e) => { if (e.candidate) { this.lastCandAt = performance.now(); this.sendE2E({ k: 'cand', cand: e.candidate.toJSON() }); } };
     pc.ontrack = (e) => {
       const r = e.receiver;
       // Oynatma gecikmesini en aza indir.
@@ -415,8 +507,14 @@ export class RemoteSession extends EventTarget {
   onPCState() {
     if (this.wsMode) return;
     const s = this.pc.connectionState;
-    if (s === 'failed' && !this.everConnected && !this.o.noFallback) return this.startWS();
+    if (s === 'failed' && !this.everConnected && !this.o.noFallback) return this.startWS('ICE başarısız');
     if (s === 'connected') {
+      if (!this.everConnected) {
+        // Tanı: hangi yoldan bağlanıldı (canlı testler ve "bağlantı" bilgisi için).
+        // (Sonraki ICE yeniden başlatmalarında özet güncellenmez; ilk bağlantınınki kalır.)
+        const pc = this.pc, ms = this.directT0 ? Math.round(performance.now() - this.directT0) : null;
+        iceSummary(pc).then((d) => { if (pc === this.pc) { this.iceDiag = { ...d, sonuc: 'doğrudan', ms }; this.emit('icediag', this.iceDiag); } }).catch(() => {});
+      }
       this.everConnected = true;
       clearTimeout(this.wsTimer);
       clearTimeout(this.restartTimer); clearTimeout(this.fullTimer);
@@ -434,6 +532,17 @@ export class RemoteSession extends EventTarget {
       this.iceRestart();
       this.armFull();
     }
+  }
+
+  // armRestartFallback: süren oturumda yol koptu, ICE yeniden başlatıldı (ağ
+  // değişimi: Wi-Fi → 4G). Yeni ağda doğrudan yol yoksa (CGNAT, simetrik NAT)
+  // eskiden 15 sn'lik armFull beklenip oturum baştan kuruluyor, sonra yine
+  // doğrudan yol denenip tünele düşülüyordu (~25 sn kopukluk). Ajan oturumu
+  // 45 sn açık tutar: yeniden başlatma DIRECT_MAX içinde bağlanmazsa aynı
+  // oturumda hemen tünele geçilir.
+  armRestartFallback() {
+    if (this.o.noFallback || !this.everConnected || this.wsMode) return;
+    this.watchDirect(true);
   }
 
   armFull() {
@@ -598,19 +707,37 @@ export class RemoteSession extends EventTarget {
   }
 
   // ---- şifreli WebSocket aktarımı (yedek yol) ----
-  async startWS() {
+  // neden: tanı için (doğrudan yol neden bırakıldı); ICE özetiyle birlikte
+  // ajana da gider, ajan günlüğüne yazar (canlı testler oradan okur).
+  async startWS(neden) {
     if (this.wsMode || this.closed || !this.challenge) return;
     this.wsMode = true;
     clearTimeout(this.wsTimer);
+    // Süren oturumda geçiş: WebRTC kurtarma zamanlayıcıları tüneli bozmasın.
+    clearTimeout(this.restartTimer); clearTimeout(this.fullTimer);
+    this.restartTimer = null;
+    this.stopGuard();
+    // Güvenlik ağı: ajan tünel geçişini onaylamazsa (wsok gelmezse) takılı kalma.
+    this.fullTimer = setTimeout(() => { this.fullTimer = null; if (this.wsMode && !this.wsKey) this.reconnectFull(); }, 15000);
     // Eski WebRTC denemesini şimdi kapatma: ajan geçiş isteğini almadan kapanırsa
     // bunu "istemci ayrıldı" sanar. Ajan onaylayınca (wsok) kapatılır.
-    if (this.pc) this.pc.onconnectionstatechange = null;
+    const pc = this.pc;
+    if (pc) pc.onconnectionstatechange = null;
     this.dc = {};
     this.setState('connecting', 'Doğrudan bağlantı kurulamadı, güvenli tünelden bağlanılıyor…');
+    let diag = null;
+    if (pc && neden !== 'zorunlu') {
+      diag = await Promise.race([iceSummary(pc), new Promise((r) => setTimeout(r, 300))]).catch(() => null);
+      diag = { ...(diag || {}), sonuc: 'tünel', neden: neden || '?', ms: this.directT0 ? Math.round(performance.now() - this.directT0) : null };
+      delete diag.ok;
+      this.iceDiag = diag;
+      this.emit('icediag', diag);
+      console.info('Köprü: doğrudan yol bırakıldı', diag);
+    }
     const nc = b64u.enc(crypto.getRandomValues(new Uint8Array(18)));
     this.wsNC = nc;
     const proof = await hmac(this.key, 'kopru-w1', this.challenge.na, nc);
-    this.sendE2E({ k: 'wsauth', nc, proof, profile: this.o.wsProfile || 'high' });
+    this.sendE2E({ k: 'wsauth', nc, proof, profile: this.o.wsProfile || 'high', ...(diag ? { diag } : {}) });
   }
 
   async onWSOk(d) {

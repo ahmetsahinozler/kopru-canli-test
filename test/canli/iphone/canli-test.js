@@ -92,7 +92,10 @@
     const t0 = performance.now();
     $('btn-connect').click();
     const okc = await waitFor(() => $('overlay').classList.contains('hidden') && decoded() + (($('video').videoWidth || 0) > 0 ? 1 : 0) > 0 && dims().w > 300, 120000);
-    rep({ t: 'baglanti', ok: !!okc, ms: Math.round(performance.now() - t0), yol: await yol(), boyut: dims(), mesaj: okc ? '' : ($('connect-err')?.textContent || '') + ' | ' + ($('overlay-text')?.textContent || '') });
+    // tani: doğrudan yol mu kuruldu (seçilen çiftin türleri), tünele mi geçildi (neden,
+    // aday türleri, çift durumları, karşı taraftan ICE paketi gelip gelmediği).
+    await waitFor(() => app.session?.iceDiag, 1500);
+    rep({ t: 'baglanti', ok: !!okc, ms: Math.round(performance.now() - t0), yol: await yol(), boyut: dims(), tani: app.session?.iceDiag || null, mesaj: okc ? '' : ($('connect-err')?.textContent || '') + ' | ' + ($('overlay-text')?.textContent || '') });
     if (!okc) { await foto('baglanamadi'); return rep({ t: 'bitti' }); }
     await sleep(3000);
     app.session.addEventListener('ctl', (e) => { const d = e.detail; if (!d) return; if (d.t === 'inputdiag') kalDiag = d; else if (/^(tapdbg|tapcur|notice)$/.test(d.t)) kalMsgs.push(d); });
