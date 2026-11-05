@@ -27,10 +27,14 @@ export function wsProfile() {
 
 const CODECS = { high: 'avc1.640033', main: 'avc1.4D0033', baseline: 'avc1.42E033' };
 // Ajanın kodladığı görüntünün renk uzayı: BT.709 matris, sınırlı aralık, sRGB
-// aktarım (ekran içeriği). Çözücü yapılandırmasında verilince bit dizisindeki
-// bilginin önüne geçer: eski ajanlar aktarımı "bt709" yazıyordu; Apple bunu
-// ~1,96 gamayla açıp tuvale ara tonları açık, siyahları gri çiziyordu.
+// aktarım (ekran içeriği). 1.2.10'dan beri ajan bunu bit dizisine (VUI) yazıyor;
+// eski ajanlar aktarımı "bt709" yazıyordu (Apple ara tonları açık çiziyordu).
+// Çözücü yapılandırmasında da vermek bit dizisinin önüne geçer, ama canlı testte
+// (iPhone Simülatörü, Safari) bununla kare çözme süresi ~10 ms'den ~106 ms'ye
+// çıktı; geç gelen kare onayları hız denetimini tıkanma sanıp bit hızını
+// düşürdü. Bu yüzden yalnız istenirse (localStorage "kopru.renkuzayi" = "1").
 const RENK = { primaries: 'bt709', transfer: 'iec61966-2-1', matrix: 'bt709', fullRange: false };
+const renkIpucu = () => { try { return localStorage.getItem('kopru.renkuzayi') === '1'; } catch { return false; } };
 
 // pickWsProfile çözücünün desteklediği ilk profili seçer; bu cihazda daha önce
 // çözülemediği görülenleri ve "skip" ile verileni atlar.
@@ -100,7 +104,7 @@ export class WsVideo {
     const dec = new VideoDecoder({ output: (f) => this.onFrame(f, dec), error: (e) => this.onError(e, dec) });
     this.dec = dec;
     const cfg = { codec: CODECS[this.profile] || CODECS.high, optimizeForLatency: true };
-    try { dec.configure({ ...cfg, colorSpace: RENK }); }
+    try { dec.configure(renkIpucu() ? { ...cfg, colorSpace: RENK } : cfg); }
     catch {
       // Renk uzayını tanımayan tarayıcı: bit dizisindeki bilgiyle devam.
       try { dec.configure(cfg); } catch (e) { this.onError(e, dec); }
