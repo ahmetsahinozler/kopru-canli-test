@@ -1,0 +1,223 @@
+2026/11/17 21:47:51 Köprü hizmeti başlıyor
+2026/11/17 21:47:52 işçi süreç oturum 2 içinde başlatıldı
+2026/11/17 21:47:53 Köprü sunucusu http://127.0.0.1:21881 adresinde çalışıyor (TURN: false)
+2026/11/17 21:47:53 ayar sayfası: http://127.0.0.1:21880/?k=waudenAecJx7zzR30_9eDkwX
+2026/11/17 21:47:53 Köprü ajanı 1.2.11 başladı · sunucu  · parola: otomatik (günlüğe yazılmaz)
+2026/11/17 21:47:53 ajan çevrimiçi: 876914957 (runnervmm7ud1, 127.0.0.1)
+2026/11/17 21:47:53 sunucuya bağlandı, kimlik 876 914 957
+2026/11/17 21:47:53 tünel aracı (cloudflared) indiriliyor…
+2026/11/17 21:47:57 internet adresi: https://mitsubishi-stories-ipaq-employee.trycloudflare.com
+2026/11/17 21:48:00 parola değiştirildi
+2026/11/17 21:48:05 bağlantı isteği: 40.67.183.129
+2026/11/17 21:48:05 [6194bc] kimlik doğrulandı (40.67.183.129)
+2026/11/17 21:48:05 [6194bc] bağlantı durumu: connecting
+2026/11/17 21:48:05 [6194bc] WebRTC hazır, profil high444 (f4001f)
+2026/11/17 21:48:05 [6194bc] bağlantı durumu: connected
+2026/11/17 21:48:05 DXGI yakalama: Microsoft Basic Render Driver [1414:008c] · \\.\DISPLAY1 1024x768 @0,0 1 Hz, döndürme 1 · DuplicateOutput1 (BGRA) · SDR (8 bit, renk uzayı 0) · masaüstü sistem belleğinde
+2026/11/17 21:48:05 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)
+2026/11/17 21:48:05 [6194bc] ses aktarımı başladı
+2026/11/17 21:48:05 [6194bc] doğrudan yol (direct): yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 prflx/v4×1 srflx/v4×1; çiftler in-progress×1 succeeded×3 waiting×8; istek giden 7 gelen 3, yanıt gelen 6; seçili host/v4>prflx/v4 rtt 0 ms
+2026/11/17 21:48:10 [6194bc] çözünürlük geçici olarak 1920x1080 yapıldı
+2026/11/17 21:48:10 DXGI çoğaltması açılamadı (Microsoft Basic Render Driver [1414:008c], \\.\DISPLAY1): DuplicateOutput: E_ACCESSDENIED — masaüstüne erişim yok (UAC/kilit ekranı; hizmet olarak çalışmıyorsa görülemez)
+2026/11/17 21:48:10 DXGI yakalama: Microsoft Basic Render Driver [1414:008c] · \\.\DISPLAY1 1920x1080 @0,0 1 Hz, döndürme 1 · DuplicateOutput1 (BGRA) · SDR (8 bit, renk uzayı 0) · masaüstü sistem belleğinde
+2026/11/17 21:48:12 [6194bc] Windows ölçeği geçici olarak %175 yapıldı
+2026/11/17 21:48:13 [6194bc] çözünürlük geçici olarak 1280x720 yapıldı
+2026/11/17 21:48:13 [6194bc] yakalama hatası: AcquireNextFrame: DXGI_ERROR_INVALID_CALL
+2026/11/17 21:48:13 DXGI yakalama: Microsoft Basic Render Driver [1414:008c] · \\.\DISPLAY1 1280x720 @0,0 1 Hz, döndürme 1 · DuplicateOutput1 (BGRA) · SDR (8 bit, renk uzayı 0) · masaüstü sistem belleğinde
+2026/11/17 21:48:13 [6194bc] çözünürlük değişti, yazı boyutu %100 olarak korundu
+2026/11/17 21:48:16 [6194bc] yakalama hatası: AcquireNextFrame: DXGI_ERROR_INVALID_CALL
+2026/11/17 21:48:16 [6194bc] çözünürlük geçici olarak 1920x1080 yapıldı
+2026/11/17 21:48:16 [6194bc] çözünürlük değişti, yazı boyutu %175 olarak korundu
+2026/11/17 21:48:17 [6194bc] Windows ölçeği eski haline döndü
+2026/11/17 21:48:17 [6194bc] telefona uydur: ekran 1920x1080, telefon 852x393 → istenen %225, uygulanan %175
+2026/11/17 21:48:17 [6194bc] Windows ölçeği geçici olarak %175 yapıldı
+2026/11/17 21:48:18 [6194bc] Windows ölçeği eski haline döndü
+2026/11/17 21:48:21 [6194bc] çözünürlük geçici olarak 1920x1080 yapıldı
+2026/11/17 21:48:26 [6194bc] Windows ölçeği geçici olarak %150 yapıldı
+2026/11/17 21:48:29 bağlantı isteği: 40.67.183.129
+2026/11/17 21:48:29 [65bce1] kimlik doğrulandı (40.67.183.129)
+2026/11/17 21:48:29 [65bce1] bağlantı durumu: connecting
+2026/11/17 21:48:29 [65bce1] WebRTC hazır, profil main (4d001f)
+2026/11/17 21:48:29 [65bce1] bağlantı durumu: connected
+2026/11/17 21:48:29 [65bce1] görüntü veri kanalından (WebCodecs, high, şeritli: false)
+2026/11/17 21:48:29 [65bce1] ses veri kanalından (WebCodecs)
+2026/11/17 21:48:29 DXGI çoğaltması açılamadı (Microsoft Basic Render Driver [1414:008c], \\.\DISPLAY1): DuplicateOutput: HRESULT 0x80070057 — geçersiz bağımsız değişken (aygıt çıkışın ekran kartında değil)
+2026/11/17 21:48:29 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)
+2026/11/17 21:48:29 [65bce1] ses aktarımı başladı
+2026/11/17 21:48:30 [65bce1] doğrudan yol (direct): yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 srflx/v4×1; çiftler in-progress×5 succeeded×3; istek giden 20 gelen 3, yanıt gelen 4; seçili host/v4>host/mdns rtt 0 ms
+2026/11/17 21:48:30 [65bce1] ekran yakalanamıyor: DuplicateOutput: HRESULT 0x80070057
+2026/11/17 21:48:45 [65bce1] oturum kapandı: istemci ayrıldı
+2026/11/17 21:48:45 [65bce1] bağlantı durumu: closed
+2026/11/17 21:48:45 [65bce1] video hattı durdu
+2026/11/17 21:48:47 bağlantı isteği: 40.67.183.129
+2026/11/17 21:48:47 [c595df] kimlik doğrulandı (40.67.183.129)
+2026/11/17 21:48:47 [c595df] bağlantı durumu: connecting
+2026/11/17 21:48:47 [c595df] WebRTC hazır, profil main (4d001f)
+2026/11/17 21:48:47 [c595df] bağlantı durumu: connected
+2026/11/17 21:48:47 [c595df] görüntü veri kanalından (WebCodecs, high, şeritli: false)
+2026/11/17 21:48:47 [c595df] ses veri kanalından (WebCodecs)
+2026/11/17 21:48:47 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)
+2026/11/17 21:48:47 [c595df] ses aktarımı başladı
+2026/11/17 21:48:48 [c595df] doğrudan yol (direct): yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 srflx/v4×1; çiftler in-progress×5 succeeded×3; istek giden 18 gelen 3, yanıt gelen 4; seçili host/v4>host/mdns rtt 0 ms
+2026/11/17 21:48:48 [c595df] ekran yakalanamıyor: DuplicateOutput: HRESULT 0x80070057
+2026/11/17 21:49:00 [c595df] bağlantı durumu: closed
+2026/11/17 21:49:00 [c595df] oturum kapandı: kapatıldı
+2026/11/17 21:49:00 [c595df] video hattı durdu
+2026/11/17 21:49:01 [6194bc] Windows ölçeği eski haline döndü
+2026/11/17 21:49:03 [6194bc] oturum kapandı: istemci ayrıldı
+2026/11/17 21:49:03 [6194bc] bağlantı durumu: closed
+2026/11/17 21:49:04 [6194bc] video hattı durdu
+2026/11/17 21:49:05 bağlantı isteği: 40.67.183.129
+2026/11/17 21:49:05 [180d9c] kimlik doğrulandı (40.67.183.129)
+2026/11/17 21:49:05 [180d9c] bağlantı durumu: connecting
+2026/11/17 21:49:05 [180d9c] WebRTC hazır, profil main (4d001f)
+2026/11/17 21:49:05 [180d9c] bağlantı durumu: connected
+2026/11/17 21:49:05 [180d9c] görüntü veri kanalından (WebCodecs, high, şeritli: false)
+2026/11/17 21:49:05 [180d9c] ses veri kanalından (WebCodecs)
+2026/11/17 21:49:05 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)
+2026/11/17 21:49:05 [180d9c] ses aktarımı başladı
+2026/11/17 21:49:05 [180d9c] doğrudan yol (direct): yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 srflx/v4×1; çiftler in-progress×3 succeeded×1 waiting×4; istek giden 8 gelen 3, yanıt gelen 3; seçili host/v4>host/mdns rtt 0 ms
+2026/11/17 21:49:07 [180d9c] bağlantı durumu: closed
+2026/11/17 21:49:07 [180d9c] oturum kapandı: kapatıldı
+2026/11/17 21:49:07 [180d9c] video hattı durdu
+2026/11/17 21:49:08 bağlantı isteği: 40.67.183.129
+2026/11/17 21:49:08 [ecafec] kimlik doğrulandı (40.67.183.129)
+2026/11/17 21:49:08 [ecafec] bağlantı durumu: connecting
+2026/11/17 21:49:08 [ecafec] WebRTC hazır, profil high444 (f4001f)
+2026/11/17 21:49:08 [ecafec] bağlantı durumu: connected
+2026/11/17 21:49:08 [ecafec] doğrudan yol bırakıldı, tünele geçiliyor; istemci: yok (eski istemci); ajan: yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 srflx/v4×1; çiftler in-progress×5 succeeded×3; istek giden 17 gelen 1, yanıt gelen 3; seçili host/v4>host/mdns rtt 1 ms
+2026/11/17 21:49:08 [ecafec] WebSocket aktarımı (high) doğrulandı
+2026/11/17 21:49:08 [ecafec] video hattı durdu
+2026/11/17 21:49:08 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)
+2026/11/17 21:49:08 [ecafec] ses aktarımı başladı
+2026/11/17 21:49:19 [ecafec] görüntü bağlantısı koptu: failed to get reader: failed to read frame header: read tcp 127.0.0.1:21881->127.0.0.1:52469: wsarecv: An existing connection was forcibly closed by the remote host.
+2026/11/17 21:49:19 tünel kapandı: exit status 0xffffffff
+2026/11/17 21:49:25 internet adresi: https://heads-threaded-causing-auto.trycloudflare.com
+2026/11/17 21:49:31 [ecafec] oturum kapandı: istemci ayrıldı
+2026/11/17 21:49:31 [ecafec] görüntü bağlantısı koptu: failed to get reader: context canceled
+2026/11/17 21:49:31 [ecafec] video hattı durdu
+2026/11/17 21:49:32 bağlantı isteği: 40.67.183.129
+2026/11/17 21:49:32 [a6ed60] kimlik doğrulandı (40.67.183.129)
+2026/11/17 21:49:32 [a6ed60] bağlantı durumu: connecting
+2026/11/17 21:49:32 [a6ed60] WebRTC hazır, profil high444 (f4001f)
+2026/11/17 21:49:32 [a6ed60] bağlantı durumu: connected
+2026/11/17 21:49:32 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)
+2026/11/17 21:49:32 [a6ed60] ses aktarımı başladı
+2026/11/17 21:49:33 [a6ed60] doğrudan yol (direct): yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 srflx/v4×1; çiftler in-progress×4 succeeded×2 waiting×2; istek giden 15 gelen 3, yanıt gelen 4; seçili host/v4>host/mdns rtt 1 ms
+2026/11/17 21:49:34 Köprü hizmeti başlıyor
+2026/11/17 21:49:35 işçi süreç oturum 2 içinde başlatıldı
+2026/11/17 21:49:35 Köprü sunucusu http://127.0.0.1:21881 adresinde çalışıyor (TURN: false)
+2026/11/17 21:49:35 ayar sayfası: http://127.0.0.1:21880/?k=tsVl2QKOtRM1Ttcm3kWS-y86
+2026/11/17 21:49:35 Köprü ajanı 1.2.11 başladı · sunucu  · parola: özel (günlüğe yazılmaz)
+2026/11/17 21:49:35 ajan çevrimiçi: 876914957 (runnervmm7ud1, 127.0.0.1)
+2026/11/17 21:49:35 sunucuya bağlandı, kimlik 876 914 957
+2026/11/17 21:49:40 internet adresi: https://designers-apparently-supply-relying.trycloudflare.com
+2026/11/17 21:49:44 bağlantı isteği: 40.67.183.129
+2026/11/17 21:49:44 [ae2621] kimlik doğrulandı (40.67.183.129)
+2026/11/17 21:49:44 [ae2621] bağlantı durumu: connecting
+2026/11/17 21:49:44 [ae2621] WebRTC hazır, profil high444 (f4001f)
+2026/11/17 21:49:44 [ae2621] bağlantı durumu: connected
+2026/11/17 21:49:44 DXGI yakalama: Microsoft Basic Render Driver [1414:008c] · \\.\DISPLAY1 1024x768 @0,0 1 Hz, döndürme 1 · DuplicateOutput1 (BGRA) · SDR (8 bit, renk uzayı 0) · masaüstü sistem belleğinde
+2026/11/17 21:49:44 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)
+2026/11/17 21:49:44 [ae2621] ses aktarımı başladı
+2026/11/17 21:49:44 [ae2621] doğrudan yol (direct): yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 srflx/v4×1; çiftler in-progress×5 succeeded×3; istek giden 20 gelen 3, yanıt gelen 4; seçili host/v4>host/mdns rtt 0 ms
+2026/11/17 21:49:48 [ae2621] oturum kapandı: istemci ayrıldı
+2026/11/17 21:49:48 [ae2621] bağlantı durumu: closed
+2026/11/17 21:49:48 [ae2621] video hattı durdu
+2026/11/17 21:49:49 işçi süreç kapandı (çıkış kodu 4294967295, 14s çalıştı)
+2026/11/17 21:49:49 işçi süreç oturum 2 içinde başlatıldı
+2026/11/17 21:49:49 Köprü sunucusu http://127.0.0.1:21881 adresinde çalışıyor (TURN: false)
+2026/11/17 21:49:49 ayar sayfası: http://127.0.0.1:21880/?k=8-QjGAOcDjxA2Rk_gx_hjPx2
+2026/11/17 21:49:49 Köprü ajanı 1.2.11 başladı · sunucu  · parola: özel (günlüğe yazılmaz)
+2026/11/17 21:49:49 ajan çevrimiçi: 876914957 (runnervmm7ud1, 127.0.0.1)
+2026/11/17 21:49:49 sunucuya bağlandı, kimlik 876 914 957
+2026/11/17 21:49:53 internet adresi: https://bigger-time-tire-earnings.trycloudflare.com
+2026/11/17 21:58:57 bağlantı isteği: 13.105.117.235
+2026/11/17 21:58:58 [331633] kimlik doğrulandı (13.105.117.235)
+2026/11/17 21:58:58 [331633] bağlantı durumu: connecting
+2026/11/17 21:58:58 [331633] WebRTC hazır, profil high (640c1f)
+2026/11/17 21:59:01 [331633] doğrudan yol bırakıldı, tünele geçiliyor; istemci: {"ice":"checking","toplama":"complete","yerel":{"srflx/v4":2,"host/?/tcp":2,"host/?":2},"uzak":{"srflx/v4":2,"host/?":2},"ciftler":{"in-progress":4},"istekGiden":46,"istekGelen":0,"yanitGelen":0,"gelen":0,"basarili":false,"secili":null,"rtt":null,"sonuc":"tünel","neden":"karşı taraftan ICE yanıtı yok","ms":2859}; ajan: yerel host/v4×2 host/v6×2 srflx/v4×2; uzak srflx/v4×2; çiftler failed×8; istek giden 64 gelen 0, yanıt gelen 0
+2026/11/17 21:59:01 [331633] pion ice WARNING: Failed to discover mDNS candidate d2b22876-2212-40c7-8dc9-309659da08e1.local: mDNS: context has elapsed
+2026/11/17 21:59:01 [331633] pion ice WARNING: Failed to read from candidate udp6 host [fe80::790b:a8f7:b8d7:9218%vEthernet (nat)]:61369 (resolved: [fe80::790b:a8f7:b8d7:9218%vEthernet (nat)]:61369): read udp [fe80::790b:a8f7:b8d7:9218%vEthernet (nat)]:61369: i/o timeout
+2026/11/17 21:59:01 [331633] WebSocket aktarımı (high) doğrulandı
+2026/11/17 21:59:01 DXGI yakalama: Microsoft Basic Render Driver [1414:008c] · \\.\DISPLAY1 1920x1080 @0,0 1 Hz, döndürme 1 · DuplicateOutput1 (BGRA) · SDR (8 bit, renk uzayı 0) · masaüstü sistem belleğinde
+2026/11/17 21:59:02 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)
+2026/11/17 21:59:02 [331633] ses aktarımı başladı
+2026/11/17 21:59:12 [331633] telefona uydur: ekran 1920x1080, telefon 956x440 → istenen %201, uygulanan %175
+2026/11/17 21:59:12 [331633] Windows ölçeği geçici olarak %175 yapıldı
+2026/11/17 22:00:54 ilan panosu wss://broker.emqx.io:8084/mqtt: aracı yanıt vermiyor (canlı tutma yanıtı gelmedi)
+2026/11/17 22:01:06 ilan panosu wss://broker.emqx.io:8084/mqtt: failed to get reader: context deadline exceeded
+2026/11/17 22:01:56 ilan panosu wss://broker.emqx.io:8084/mqtt: yeniden bağlandı (4 başarısız denemeden sonra)
+2026/11/17 22:02:27 [331633] görüntü bağlantısı koptu: failed to get reader: failed to read frame header: EOF
+2026/11/17 22:02:57 [331633] oturum kapandı: bağlantı koptu
+2026/11/17 22:02:57 [331633] video hattı durdu
+2026/11/17 22:02:57 [331633] Windows ölçeği eski haline döndü
+2026/11/17 22:03:05 bağlantı isteği: 40.67.183.129
+2026/11/17 22:03:05 [c15370] kimlik doğrulandı (40.67.183.129)
+2026/11/17 22:03:05 [c15370] bağlantı durumu: connecting
+2026/11/17 22:03:05 [c15370] WebRTC hazır, profil high444 (f4001f)
+2026/11/17 22:03:05 [c15370] bağlantı durumu: connected
+2026/11/17 22:03:05 DXGI yakalama: Microsoft Basic Render Driver [1414:008c] · \\.\DISPLAY1 1024x768 @0,0 1 Hz, döndürme 1 · DuplicateOutput1 (BGRA) · SDR (8 bit, renk uzayı 0) · masaüstü sistem belleğinde
+2026/11/17 22:03:05 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)
+2026/11/17 22:03:05 [c15370] ses aktarımı başladı
+2026/11/17 22:03:05 [c15370] doğrudan yol (direct): yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 srflx/v4×1; çiftler in-progress×4 succeeded×2 waiting×2; istek giden 14 gelen 3, yanıt gelen 3; seçili host/v4>host/mdns rtt 3 ms
+2026/11/17 22:13:06 [c15370] oturum kapandı: istemci ayrıldı
+2026/11/17 22:13:06 [c15370] bağlantı durumu: closed
+2026/11/17 22:13:06 [c15370] video hattı durdu
+2026/11/17 22:13:09 Köprü hizmeti başlıyor
+2026/11/17 22:13:10 işçi süreç oturum 2 içinde başlatıldı
+2026/11/17 22:13:10 Köprü sunucusu http://127.0.0.1:21881 adresinde çalışıyor (TURN: false)
+2026/11/17 22:13:10 ayar sayfası: http://127.0.0.1:21880/?k=0_fJCCZoWgT0zkWAV99QGrrz
+2026/11/17 22:13:11 Köprü ajanı 1.2.11 başladı · sunucu  · parola: özel (günlüğe yazılmaz)
+2026/11/17 22:13:11 ajan çevrimiçi: 876914957 (runnervmm7ud1, 127.0.0.1)
+2026/11/17 22:13:11 sunucuya bağlandı, kimlik 876 914 957
+2026/11/17 22:13:15 internet adresi: https://glucose-cards-run-vacancies.trycloudflare.com
+2026/11/17 22:13:23 bağlantı isteği: 40.67.183.129
+2026/11/17 22:13:23 [1c1f64] kimlik doğrulandı (40.67.183.129)
+2026/11/17 22:13:23 [1c1f64] bağlantı durumu: connecting
+2026/11/17 22:13:23 [1c1f64] WebRTC hazır, profil high444 (f4001f)
+2026/11/17 22:13:23 [1c1f64] bağlantı durumu: connected
+2026/11/17 22:13:23 DXGI yakalama: Microsoft Basic Render Driver [1414:008c] · \\.\DISPLAY1 1024x768 @0,0 1 Hz, döndürme 1 · DuplicateOutput1 (BGRA) · SDR (8 bit, renk uzayı 0) · masaüstü sistem belleğinde
+2026/11/17 22:13:23 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)
+2026/11/17 22:13:23 [1c1f64] ses aktarımı başladı
+2026/11/17 22:13:24 [1c1f64] oturum kapandı: istemci ayrıldı
+2026/11/17 22:13:24 [1c1f64] bağlantı durumu: closed
+2026/11/17 22:13:24 [1c1f64] video hattı durdu
+2026/11/17 22:13:25 bağlantı isteği: 40.67.183.129
+2026/11/17 22:13:25 [ede252] kimlik doğrulandı (40.67.183.129)
+2026/11/17 22:13:25 [ede252] bağlantı durumu: connecting
+2026/11/17 22:13:25 [ede252] WebRTC hazır, profil high444 (f4001f)
+2026/11/17 22:13:25 [ede252] bağlantı durumu: connected
+2026/11/17 22:13:25 ses yakalama: olay güdümlü (WASAPI loopback, 48000 Hz, 2 kanal)
+2026/11/17 22:13:25 [ede252] ses aktarımı başladı
+2026/11/17 22:13:26 ilan panosu wss://broker.emqx.io:8084/mqtt: failed to get reader: context deadline exceeded
+2026/11/17 22:13:26 [ede252] doğrudan yol (direct): yerel host/v4×2 host/v6×2 srflx/v4×2; uzak host/mdns×1 srflx/v4×1; çiftler in-progress×5 succeeded×3; istek giden 18 gelen 3, yanıt gelen 4; seçili host/v4>host/mdns rtt 0 ms
+2026/11/17 22:13:27 Ctrl+Alt+Del gönderildi (uzak istek)
+2026/11/17 22:13:31 [ede252] yakalama hatası: AcquireNextFrame: DXGI_ERROR_INVALID_CALL
+2026/11/17 22:13:33 [ede252] yakalama hatası: AcquireNextFrame: DXGI_ERROR_INVALID_CALL
+2026/11/17 22:13:36 Ctrl+Alt+Del gönderildi (uzak istek)
+2026/11/17 22:13:40 [ede252] yakalama hatası: AcquireNextFrame: DXGI_ERROR_INVALID_CALL
+2026/11/17 22:13:43 [ede252] oturum kapandı: istemci ayrıldı
+2026/11/17 22:13:43 [ede252] bağlantı durumu: closed
+2026/11/17 22:13:43 [ede252] bağlantı bitti, bilgisayar kilitlendi
+2026/11/17 22:13:43 [ede252] video hattı durdu
+2026/11/17 22:13:44 ilan panosu wss://broker.emqx.io:8084/mqtt: yeniden bağlandı (2 başarısız denemeden sonra)
+2026/11/17 22:13:44 bağlantı isteği: 40.67.183.129
+2026/11/17 22:13:44 [6edce1] hatalı parola denemesi (40.67.183.129)
+2026/11/17 22:13:44 [6edce1] oturum kapandı: hatalı parola
+2026/11/17 22:13:45 bağlantı isteği: 40.67.183.129
+2026/11/17 22:13:46 [d12413] hatalı parola denemesi (40.67.183.129)
+2026/11/17 22:13:46 [d12413] oturum kapandı: hatalı parola
+2026/11/17 22:13:46 bağlantı isteği: 40.67.183.129
+2026/11/17 22:13:47 [f10a27] hatalı parola denemesi (40.67.183.129)
+2026/11/17 22:13:47 [f10a27] oturum kapandı: hatalı parola
+2026/11/17 22:13:47 bağlantı isteği: 40.67.183.129
+2026/11/17 22:13:47 [c0ede9] hatalı parola denemesi (40.67.183.129)
+2026/11/17 22:13:47 [c0ede9] oturum kapandı: hatalı parola
+2026/11/17 22:13:48 bağlantı isteği: 40.67.183.129
+2026/11/17 22:13:49 [42c679] hatalı parola denemesi (40.67.183.129)
+2026/11/17 22:13:49 [42c679] oturum kapandı: hatalı parola
+2026/11/17 22:13:49 bağlantı isteği: 40.67.183.129
+2026/11/17 22:13:50 [0e893c] oturum kapandı: istemci ayrıldı
+2026/11/17 22:13:50 bağlantı isteği: 40.67.183.129
+2026/11/17 22:13:51 [a78e51] oturum kapandı: istemci ayrıldı

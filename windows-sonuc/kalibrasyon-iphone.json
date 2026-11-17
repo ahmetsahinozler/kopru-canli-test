@@ -1,0 +1,528 @@
+{
+  "ortam": "gerçek iPhone Safari (Simülatör) → Windows hizmeti, internet üzerinden",
+  "ekran": [
+    1922,
+    1082
+  ],
+  "turlar": {
+    "Tablet (Windows %175)": {
+      "rows": [
+        {
+          "i": 0,
+          "oran": [
+            0.12,
+            0.11
+          ],
+          "hedef": [
+            231,
+            119
+          ],
+          "gelen": [
+            230,
+            119
+          ],
+          "fark": [
+            -1,
+            0
+          ],
+          "tur": "touch",
+          "dpr": 1.75
+        },
+        {
+          "i": 1,
+          "oran": [
+            0.435,
+            0.11
+          ],
+          "hedef": [
+            836,
+            119
+          ],
+          "gelen": [
+            835,
+            119
+          ],
+          "fark": [
+            -1,
+            0
+          ],
+          "tur": "touch",
+          "dpr": 1.75
+        },
+        {
+          "i": 2,
+          "oran": [
+            0.97,
+            0.11
+          ],
+          "hedef": [
+            1864,
+            119
+          ],
+          "gelen": [
+            1861,
+            119
+          ],
+          "fark": [
+            -3,
+            0
+          ],
+          "tur": "touch",
+          "dpr": 1.75
+        },
+        {
+          "i": 3,
+          "oran": [
+            0.435,
+            0.45
+          ],
+          "hedef": [
+            836,
+            487
+          ],
+          "gelen": [
+            835,
+            486
+          ],
+          "fark": [
+            -1,
+            -1
+          ],
+          "tur": "touch",
+          "dpr": 1.75
+        },
+        {
+          "i": 4,
+          "oran": [
+            0.71,
+            0.59
+          ],
+          "hedef": [
+            1364,
+            638
+          ],
+          "gelen": [
+            1362,
+            637
+          ],
+          "fark": [
+            -2,
+            -1
+          ],
+          "tur": "touch",
+          "dpr": 1.75
+        },
+        {
+          "i": 5,
+          "oran": [
+            0.97,
+            0.55
+          ],
+          "hedef": [
+            1864,
+            595
+          ],
+          "gelen": [
+            1861,
+            593
+          ],
+          "fark": [
+            -3,
+            -2
+          ],
+          "tur": "touch",
+          "dpr": 1.75
+        },
+        {
+          "i": 6,
+          "oran": [
+            0.12,
+            0.95
+          ],
+          "hedef": [
+            231,
+            1027
+          ],
+          "gelen": [
+            230,
+            1025
+          ],
+          "fark": [
+            -1,
+            -2
+          ],
+          "tur": "touch",
+          "dpr": 1.75
+        },
+        {
+          "i": 7,
+          "oran": [
+            0.435,
+            0.85
+          ],
+          "hedef": [
+            836,
+            919
+          ],
+          "gelen": [
+            835,
+            917
+          ],
+          "fark": [
+            -1,
+            -2
+          ],
+          "tur": "touch",
+          "dpr": 1.75
+        },
+        {
+          "i": 8,
+          "oran": [
+            0.97,
+            0.95
+          ],
+          "hedef": [
+            1864,
+            1027
+          ],
+          "gelen": [
+            1861,
+            1025
+          ],
+          "fark": [
+            -3,
+            -2
+          ],
+          "tur": "touch",
+          "dpr": 1.75
+        },
+        {
+          "i": 3,
+          "oran": [
+            0.435,
+            0.45
+          ],
+          "hedef": [
+            836,
+            487
+          ],
+          "gelen": [
+            835,
+            486
+          ],
+          "fark": [
+            -1,
+            -1
+          ],
+          "tur": "touch",
+          "dpr": 1.75
+        }
+      ],
+      "ozet": {
+        "nokta": 10,
+        "gelen": 10,
+        "isabet": 10,
+        "tol": 12,
+        "enBuyuk": 3,
+        "ortFark": [
+          -1.7,
+          -1.1
+        ],
+        "x": {
+          "egim": 0.999,
+          "kesisim": 0
+        },
+        "y": {
+          "egim": 0.998,
+          "kesisim": 0
+        },
+        "turler": {
+          "touch": 10
+        },
+        "imlec": {
+          "olculen": 0,
+          "tasindi": 0
+        },
+        "fareyeGecis": -1
+      }
+    },
+    "Doğrudan (Windows %175)": {
+      "rows": [
+        {
+          "i": 0,
+          "oran": [
+            0.12,
+            0.11
+          ],
+          "hedef": [
+            231,
+            119
+          ],
+          "gelen": [
+            230,
+            119
+          ],
+          "fark": [
+            -1,
+            0
+          ],
+          "tur": "mouse",
+          "dpr": 1.75
+        },
+        {
+          "i": 1,
+          "oran": [
+            0.435,
+            0.11
+          ],
+          "hedef": [
+            836,
+            119
+          ],
+          "gelen": [
+            835,
+            119
+          ],
+          "fark": [
+            -1,
+            0
+          ],
+          "tur": "mouse",
+          "dpr": 1.75
+        },
+        {
+          "i": 2,
+          "oran": [
+            0.97,
+            0.11
+          ],
+          "hedef": [
+            1864,
+            119
+          ],
+          "gelen": [
+            1861,
+            119
+          ],
+          "fark": [
+            -3,
+            0
+          ],
+          "tur": "mouse",
+          "dpr": 1.75
+        },
+        {
+          "i": 3,
+          "oran": [
+            0.435,
+            0.45
+          ],
+          "hedef": [
+            836,
+            487
+          ],
+          "gelen": [
+            835,
+            486
+          ],
+          "fark": [
+            -1,
+            -1
+          ],
+          "tur": "mouse",
+          "dpr": 1.75
+        },
+        {
+          "i": 4,
+          "oran": [
+            0.71,
+            0.59
+          ],
+          "hedef": [
+            1364,
+            638
+          ],
+          "gelen": [
+            1362,
+            637
+          ],
+          "fark": [
+            -2,
+            -1
+          ],
+          "tur": "mouse",
+          "dpr": 1.75
+        },
+        {
+          "i": 5,
+          "oran": [
+            0.97,
+            0.55
+          ],
+          "hedef": [
+            1864,
+            595
+          ],
+          "gelen": [
+            1861,
+            593
+          ],
+          "fark": [
+            -3,
+            -2
+          ],
+          "tur": "mouse",
+          "dpr": 1.75
+        },
+        {
+          "i": 6,
+          "oran": [
+            0.12,
+            0.95
+          ],
+          "hedef": [
+            231,
+            1027
+          ],
+          "gelen": [
+            230,
+            1025
+          ],
+          "fark": [
+            -1,
+            -2
+          ],
+          "tur": "mouse",
+          "dpr": 1.75
+        },
+        {
+          "i": 7,
+          "oran": [
+            0.435,
+            0.85
+          ],
+          "hedef": [
+            836,
+            919
+          ],
+          "gelen": [
+            835,
+            917
+          ],
+          "fark": [
+            -1,
+            -2
+          ],
+          "tur": "mouse",
+          "dpr": 1.75
+        },
+        {
+          "i": 8,
+          "oran": [
+            0.97,
+            0.95
+          ],
+          "hedef": [
+            1864,
+            1027
+          ],
+          "gelen": [
+            1861,
+            1025
+          ],
+          "fark": [
+            -3,
+            -2
+          ],
+          "tur": "mouse",
+          "dpr": 1.75
+        }
+      ],
+      "ozet": {
+        "nokta": 9,
+        "gelen": 9,
+        "isabet": 9,
+        "tol": 12,
+        "enBuyuk": 3,
+        "ortFark": [
+          -1.8,
+          -1.1
+        ],
+        "x": {
+          "egim": 0.999,
+          "kesisim": 0
+        },
+        "y": {
+          "egim": 0.998,
+          "kesisim": 0
+        },
+        "turler": {
+          "mouse": 9
+        },
+        "imlec": {
+          "olculen": 0,
+          "tasindi": 0
+        },
+        "fareyeGecis": -1
+      }
+    }
+  },
+  "hipotez": {
+    "karar": "REDDEDİLDİ",
+    "neden": "%150'de dokunmatik (10 nokta) ve fare (9 nokta) ±12 px içinde",
+    "dokunmatik": {
+      "nokta": 10,
+      "gelen": 10,
+      "isabet": 10,
+      "tol": 12,
+      "enBuyuk": 3,
+      "ortFark": [
+        -1.7,
+        -1.1
+      ],
+      "x": {
+        "egim": 0.999,
+        "kesisim": 0
+      },
+      "y": {
+        "egim": 0.998,
+        "kesisim": 0
+      },
+      "turler": {
+        "touch": 10
+      },
+      "imlec": {
+        "olculen": 0,
+        "tasindi": 0
+      },
+      "fareyeGecis": -1
+    },
+    "fare": {
+      "nokta": 9,
+      "gelen": 9,
+      "isabet": 9,
+      "tol": 12,
+      "enBuyuk": 3,
+      "ortFark": [
+        -1.8,
+        -1.1
+      ],
+      "x": {
+        "egim": 0.999,
+        "kesisim": 0
+      },
+      "y": {
+        "egim": 0.998,
+        "kesisim": 0
+      },
+      "turler": {
+        "mouse": 9
+      },
+      "imlec": {
+        "olculen": 0,
+        "tasindi": 0
+      },
+      "fareyeGecis": -1
+    }
+  }
+}

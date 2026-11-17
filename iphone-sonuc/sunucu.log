@@ -1,0 +1,41 @@
+iPhone test sunucusu :8000 simülatör 17F0E734-D183-4810-AB97-F27FD9968039
+[safari] {"t":"basla","ua":"Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.2 Mobile/15E148 Safari/604.1","ekran":[440,796,3],"webcodecs":"function","audioDecoder":"function","audioWorklet":"function","offline":"function","rtc":"function","mode":"p2p","surum":"Köprü 1.2.11","ts":27582}
+[safari] {"t":"baglanti","ok":true,"ms":7035,"yol":{"veriKanali":false,"tunel":true,"video":false,"cozulen":4,"profil":"high","baglanti":"tunnel","rtp":null},"boyut":{"w":1280,"h":720},"tani":{"ice":"checking","toplama":"complete","yerel":{"srflx/v4":2,"host/?/tcp":2,"host/?":2},"uzak":{"srflx/v4":2,"host/?":2},"ciftler":{"in-progress":4},"istekGiden":46,"istekGelen":0,"yanitGelen":0,"gelen":0,"basarili":f
+[istek] foto 01-baglandi {"ok":true,"cikti":"","hata":""}
+[safari] {"t":"goruntu-yolu","ok":false,"veriKanali":false,"tunel":true,"video":false,"cozulen":19,"profil":"high","baglanti":"tunnel","rtp":null,"ts":87602}
+[istek] foto 02-oneri-karti {"ok":true,"cikti":"","hata":""}
+[safari] {"t":"oneri-karti","ok":true,"kart":"Ekran 1920×1080, yazı boyutu %100. Bağlantı süresince Windows'un yazı boyutu bu telefona göre %175 yapılabilir; bağlantı bitince eski haline döner.","beklenen":175,"olcek":{"changed":true,"cur":175,"display":0,"list":[100,125,150,175],"orig":100,"t":"scales"},"kayit":true,"goruntu":{"boyut":{"w":1280,"h":720},"cozulen":4},"ts":95604}
+[safari] {"t":"akis","ok":true,"kareSn":29.1,"yol":{"veriKanali":false,"tunel":true,"video":false,"cozulen":269,"profil":"high","baglanti":"tunnel","rtp":null},"boyut":{"w":1280,"h":720},"ekran":{"i":0,"name":"\\\\.\\DISPLAY1","x":0,"y":0,"w":1920,"h":1080,"primary":true},"ornekler":[{"cozulen":40,"rtt":45,"ajan":{"fps":27,"kbps":17,"cap":"dxgi","enc":"x264 superfast high tek dilim","netl":"sürüyor · 40 ka
+[safari] {"t":"renk","ok":true,"kirmizi":[227,57,52],"ts":105148}
+[safari] {"t":"klavye","ok":true,"renk":[253,214,0],"ts":106008}
+[safari] {"t":"girdi-durumu","mod":"tablet","aktif":true,"inKanal":"open","yetenek":{"audio":true,"audseq":true,"clipboard":true,"files":true,"input":true,"modes":true,"privacy":true,"sas":true,"scales":true,"touch":true,"typekeys":true},"ts":106011}
+[safari] {"t":"dokunus","ok":true,"once":[128,128,128],"sonra":[0,201,0],"gonderilen":2,"bayt":16,"ts":106457}
+[safari] {"t":"kaydirma","ok":true,"once":[211,171,17],"sonra":[18,33,213],"gonderilen":19,"ts":108264}
+[safari] {"t":"iki-parmak-kaydirma","ok":true,"tekerlekIleti":69,"boylar":[9],"konum":[0.71,0.75],"once":[18,33,213],"sonra":[249,255,247],"ts":111099}
+[safari] {"t":"cift-dokunus-tablet","ok":true,"ayniNokta":true,"basislar":[[54394,7209],[54394,7209]],"windowsCiftTik":true,"renk":[[121,103,107],[44,232,255]],"ts":112680}
+[safari] {"t":"cift-dokunus-direct","ok":true,"ayniNokta":true,"basislar":[[54394,7209],[54394,7209]],"windowsCiftTik":true,"renk":[[44,232,255],[122,100,107]],"ts":113865}
+[istek] foto 03-buyutec {"ok":true,"cikti":"","hata":""}
+[safari] {"t":"buyutec","ok":true,"erken":false,"acik":true,"merkez":[228,60,54],"kutu":[8,143,132],"parmak":[53,301],"kapandi":true,"ts":126299}
+[safari] {"t":"uc-parmak","ok":true,"windowsaTikGitmedi":true,"klavyeAcildi":true,"klavyeKapandi":true,"not":"iOS odak kuralı: klavye yalnızca gerçek dokunuşta açılır; sentetik dokunuşta sonuç yalnızca bilgi","ts":127572}
+[istek] foto 04-kalibrasyon-tani {"ok":true,"cikti":"","hata":""}
+[safari] {"t":"kalibrasyon-tablet","ok":true,"ekran":[1920,1080],"akis":{"w":1280,"h":720},"olcek":175,"bulunan":"9/9","isabet":9,"enBuyuk":2,"fareyeGecis":-1,"satirlar":[{"i":0,"oran":[0.12,0.11],"gorulen":[0.12,0.1105],"fark":[0,1],"ajan":[230,119],"ajanFark":[0,0],"yol":"dokunmatik","imlec":[1593,119],"bildirim":null},{"i":1,"oran":[0.435,0.11],"gorulen":[0.4347,0.1104],"fark":[-1,0],"ajan":[835,119],"a
+[safari] {"t":"kalibrasyon-direct","ok":true,"ekran":[1920,1080],"akis":{"w":1280,"h":720},"olcek":175,"bulunan":"9/9","isabet":9,"enBuyuk":2,"fareyeGecis":-1,"satirlar":[{"i":0,"oran":[0.12,0.11],"gorulen":[0.12,0.1105],"fark":[0,1],"ajan":[230,119],"ajanFark":[0,0],"yol":"fare","imlec":[230,119],"bildirim":null},{"i":1,"oran":[0.435,0.11],"gorulen":[0.4347,0.1105],"fark":[-1,1],"ajan":[835,119],"ajanFark
+[safari] {"t":"kalibrasyon-tani","bilgi":true,"windows":{"calisma":[0,0,1920,996],"girdi":"monitör başına v2","monitor":[0,0,1920,1080],"olcek":175,"sanal":[0,0,1920,1080],"surec":"monitör başına v2"},"os":"windows","panel":"Dokunuş tanısı — kırmızı: telefon, yeşil: gönderilen, sarı: Windows imleciTelefon oranı 0.9700, 0.9500Bilgisayar fare: 1861, 1025 px · ekran 1920×1080@0,0 · kare 1920×1080Windows imlec
+[istek] foto 05-netlik {"ok":true,"cikti":"","hata":""}
+[safari] {"t":"netlestirme","ok":false,"once":"hedef · 3 kare · RF 21.0 (hedef 24.5)","seri":[{"ms":304,"netl":"hedef · 3 kare · RF 21.0 (hedef 24.5)"},{"ms":907,"netl":"sürüyor · 13 kare · RF 45.3 (hedef 24.5)"},{"ms":2109,"netl":"iyileşme yok · 14 kare · RF 45.1 (hedef 24.5)"}],"cozulenKare":15,"ts":157852}
+[istek] foto 06-istatistik {"ok":true,"cikti":"","hata":""}
+[safari] {"t":"istatistik","ok":false,"denetim":{"baglanti":false,"surum":true,"cozucu":true,"cozmeCizim":true,"netlestirme":true,"ses":true},"surum":"1.2.11","satirlar":{"Bağlantı":"Güvenli tünel (uçtan uca şifreli)","Gecikme":"43 ms","Görüntü":"1280×720 (ekran 1920×1080) · 0 fps","Bit hızı":"0.0 Mbps (hedef 5.8)","Kodlayıcı":"x264 superfast high tek dilim","Netleştirme":"hedef · 5 kare · RF 21.0 (hedef 2
+[safari] {"t":"istatistik-yol-denetimi","ok":true,"satir":"kuyruk 0 ms · teslim 0.6 Mbps · düşüş 4 / bekleme 8","ajanDegerleri":{"flowQ":0,"flowKbps":638,"flowCuts":4,"flowHolds":8},"not":"1.2.8 sonrası: satır veri kanalı yolunda da çiziliyor (main.js flowNote)","ts":163063}
+[safari] {"t":"ses","bilgi":true,"atlandi":"Windows'tan ses gelmiyor (ses aygıtı yok ya da ses kapalı)","yetenek":true,"audseq":true,"acik":true,"hata":"","kanal":null,"paketSn":0,"sureler":[],"cozum":null,"calici":{"yuklendi":true,"rms":0,"istatistik":3,"son":{"buf":0,"target":30,"c":null,"jitter":0,"pkts":0,"under":0,"lost":0,"late":0,"acc":0,"exp":0,"conceal":0,"resync":0,"skip":0}},"ts":166552}
+[safari] {"t":"ses-cikis","bilgi":true,"baglam":"suspended","calici":true,"gercekDokunus":null,"oynatici":null,"not":"tünel (bekleniyor)","cikisGecikmesiMs":3,"ts":166557}
+[istek] dondur sol {"ok":true,"cikti":"menu item Rotate Left of menu Device of menu bar item Device of menu bar 1 of application process Simulator","hata":"","yol":"menü"}
+[istek] foto 07-yatay {"ok":true,"cikti":"","hata":""}
+[istek] dondur sag {"ok":true,"cikti":"menu item Rotate Right of menu Device of menu bar item Device of menu bar 1 of application process Simulator","hata":"","yol":"menü"}
+[safari] {"t":"dondurme","ok":true,"once":{"ekran":[440,796],"akis":{"w":1280,"h":720}},"yatay":{"ekran":[956,376],"tuval":[633,356],"sahne":[832,356],"sigdi":true,"akis":{"w":1920,"h":1080}},"dokunusFark":[0,0],"geriDondu":true,"istek":{"ok":true,"cikti":"menu item Rotate Left of menu Device of menu bar item Device of menu bar 1 of application process Simulator","hata":"","yol":"menü"},"geriIstek":{"ok":t
+[safari] {"t":"arka-plan-hazir","ts":184677}
+[istek] arka-plan  {"ok":true}
+Safari arka plana alınıyor (Ayarlar)… { ok: true, cikti: 'com.apple.Preferences: 10814', hata: '' }
+Safari'ye geri dönülüyor… { ok: true, cikti: 'com.apple.mobilesafari: 5289', hata: '' }
+[istek] foto 08-geri-donus {"ok":true,"cikti":"","hata":""}
+[safari] {"t":"geri-donus","ok":false,"arkaPlanSn":14,"toparlanmaMs":615,"sonraAkiyor":true,"durum":"connected","yol":{"veriKanali":false,"tunel":true,"video":false,"cozulen":533,"profil":"high","baglanti":"tunnel","rtp":null},"cozulemeyen":[],"cizim":"53.1 / 35.2 / 1.3 ms · geçilen 94 · atılan 0 · yeniden kurma 1 (geri dönüş) · anahtar istek 1 · kuyruk 4","ts":225033}
+[safari] {"t":"bitti","sureSn":156,"ts":230037}
